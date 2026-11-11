@@ -11,6 +11,8 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 |---|---|---|---|---|---|
 | 1 | E se os humanos desaparecessem por 24 horas? | Realidade alternativa | criado | — | — |
 | 2 | E se o Neymar tivesse sido titular contra a Noruega? | Esporte | criado | — | — |
+| 23 | E se Messi e Cristiano Ronaldo não tivessem existido? | Esporte | criado | — | — |
+| 24 | E se você tivesse padrinhos mágicos? | Realidade alternativa | agendado | 2026-11-12 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5906348805063163780) |
 
 ## Ideias (backlog)
 
