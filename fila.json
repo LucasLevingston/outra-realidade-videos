@@ -1,0 +1,4 @@
+{
+  "_como_funciona": "Todo vídeo produzido entra aqui com status 'pronto' ANTES de agendar. Quem agenda (sessão de produção ou a tarefa das 11h) usa o próximo horário livre no Metricool (marca 8036081) e troca o status para 'agendado' com data, hora e plannerUrl. Se o agendamento falhar, o item fica 'pronto' com o erro em 'ultimo_erro' e a tarefa das 11h tenta de novo. Nunca apagar itens.",
+  "itens": []
+}
