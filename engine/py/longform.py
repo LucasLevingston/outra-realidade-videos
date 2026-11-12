@@ -260,7 +260,8 @@ class Renderer:
 def _frame_short(s, o, t):
     # bolhas de fala (texto, nome, cor, palavra inicial, palavra final)
     for (txt, name, col, w0, w1) in s.bubbles:
-        a = next((w[1] for w in s.words if norm(w[0]).startswith(norm(w0))), None)
+        # w0 com prefixo '>' = última ocorrência da palavra (ex.: '>você' na pergunta final)
+        a = next((w[1] for w in (reversed(s.words) if w0.startswith('>') else s.words) if norm(w[0]).startswith(norm(w0))), None)
         b = next((w[2] for w in s.words if a is not None and w[1] >= a and norm(w[0]).startswith(norm(w1))), None)
         if a is not None and b is not None and a - 0.05 <= t <= b + 0.5:
             k = s.comp.back((t - a + 0.05) / 0.3); al = min(1, (b + 0.5 - t) / 0.2)

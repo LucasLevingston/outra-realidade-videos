@@ -18,12 +18,12 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 23 | E se Messi e Cristiano Ronaldo não tivessem existido? | Esporte | criado | — | — |
 | ✅ | 24 | E se você tivesse padrinhos mágicos? | Realidade alternativa | agendado | 2026-11-13 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5906348805063163780) |
 | ✅ | 3 | E se a Lua desaparecesse durante uma noite? | Universo | agendado | 2026-11-14 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4779809927200422861) |
+| ✅ | 25 | E se você acordasse e fosse a última pessoa da Terra? | Sobrevivência | agendado | 2026-11-15 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-1304042343711881404) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
 | ✓ | # | Tema | Categoria | Status |
 |---|---|---|---|---|
-| ⬜ | 25 | E se você acordasse e fosse a última pessoa da Terra? | Sobrevivência | ideia |
 | ⬜ | 26 | E se o Neymar voltasse pro Santos e ganhasse a Copa do Mundo? | Esporte | ideia |
 | ⬜ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | ideia |
 | ⬜ | 28 | E se você recebesse R$ 1 milhão todo mês? | Dinheiro | ideia |
