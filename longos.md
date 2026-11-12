@@ -2,7 +2,7 @@
 
 Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B) lê este arquivo para escolher o próximo tema e o atualiza depois de agendar.
 
-**Agenda:** 2 por semana, **segunda e quinta às 19:00** (America/Sao_Paulo), só no YouTube (16:9, 28–32 min, 6 a 8 capítulos).
+**Agenda:** 1 por semana, **toda quinta às 18:00** (America/Sao_Paulo), só no YouTube (16:9, 28–32 min, 6 a 8 capítulos).
 **Status:** `ideia` → `agendado` (com data e link do Metricool) → `publicado`.
 **Check:** ⬜ = ainda não feito · ✅ = feito (ao agendar, trocar ⬜ por ✅ e mover a linha para "Já criados").
 **Regra:** nunca repetir um longo já feito. O longo é a versão aprofundada de um "E se…", com o mesmo protagonista do começo ao fim. Pode ser um tema que já virou Short (o # entre parênteses aponta para o `temas.md`).
@@ -10,9 +10,9 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 
 ## Já criados
 
-| ✓ | # | Tema | Short ligado | Status | Data (19:00 BRT) | Planner |
+| ✓ | # | Tema | Short ligado | Status | Data (BRT) | Planner |
 |---|---|---|---|---|---|---|
-| ✅ | L1 | E se a Lua desaparecesse para sempre? (28:03, estilo 3D+2D) | #3 | agendado | 2026-11-12 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6756396973424096304) |
+| ✅ | L1 | E se a Lua desaparecesse para sempre? (28:03, estilo 3D+2D) | #3 | agendado | 2026-11-12 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6756396973424096304) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
