@@ -34,6 +34,12 @@ CAST = {
     'craque': dict(skin='#e0b088', shirt='#ffd23f', stripe='#2f9e4a', pants='#3a8dde', shoes='#ffffff', hair='#2a1a10', spiky=True, h=0.97),
     'frances': dict(skin='#f2d2b4', shirt='#2a4a9a', stripe='#ffffff', pants='#ffffff', shoes='#1a1a1a', hair='#8a5a3a', h=0.98),
     'goleiro': dict(skin='#c99068', shirt='#e04848', stripe='#1d1d2b', pants='#1d1d2b', shoes='#1a1a1a', hair='#1a1a1a', h=1.0),
+    'medico': dict(skin='#e0b088', shirt='#9fd0e8', stripe='#9fd0e8', pants='#3a5a7a', shoes='#1a1a1a', hair='#6a6a72', glasses=True, coat=True, h=1.02),
+    'lobomed': dict(skin='#9a9bab', shirt='#9fd0e8', stripe='#9fd0e8', pants='#3a5a7a', shoes='#5c5c6c', hair='#7a7b8b', wolf=True, coat=True, h=1.02),
+    'v1': dict(skin='#f0c09a', shirt='#1d1d22', stripe='#1d1d22', sash='#ffffff', pants='#ffffff', shoes='#1a1a1a', hair='#3a2618', hat='cap', hatc='#1d1d22', h=0.98),
+    'v2': dict(skin='#c99068', shirt='#1d1d22', stripe='#1d1d22', sash='#ffffff', pants='#1d1d22', shoes='#ffffff', hair='#1a1a1a', beard=True, h=1.0),
+    'v3': dict(skin='#8a5a3e', shirt='#ffffff', stripe='#ffffff', sash='#1d1d22', pants='#1d1d22', shoes='#1a1a1a', hair='#1a1a1a', spiky=True, h=0.96),
+    'v4': dict(skin='#f4d8bc', shirt='#1d1d22', stripe='#1d1d22', sash='#ffffff', pants='#3d4a6a', shoes='#ffffff', hair='#5a3a22', pony=True, h=0.94),
     'tecnico': dict(skin='#e8b48a', shirt='#ffffff', stripe='#1d1d2b', pants='#2a2a3a', shoes='#1a1a1a', hair='#9a9aa0', tie='#1d1d2b', h=1.0),
 }
 # poses de braço: lista de pontos (ombro, cotovelo, mão) no canvas 600x1000
@@ -103,6 +109,8 @@ def draw(d, C, arms, face, look, extra):
         d.rr(240, 520, 360, 790, 40, shirt)
         if C['stripe'] != C['shirt']:
             for yy in (600, 680): d.line([(248, yy), (352, yy)], hx(C['stripe']), 10)
+    if C.get('sash'):
+        d.poly([(240, 540), (272, 520), (360, 740), (360, 780), (336, 790)], hx(C['sash']), w=0)
     if C.get('coat'):
         d.poly([(232, 520), (300, 520), (290, 820), (222, 820)], (250, 250, 252, 255)); d.poly([(300, 520), (368, 520), (378, 820), (310, 820)], (250, 250, 252, 255))
     if C.get('tie'): d.poly([(292, 530), (308, 530), (316, 640), (300, 665), (284, 640)], hx(C['tie']), w=5)
@@ -110,6 +118,9 @@ def draw(d, C, arms, face, look, extra):
         d.rr(250, 500, 350, 548, 22, hx('#e04848')); d.rr(316, 530, 348, 640, 14, hx('#e04848'))
     if 'notebook' in extra and arms in ('hold',):
         d.rr(250, 600, 352, 690, 8, hx('#7a5a3a'))
+    if 'vdrum' in extra:
+        d.rr(236, 640, 364, 740, 18, hx('#ffffff')); d.ell(300, 640, 64, 18, hx('#f4f1e6'), w=6)
+        d.poly([(238, 664), (258, 652), (362, 716), (362, 736), (342, 738)], hx('#1d1d22'), w=0)
     if 'drum' in extra:
         d.rr(236, 640, 364, 740, 18, hx('#e04848')); d.ell(300, 640, 64, 18, hx('#f4f1e6'), w=6)
         for xx in (256, 300, 344): d.line([(xx, 650), (xx + 10, 732)], hx('#ffd23f'), 6)
@@ -133,6 +144,14 @@ def draw(d, C, arms, face, look, extra):
         d.line([(440, 380), (440, 130)], hx('#7a5a3a'), 10)
         d.poly([(444, 132), (580, 150), (570, 230), (444, 222)], hx('#3a8dde'), w=6)
         d.line([(470, 170), (550, 190)], hx('#ffffff'), 10); d.line([(470, 200), (540, 214)], hx('#ffffff'), 8)
+    if 'vflag' in extra:
+        d.line([(440, 380), (440, 130)], hx('#7a5a3a'), 10)
+        d.poly([(444, 132), (580, 150), (570, 230), (444, 222)], hx('#1d1d22'), w=6)
+        d.poly([(452, 140), (478, 136), (572, 214), (572, 228), (548, 228)], hx('#ffffff'), w=0)
+    if 'tape' in extra:
+        d.rr(262, 606, 338, 676, 14, hx('#ffd23f'), w=6); d.ell(300, 641, 14, 14, hx('#1d1d22'), w=0)
+        d.rr(338, 626, 470, 648, 3, hx('#ffe98a'), w=4)
+        for xx in range(350, 466, 14): d.line([(xx, 628), (xx, 638)], hx('#1d1d22'), 3)
     if 'sticks' in extra:
         d.line([(290, 640), (330, 560)], hx('#c48a52'), 8); d.line([(310, 640), (360, 580)], hx('#c48a52'), 8)
     if 'photo' in extra: d.rr(254, 590, 346, 660, 4, hx('#ffffff'), w=5); d.ell(300, 622, 18, 18, hx('#fff3b0'), w=3)

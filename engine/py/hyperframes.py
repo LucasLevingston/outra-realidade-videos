@@ -122,8 +122,9 @@ def render(proj, out_mp4):
     if not env.get('HYPERFRAMES_BROWSER_PATH'):  # usa o Chromium já instalado (o download do headless-shell é bloqueado aqui)
         import glob
         c = sorted(glob.glob('/opt/pw-browsers/chromium-*/chrome-linux64/chrome'))  # só existe na nuvem; no computador o HyperFrames acha o Chrome sozinho
+        c = c or [x for x in ('/usr/bin/google-chrome', '/usr/bin/chromium') if os.path.exists(x)]
         if c: env['HYPERFRAMES_BROWSER_PATH'] = c[-1]
-    cmd = ['npx', '--prefix', HF_DIR, 'hyperframes', 'render', hf, '-o', os.path.abspath(out_mp4), '-q', 'delivery', '-w', '2', '--no-browser-gpu']
+    cmd = ['npx', '--prefix', HF_DIR, 'hyperframes', 'render', os.path.abspath(hf), '-o', os.path.abspath(out_mp4), '-q', 'delivery', '-w', '2', '--no-browser-gpu']
     print(' '.join(cmd), flush=True)
     subprocess.run(cmd, check=True, env=env, cwd=HF_DIR)
     # o render do HyperFrames remixa/normaliza o áudio (saiu ~3 dB acima): troca pelo mix original do longaudio.py,
