@@ -451,3 +451,43 @@ SETS.locker = (o, L) => {
   const pl = new THREE.PointLight('#fff0d8', 12, 14, 1.3); pl.position.set(0, 3.2, 1); G.add(pl);
   return G;
 };
+
+// Consultório médico (Novembro Azul): maca, mesa da médica, cartaz do corpo humano, porta com placa
+SETS.clinic = (o, L) => {
+  const G = new THREE.Group();
+  plane(G, 10, 9, M(canvasTex('clfloor', 512, 512, P.checker('#dfe9f2', '#f6f8fb', 10), 2, 2)), 0, 0, 0);
+  const wall = M(canvasTex('clwall', 256, 256, P.plaster('#cfe8ef', '#b9d8e2'), 3, 2));
+  box(G, 10, 3.2, 0.2, wall, 0, 0, -3.6); box(G, 0.2, 3.2, 9, wall, -4.6, 0, 0.5); box(G, 0.2, 3.2, 9, wall, 4.6, 0, 0.5);
+  box(G, 10, 0.18, 0.06, M('#3a8dde'), 0, 1.0, -3.48); // faixa azul na parede
+  box(G, 10, 0.2, 9, M('#cfdde6'), 0, 3.2, 0.5); // teto
+  // maca
+  box(G, 2.1, 0.75, 0.85, M('#e8eef4'), -2.4, 0, -2.7); box(G, 2.1, 0.14, 0.85, M('#2f9e95'), -2.4, 0.75, -2.7);
+  box(G, 2.1, 0.02, 0.55, M('#ffffff'), -2.4, 0.89, -2.7); const pil = box(G, 0.5, 0.16, 0.6, M('#ffffff'), -3.15, 0.89, -2.7);
+  box(G, 0.5, 0.3, 0.5, M('#c9d3dc'), -1.0, 0, -2.4); // degrau
+  // mesa da médica + computador
+  box(G, 1.8, 0.08, 0.85, M('#c48a52'), 2.2, 0.76, -2.7); for (const lx of [1.4, 3.0]) box(G, 0.07, 0.76, 0.07, M('#8a5a30'), lx, 0, -2.7);
+  box(G, 0.7, 0.45, 0.06, M('#22222e'), 2.5, 0.84, -2.95); box(G, 0.12, 0.1, 0.12, M('#22222e'), 2.5, 0.84, -2.9);
+  const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.36), new THREE.MeshBasicMaterial({ color: '#9fd6ff', fog: false })); scr.position.set(2.5, 1.09, -2.91); G.add(scr);
+  box(G, 0.3, 0.04, 0.22, M('#ffffff'), 1.8, 0.84, -2.6); cyl(G, 0.05, 0.05, 0.12, M('#3a8dde'), 1.55, 0.84, -2.5, 10);
+  // cartaz do corpo humano
+  const body = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.4), M(canvasTex('corpo', 360, 504, (g, w, h) => { g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h); g.strokeStyle = '#3a8dde'; g.lineWidth = 12; g.strokeRect(0, 0, w, h);
+    g.fillStyle = '#f2c8a8'; g.beginPath(); g.arc(w / 2, 90, 44, 0, 7); g.fill(); g.fillRect(w / 2 - 55, 140, 110, 190); g.fillRect(w / 2 - 95, 145, 34, 150); g.fillRect(w / 2 + 61, 145, 34, 150); g.fillRect(w / 2 - 50, 330, 40, 130); g.fillRect(w / 2 + 10, 330, 40, 130);
+    g.fillStyle = '#e04848'; g.beginPath(); g.ellipse(w / 2 - 12, 190, 18, 22, 0, 0, 7); g.fill(); g.fillStyle = '#f08a5d'; g.beginPath(); g.ellipse(w / 2 + 8, 250, 26, 18, 0, 0, 7); g.fill();
+    g.fillStyle = '#1d3a8a'; g.font = 'bold 34px sans-serif'; g.textAlign = 'center'; g.fillText('CORPO HUMANO', w / 2, h - 18); })));
+  body.position.set(0.3, 1.9, -3.48); G.add(body);
+  // cartaz Novembro Azul (laço)
+  const nov = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.9), M(canvasTex('novazul', 480, 360, (g, w, h) => { g.fillStyle = '#1d4fa8'; g.fillRect(0, 0, w, h); g.strokeStyle = '#7fc0ff'; g.lineWidth = 26; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(170, 300); g.bezierCurveTo(200, 120, 300, 60, 240, 50); g.bezierCurveTo(180, 60, 280, 120, 310, 300); g.stroke();
+    g.fillStyle = '#ffffff'; g.font = 'bold 44px sans-serif'; g.textAlign = 'center'; g.fillText('NOVEMBRO', w / 2, 300 + 0); g.fillText('AZUL', w / 2, 345); })));
+  nov.position.set(-2.4, 2.1, -3.48); G.add(nov);
+  // porta com placa
+  box(G, 1.1, 2.2, 0.08, M('#b07a48'), 3.6, 0, -3.48); sph(G, 0.05, M('#ffd23f'), 3.25, 1.05, -3.42, 10);
+  const pl2 = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 0.32), M(signTex(o.door || 'CONSULTÓRIO', '#3a8dde', '#ffffff', 1024, 230))); pl2.position.set(3.6, 2.5, -3.47); G.add(pl2);
+  // pia e armário na parede esquerda
+  box(G, 0.6, 0.9, 1.4, M('#ffffff'), -4.2, 0, -0.6); box(G, 0.5, 0.06, 0.5, M('#c9d3dc'), -4.15, 0.9, -0.6);
+  // cadeiras de espera
+  for (const cz of [1.0, 1.7]) { box(G, 0.55, 0.06, 0.5, M('#3a8dde'), -4.0, 0.45, cz); box(G, 0.06, 0.55, 0.5, M('#3a8dde'), -4.3, 0.45, cz); for (const dz of [-0.2, 0.2]) box(G, 0.04, 0.45, 0.04, M('#5a5a6a'), -3.8, 0, cz + dz); }
+  for (const lx of [-2, 1.5]) box(G, 1.6, 0.05, 0.3, M('#ffffff', { emissive: '#f4fbff', emissiveIntensity: 0.9 }), lx, 3.15, -1.0);
+  const pl = new THREE.PointLight('#f4fbff', 6, 14, 1.3); pl.position.set(0, 2.3, 0.5); G.add(pl);
+  return G;
+};

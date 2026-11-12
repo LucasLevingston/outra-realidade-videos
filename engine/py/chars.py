@@ -110,6 +110,9 @@ def draw(d, C, arms, face, look, extra):
         d.rr(250, 500, 350, 548, 22, hx('#e04848')); d.rr(316, 530, 348, 640, 14, hx('#e04848'))
     if 'notebook' in extra and arms in ('hold',):
         d.rr(250, 600, 352, 690, 8, hx('#7a5a3a'))
+    if 'drum' in extra:
+        d.rr(236, 640, 364, 740, 18, hx('#e04848')); d.ell(300, 640, 64, 18, hx('#f4f1e6'), w=6)
+        for xx in (256, 300, 344): d.line([(xx, 650), (xx + 10, 732)], hx('#ffd23f'), 6)
     # braços finos
     la, ra = ARMS[arms]
     for a in (la, ra):
@@ -126,6 +129,12 @@ def draw(d, C, arms, face, look, extra):
         d.rr(170, 560, 430, 680, 12, hx('#fff4d6'), w=7)
         f = ImageFont.truetype((__import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', 'fonts', 'Poppins-Bold.ttf')), 30 * K)
         d.d.text((300 * K, 620 * K), 'DESEMPREGADO', font=f, fill=hx('#d63a3a'), anchor='mm')
+    if 'flag' in extra:
+        d.line([(440, 380), (440, 130)], hx('#7a5a3a'), 10)
+        d.poly([(444, 132), (580, 150), (570, 230), (444, 222)], hx('#3a8dde'), w=6)
+        d.line([(470, 170), (550, 190)], hx('#ffffff'), 10); d.line([(470, 200), (540, 214)], hx('#ffffff'), 8)
+    if 'sticks' in extra:
+        d.line([(290, 640), (330, 560)], hx('#c48a52'), 8); d.line([(310, 640), (360, 580)], hx('#c48a52'), 8)
     if 'photo' in extra: d.rr(254, 590, 346, 660, 4, hx('#ffffff'), w=5); d.ell(300, 622, 18, 18, hx('#fff3b0'), w=3)
     # pescoço
     d.rr(286, 470, 314, 530, 10, skin, w=7)

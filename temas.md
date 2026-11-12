@@ -21,6 +21,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 25 | E se você acordasse e fosse a última pessoa da Terra? | Sobrevivência | agendado | 2026-11-15 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-1304042343711881404) |
 | ✅ | 26 | E se o Neymar voltasse pro Santos e ganhasse a Copa do Mundo? | Esporte | agendado | 2026-11-12 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=7021959763611501496) |
 | ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
+| ✅ | 96 | E se o exame de próstata tivesse torcida organizada? (ref: https://www.instagram.com/p/Dfk8saMSyPq/) | Cotidiano/humor | agendado | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8909388736104647664) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
