@@ -2,7 +2,7 @@
 
 Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B) lê este arquivo para escolher o próximo tema e o atualiza depois de agendar.
 
-**Agenda:** 1 por semana, **toda quinta às 18:00** (America/Sao_Paulo), só no YouTube (16:9, 28–32 min, 6 a 8 capítulos).
+**Agenda:** 1 vídeo de ~12 min a cada 3 dias (um dia sim, dois não), às **18:00** (America/Sao_Paulo), só no YouTube (16:9, 11–13 min, 3 a 4 capítulos). Datas a partir de 2026-11-12: 12/11, 15/11, 18/11, 21/11…
 **Status:** `ideia` → `agendado` (com data e link do Metricool) → `publicado`.
 **Check:** ⬜ = ainda não feito · ✅ = feito (ao agendar, trocar ⬜ por ✅ e mover a linha para "Já criados").
 **Regra:** nunca repetir um longo já feito. O longo é a versão aprofundada de um "E se…", com o mesmo protagonista do começo ao fim. Pode ser um tema que já virou Short (o # entre parênteses aponta para o `temas.md`).
