@@ -31,6 +31,10 @@ CAST = {
     'p4': dict(skin='#e0b088', shirt='#5cbf9a', stripe='#4aa080', pants='#6a4a3a', shoes='#5a3a2a', hair='#8a8a8a', hat='cap', hatc='#ffd23f', h=0.99),
     'p5': dict(skin='#8a5a3e', shirt='#f08a5d', stripe='#d0703a', pants='#3a4a6a', shoes='#ffffff', hair='#1a1a1a', h=0.98),
     'p6': dict(skin='#f2d2b4', shirt='#e86a8a', stripe='#ffffff', pants='#e86a8a', shoes='#7a4a2a', hair='#5a3a22', bun=True, dress=True, h=0.94),
+    'craque': dict(skin='#e0b088', shirt='#ffd23f', stripe='#2f9e4a', pants='#3a8dde', shoes='#ffffff', hair='#2a1a10', spiky=True, h=0.97),
+    'frances': dict(skin='#f2d2b4', shirt='#2a4a9a', stripe='#ffffff', pants='#ffffff', shoes='#1a1a1a', hair='#8a5a3a', h=0.98),
+    'goleiro': dict(skin='#c99068', shirt='#e04848', stripe='#1d1d2b', pants='#1d1d2b', shoes='#1a1a1a', hair='#1a1a1a', h=1.0),
+    'tecnico': dict(skin='#e8b48a', shirt='#ffffff', stripe='#1d1d2b', pants='#2a2a3a', shoes='#1a1a1a', hair='#9a9aa0', tie='#1d1d2b', h=1.0),
 }
 # poses de braço: lista de pontos (ombro, cotovelo, mão) no canvas 600x1000
 ARMS = {

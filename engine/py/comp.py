@@ -183,7 +183,7 @@ def render_frame(sc, t, ctx):
     out = cv2.warpAffine(arr, M, (OW, OH), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
     o = Image.fromarray(out).convert('RGBA')
     # rótulos (espaço da tela)
-    for lb in sc.get('labels', []):
+    for lb in (sc.get('labels', []) if ctx.get('overlays', True) else []):
         ts = sc['t0'] + lb['t']; te = sc['t0'] + lb.get('t_end', 999)
         if ts <= t < min(sc['t1'], te):
             k = back((t - ts) / 0.3); a = min(1, (min(sc['t1'], te) - t) / 0.2)

@@ -221,6 +221,9 @@ class Renderer:
         s.KEY = set(getattr(s.S, 'KEYWORDS', []))
         s.TAIL = s.P.get('tail', TAIL); s.GAP = s.P.get('gap', GAP)
         s.bubbles = getattr(s.S, 'BUBBLES', [])
+        # OVERLAYS = False no scenes.py: o motor renderiza só o mundo 3D + personagens + câmera;
+        # rótulos, balões e legendas ficam para a camada HyperFrames (hyperframes.py)
+        s.overlays = getattr(s.S, 'OVERLAYS', True); s.ctx['overlays'] = s.overlays
     def talking(s, t):
         return any(a <= t <= b for a, b in s.talk)
     def env(s, t):
@@ -258,6 +261,8 @@ class Renderer:
         return o.convert('RGB')
 
 def _frame_short(s, o, t):
+    if not s.overlays:
+        return o.convert('RGB')
     # bolhas de fala (texto, nome, cor, palavra inicial, palavra final)
     for (txt, name, col, w0, w1) in s.bubbles:
         # w0 com prefixo '>' = última ocorrência da palavra (ex.: '>você' na pergunta final)

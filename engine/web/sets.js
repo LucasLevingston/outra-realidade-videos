@@ -396,3 +396,58 @@ SETS.bedroom = (o, L) => {
   const pl = new THREE.PointLight('#ffd9a0', 6, 8, 1.4); pl.position.set(1.6, 2.2, -2.2); G.add(pl);
   return G;
 };
+
+// Estádio (campo, gols, arquibancadas com torcida, refletores, placar). opts: score, crowd (cores), confetti
+SETS.stadium = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L);
+  const field = canvasTex('field', 1024, 1024, (g, w, h) => { for (let i = 0; i < 12; i++) { g.fillStyle = i % 2 ? '#4fa844' : '#5cb84f'; g.fillRect(0, i * h / 12, w, h / 12); }
+    speckle(g, w, h, ['#459a3c', '#69c45a'], 900, 2, 6, 77, 0.5);
+    g.strokeStyle = '#f6f6ee'; g.lineWidth = 7; g.strokeRect(24, 24, w - 48, h - 48); g.beginPath(); g.moveTo(24, h / 2); g.lineTo(w - 24, h / 2); g.stroke();
+    g.beginPath(); g.arc(w / 2, h / 2, 95, 0, 7); g.stroke(); g.strokeRect(w / 2 - 210, 24, 420, 170); g.strokeRect(w / 2 - 210, h - 194, 420, 170);
+    g.strokeRect(w / 2 - 100, 24, 200, 60); g.strokeRect(w / 2 - 100, h - 84, 200, 60); });
+  plane(G, 70, 105, M(field), 0, 0, 0);
+  plane(G, 400, 400, M(canvasTex('pista', 256, 256, P.plaster('#c8553d', '#a8442f'), 40, 40)), 0, -0.02, 0);
+  // gols (z = ±52.5)
+  for (const zs of [-1, 1]) { const z = zs * 52.5; const wm = M('#ffffff');
+    cyl(G, 0.09, 0.09, 2.44, wm, -3.66, 0, z, 10); cyl(G, 0.09, 0.09, 2.44, wm, 3.66, 0, z, 10);
+    const bar = mesh(new THREE.CylinderGeometry(0.09, 0.09, 7.5, 10), wm, 0, 2.44, z); bar.rotation.z = Math.PI / 2; G.add(bar);
+    const net = new THREE.Mesh(new THREE.PlaneGeometry(7.3, 2.4), new THREE.MeshToonMaterial({ map: canvasTex('net', 256, 128, (g, w, h) => { g.clearRect(0, 0, w, h); g.strokeStyle = 'rgba(255,255,255,0.85)'; g.lineWidth = 2;
+      for (let x = 0; x <= w; x += 12) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); } for (let y = 0; y <= h; y += 12) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); } }), transparent: true, gradientMap: GRAD, side: THREE.DoubleSide }));
+    net.position.set(0, 1.22, z + zs * 1.6); net.userData.noInk = true; G.add(net); }
+  // arquibancadas com torcida
+  const cols = o.crowd || ['#ffd23f', '#2f9e4a', '#ffffff', '#3a8dde', '#ffd23f', '#e04848'];
+  const crowd = canvasTex('crowd' + cols.join(''), 1024, 256, (g, w, h) => { g.fillStyle = '#3a3a52'; g.fillRect(0, 0, w, h); srand(9);
+    for (let r = 0; r < 10; r++) for (let i = 0; i < 90; i++) { const x = i * 11.4 + (r % 2) * 5, y = 14 + r * 24; g.fillStyle = pick(cols); g.beginPath(); g.arc(x, y, 6, 0, 7); g.fill(); g.fillStyle = pick(['#f2d2b4', '#c99068', '#8a5a3e', '#e0b088']); g.beginPath(); g.arc(x, y - 8, 4, 0, 7); g.fill(); } }, 4, 1);
+  for (const [x, z, ry, len] of [[-50, 0, Math.PI / 2, 150], [50, 0, -Math.PI / 2, 150], [0, -75, 0, 120], [0, 75, Math.PI, 120]]) {
+    for (let k = 0; k < 6; k++) { const st = mesh(new THREE.BoxGeometry(len, 2.2, 3), M(crowd), 0, 0, 0); const d = 4 + k * 3;
+      st.position.set(x + Math.sin(ry) * -d * 0 + (x ? Math.sign(x) * d : 0), 1.1 + k * 2.2, z + (z ? Math.sign(z) * d : 0)); st.rotation.y = ry; G.add(st); } }
+  // refletores
+  for (const [x, z] of [[-46, -68], [46, -68], [-46, 68], [46, 68]]) { cyl(G, 0.5, 0.7, 34, M('#8a8aa0'), x, 0, z, 8); box(G, 7, 3.5, 1, M('#e8e8f0'), x, 34, z);
+    if (night) glow(G, 'rgba(255,250,220,0.95)', x, 35.5, z, 22); }
+  // placar
+  if (o.score) { const sb = new THREE.Mesh(new THREE.PlaneGeometry(22, 7), new THREE.MeshBasicMaterial({ map: signTex(o.score, '#1d1d2b', '#ffd23f', 1024, 330, 'bold 130px sans-serif'), fog: false }));
+    sb.position.set(0, 26, -88); G.add(sb); box(G, 23, 8, 1, M('#2a2a3a'), 0, 22, -88.8); }
+  // bola
+  if (o.ball) { const b = sph(G, 0.22, M(canvasTex('ball', 128, 64, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#1d1d2b'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(10 + i * 22, 20 + (i % 2) * 24, 7, 0, 7); g.fill(); } })), o.ball[0], 0.22, o.ball[1], 18); }
+  if (night) { const pl = new THREE.PointLight('#fff6e0', 40, 160, 1.2); pl.position.set(0, 40, 0); G.add(pl); }
+  return G;
+};
+
+// Vestiário (azulejo, armários, bancos, microfone)
+SETS.locker = (o, L) => {
+  const G = new THREE.Group();
+  plane(G, 12, 10, M(canvasTex('lfloor', 512, 512, P.checker('#d9dde6', '#c4c9d6', 10), 2, 2)), 0, 0, 0);
+  const tile = M(canvasTex('ltile', 256, 256, (g, w, h) => { g.fillStyle = '#e8f1f4'; g.fillRect(0, 0, w, h); g.strokeStyle = '#b9c8d0'; g.lineWidth = 3; for (let i = 0; i <= 8; i++) { g.beginPath(); g.moveTo(i * 32, 0); g.lineTo(i * 32, h); g.stroke(); g.beginPath(); g.moveTo(0, i * 32); g.lineTo(w, i * 32); g.stroke(); } }, 4, 2));
+  box(G, 12, 3.6, 0.2, tile, 0, 0, -5); box(G, 0.2, 3.6, 10, tile, -6, 0, 0); box(G, 0.2, 3.6, 10, tile, 6, 0, 0);
+  box(G, 12, 0.2, 10, M('#f4f6f8'), 0, 3.6, 0); // teto
+  for (const lx of [-3, 0, 3]) { box(G, 1.6, 0.06, 0.3, M('#ffffff', { emissive: '#fff8e0', emissiveIntensity: 0.8 }), lx, 3.52, -1.5); }
+  for (let i = 0; i < 9; i++) { const x = -4.8 + i * 1.2; box(G, 1.1, 2.2, 0.6, M(i % 2 ? '#ffffff' : '#f2f2f2'), x, 0, -4.6); box(G, 0.9, 0.5, 0.05, M('#e8e8e8'), x, 1.4, -4.28);
+    const sh = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.5), M(signTex(String(i + 2 === 10 ? 10 : i + 2), '#ffffff', '#1d1d2b', 256, 160, 'bold 110px sans-serif'))); sh.position.set(x, 1.65, -4.27); G.add(sh);
+    const shirt = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.9), M(i === 4 ? '#ffd23f' : '#ffffff')); shirt.position.set(x, 0.9, -4.28); G.add(shirt); }
+  box(G, 9, 0.45, 0.6, M('#c48a52'), 0, 0, -3.4);
+  const ban = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 0.9), M(signTex(o.banner || 'VESTIÁRIO', '#1d3a8a', '#ffd23f', 1024, 220))); ban.position.set(0, 3.0, -4.88); G.add(ban);
+  // pedestal com microfones (entrevista)
+  cyl(G, 0.03, 0.03, 1.4, M('#333'), 0.9, 0, -1.2, 6); for (const [mx, mc] of [[0.8, '#e04848'], [0.95, '#3a8dde'], [1.05, '#ffd23f']]) sph(G, 0.08, M(mc), mx, 1.45, -1.15, 10);
+  const pl = new THREE.PointLight('#fff0d8', 12, 14, 1.3); pl.position.set(0, 3.2, 1); G.add(pl);
+  return G;
+};
