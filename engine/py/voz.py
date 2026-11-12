@@ -44,8 +44,11 @@ def swap():
         on = subprocess.run(['swapon', '--show'], capture_output=True, text=True).stdout
     except Exception:
         return
-    if SWAP in on: return
+    if SWAP in on or len(on.strip().splitlines()) > 1: return  # já existe swap ligado
     try:
+        free = __import__('shutil').disk_usage(os.path.dirname(SWAP)).free / 1e9
+        if not os.path.exists(SWAP) and free < 20:
+            print('swap não ligado: pouco disco livre', round(free, 1), 'GB'); return
         if not os.path.exists(SWAP):
             subprocess.run(['fallocate', '-l', '8G', SWAP], check=True); os.chmod(SWAP, 0o600)
             subprocess.run(['mkswap', SWAP], check=True, capture_output=True)

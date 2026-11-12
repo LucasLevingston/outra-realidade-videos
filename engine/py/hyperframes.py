@@ -61,9 +61,10 @@ def build(proj):
     for j, (w, a, b) in enumerate(words):
         nxt = words[j + 1][1] if j + 1 < len(words) else b + 0.4
         end = nxt if nxt - b < 0.5 else b + 0.25
+        end = min(end, nxt - 0.02) if j + 1 < len(words) else end   # uma palavra por vez: nunca sobrepor a seguinte
         disp = w.strip(',.;:').upper().replace('"', '').replace('“', '').replace('”', '')
-        if not disp: continue
         a0 = max(0, a - 0.02); i = f'w{j}'; key = ' key' if LF.norm(w) in KEY else ''
+        if not disp or end - a0 < 0.06: continue   # palavra colada na seguinte (mesmo instante): pula
         els.append(f'<div id="{i}" class="clip word{key}" data-start="{a0:.3f}" data-duration="{max(0.08, end - a0):.3f}">{esc(disp)}</div>')
         tl.append(f'tl.fromTo("#{i}",{{scale:1.18}},{{scale:1,duration:0.14,ease:"power2.out"}},{a0:.3f});')
     # flashes brancos (troca de lugar / impacto)
@@ -83,7 +84,7 @@ html, body {{ margin: 0; background: #000; }}
 .pill {{ left: 50%; top: 255px; transform-origin: 50% 50%; translate: -50% 0; padding: 14px 40px; border-radius: 60px; font-size: 64px; line-height: 1.05;
         white-space: nowrap; border: 6px solid #1d1d2b; box-shadow: 0 8px 0 rgba(20,16,28,.35); text-align: center; }}
 .pill .small {{ font-size: 28px; opacity: .85; letter-spacing: 1px; }}
-.bubble {{ left: 50%; top: 380px; translate: -50% 0; width: 820px; box-sizing: border-box; background: #fff; color: #1d1d2b; border: 6px solid #1d1d2b;
+.bubble {{ left: 50%; top: 450px; translate: -50% 0; width: 820px; box-sizing: border-box; background: #fff; color: #1d1d2b; border: 6px solid #1d1d2b;
           border-radius: 46px; padding: 46px 40px 34px; font-size: 56px; line-height: 1.12; text-align: center; box-shadow: 0 10px 0 rgba(20,16,28,.3); }}
 .bubble .tag {{ position: absolute; left: 34px; top: -30px; color: #fff; font-size: 30px; padding: 6px 22px; border-radius: 30px; border: 5px solid #1d1d2b; }}
 .bubble .tail {{ position: absolute; left: 50%; bottom: -34px; width: 50px; height: 50px; background: #fff; border-right: 6px solid #1d1d2b;
