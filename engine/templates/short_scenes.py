@@ -1,6 +1,7 @@
 import sys; sys.path.insert(0, 'REPO/engine/py')
 from presets import *
 FORMAT = 'short'; GAP = 0; TAIL = 0.6; MOOD = 'night'; STING = 'Só'
+OVERLAYS = False   # textos (legenda, rótulos, balões, flashes) ficam na camada HyperFrames
 KEYWORDS = ['lua', 'santos', 'mar', 'embora', 'quarenta', 'metros', 'ilha', 'lobisomens', 'desempregados', 'eixo', 'terra', 'piao', 'verao', 'inverno', 'falta']
 BUBBLES = [('Agora dá pra ir a pé pra ilha!', 'BETO', '#e04848', 'Agora', 'ilha'), ('E você, ia sentir falta da Lua?', 'SEU DITO', '#2f9e95', 'você', 'Lua')]
 CARDS = {}

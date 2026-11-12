@@ -3,6 +3,7 @@ e o HyperFrames compõe por cima, em HTML + GSAP, a legenda karaokê, os rótulo
 com o áudio final (mix do longaudio.py). Renderiza o MP4 final com `npx hyperframes render`.
 
 uso:
+  python3 hyperframes.py setup                 # npm install hyperframes@0.9.39 gsap@3 em HF_DIR (uma vez por sessão)
   python3 hyperframes.py PROJ build            # monta PROJ/hf/ (index.html + assets) a partir de plan.json e scenes.py
   python3 hyperframes.py PROJ render OUT.mp4    # npx hyperframes render (precisa de PROJ/render_bg.mp4 e PROJ/mix/mix.wav)
 
@@ -131,7 +132,17 @@ def render(proj, out_mp4):
     print(out_mp4, round(os.path.getsize(out_mp4) / 1e6, 1), 'MB')
 
 
+def setup():
+    os.makedirs(HF_DIR, exist_ok=True)
+    if not os.path.exists(os.path.join(HF_DIR, 'package.json')):
+        subprocess.run(['npm', 'init', '-y'], cwd=HF_DIR, check=True, capture_output=True)
+    subprocess.run(['npm', 'install', '-s', 'hyperframes@0.9.39', 'gsap@3'], cwd=HF_DIR, check=True)
+    subprocess.run(['npx', 'hyperframes', 'telemetry', 'disable'], cwd=HF_DIR, capture_output=True)
+    print('hyperframes: pronto em', HF_DIR)
+
+
 if __name__ == '__main__':
+    if sys.argv[1] == 'setup': setup(); sys.exit()
     proj, cmd = sys.argv[1], sys.argv[2]
     if cmd == 'build': build(proj)
     elif cmd == 'render': render(proj, sys.argv[3])
