@@ -13,12 +13,12 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | 2 | E se o Neymar tivesse sido titular contra a Noruega? | Esporte | criado | — | — |
 | 23 | E se Messi e Cristiano Ronaldo não tivessem existido? | Esporte | criado | — | — |
 | 24 | E se você tivesse padrinhos mágicos? | Realidade alternativa | agendado | 2026-11-13 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5906348805063163780) |
+| 3 | E se a Lua desaparecesse durante uma noite? | Universo | agendado | 2026-11-14 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4779809927200422861) |
 
 ## Ideias (backlog)
 
 | # | Tema | Categoria | Status |
 |---|---|---|---|
-| 3 | E se a Lua desaparecesse durante uma noite? | Universo | ideia |
 | 4 | E se a internet caísse no mundo inteiro por uma semana? | Tecnologia | ideia |
 | 5 | E se todo mundo pudesse ler pensamentos? | Realidade alternativa | ideia |
 | 6 | E se o dinheiro deixasse de existir amanhã? | Sociedade | ideia |
