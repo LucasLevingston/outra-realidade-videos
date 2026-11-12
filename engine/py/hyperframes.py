@@ -7,14 +7,15 @@ uso:
   python3 hyperframes.py PROJ build            # monta PROJ/hf/ (index.html + assets) a partir de plan.json e scenes.py
   python3 hyperframes.py PROJ render OUT.mp4    # npx hyperframes render (precisa de PROJ/render_bg.mp4 e PROJ/mix/mix.wav)
 
-Requisitos: `npm install hyperframes gsap` em HF_DIR (padrão /home/claude/hf); fontes Poppins locais.
+Requisitos: Node 22+, ffmpeg e Chrome/Chromium; `setup` instala hyperframes e gsap em HF_DIR (padrão ~/.cache/outra-realidade-hf). Fonte em engine/fonts.
 """
 import sys, os, json, shutil, subprocess, html
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import longform as LF
 
-HF_DIR = os.environ.get('HF_DIR', '/home/claude/hf')
-FONT_DIR = '/usr/share/fonts/truetype/google-fonts'
+HF_DIR = os.environ.get('HF_DIR', os.path.expanduser('~/.cache/outra-realidade-hf'))
+FONT_DIR = os.environ.get('FONT_DIR', '/usr/share/fonts/truetype/google-fonts')
+FONT_LOCAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'fonts')
 STYLES = {'white': ('#ffffff', '#1d1d2b'), 'yellow': ('#ffd23f', '#1d1d2b'), 'red': ('#e04848', '#ffffff'), 'blue': ('#3a8dde', '#ffffff'),
           'teal': ('#2f9e95', '#ffffff'), 'orange': ('#ff9f1c', '#ffffff'), 'purple': ('#7b5aa6', '#ffffff'), 'green': ('#2f9e4a', '#ffffff')}
 
@@ -28,7 +29,8 @@ def build(proj):
     out = os.path.join(proj, 'hf'); os.makedirs(os.path.join(out, 'assets'), exist_ok=True)
     total = round(P['total'], 3)
     for f in ('Poppins-Bold.ttf',):
-        shutil.copy(os.path.join(FONT_DIR, f), os.path.join(out, 'assets', f))
+        src = os.path.join(FONT_LOCAL, f) if os.path.exists(os.path.join(FONT_LOCAL, f)) else os.path.join(FONT_DIR, f)
+        shutil.copy(src, os.path.join(out, 'assets', f))
     shutil.copy(os.path.join(HF_DIR, 'node_modules/gsap/dist/gsap.min.js'), os.path.join(out, 'assets', 'gsap.min.js'))
     els, tl = [], []
     # rótulos (pílulas no topo), um por vez por cena
@@ -118,7 +120,7 @@ def render(proj, out_mp4):
     env = dict(os.environ, HYPERFRAMES_TELEMETRY='0')
     if not env.get('HYPERFRAMES_BROWSER_PATH'):  # usa o Chromium já instalado (o download do headless-shell é bloqueado aqui)
         import glob
-        c = sorted(glob.glob('/opt/pw-browsers/chromium-*/chrome-linux64/chrome'))
+        c = sorted(glob.glob('/opt/pw-browsers/chromium-*/chrome-linux64/chrome'))  # só existe na nuvem; no computador o HyperFrames acha o Chrome sozinho
         if c: env['HYPERFRAMES_BROWSER_PATH'] = c[-1]
     cmd = ['npx', '--prefix', HF_DIR, 'hyperframes', 'render', hf, '-o', os.path.abspath(out_mp4), '-q', 'delivery', '-w', '2', '--no-browser-gpu']
     print(' '.join(cmd), flush=True)

@@ -6,7 +6,7 @@ uso:
   python3 voz.py setup                         # instala voxcpm, liga swap de 8 GB (o modelo precisa de ~9 GB de memória) e baixa o modelo
   python3 voz.py PROJ seg1 [seg2 ...]          # lê PROJ/script/<seg>.txt (parágrafos viram uma fala só) e grava PROJ/audio/<seg>.wav (48 kHz mono)
 
-Tempo no ambiente da nuvem (2 CPUs): ~6,5 s de processamento por segundo de áudio (Short de 30 s ≈ 3–4 min).
+Usa a placa de vídeo quando houver (CUDA ou Apple MPS). Na nuvem (2 CPUs, sem placa): ~6,5 s de processamento por segundo de áudio (Short de 30 s ≈ 3–4 min).
 Retomável: um segmento cujo .wav já existe é pulado.
 """
 import sys, os, time, subprocess
@@ -15,31 +15,50 @@ SEMENTE = 1011105763
 DESCRICAO = ("Jovem brasileiro de uns 25 anos, voz masculina agradável e leve, fala espontânea e descontraída, "
              "contando uma história surpreendente para um amigo, curioso e animado de forma natural, "
              "sotaque brasileiro de São Paulo, nada de locutor")
-SWAP = '/home/claude/swapfile'
+SWAP = os.path.expanduser('~/swapfile')
 
 
 def setup():
-    subprocess.run([sys.executable, '-m', 'pip', 'install', '--break-system-packages', '-q', 'voxcpm>=2.0.3'], check=True)
+    r = subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'voxcpm>=2.0.3'])
+    if r.returncode: subprocess.run([sys.executable, '-m', 'pip', 'install', '--break-system-packages', '-q', 'voxcpm>=2.0.3'], check=True)
     swap()
     from huggingface_hub import snapshot_download
     snapshot_download('openbmb/VoxCPM2')
     print('voz: pronto')
 
 
+def device():
+    import torch
+    if os.environ.get('VOZ_DEVICE'): return os.environ['VOZ_DEVICE']  # ex.: VOZ_DEVICE=cpu
+    if torch.cuda.is_available(): return 'cuda'
+    if getattr(torch.backends, 'mps', None) and torch.backends.mps.is_available(): return 'mps'
+    return 'cpu'
+
+
 def swap():
-    on = subprocess.run(['swapon', '--show'], capture_output=True, text=True).stdout
+    """Só no Linux da nuvem com pouca memória (< 12 GB): liga um swap de 8 GB. Em outro sistema, ou sem permissão, não faz nada."""
+    try:
+        if not sys.platform.startswith('linux'): return
+        mem = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES') / 1e9
+        if mem >= 12: return
+        on = subprocess.run(['swapon', '--show'], capture_output=True, text=True).stdout
+    except Exception:
+        return
     if SWAP in on: return
-    if not os.path.exists(SWAP):
-        subprocess.run(['fallocate', '-l', '8G', SWAP], check=True); os.chmod(SWAP, 0o600)
-        subprocess.run(['mkswap', SWAP], check=True, capture_output=True)
-    subprocess.run(['swapon', SWAP], check=True)
+    try:
+        if not os.path.exists(SWAP):
+            subprocess.run(['fallocate', '-l', '8G', SWAP], check=True); os.chmod(SWAP, 0o600)
+            subprocess.run(['mkswap', SWAP], check=True, capture_output=True)
+        subprocess.run(['swapon', SWAP], check=True)
+    except Exception as e:
+        print('swap não ligado:', e)
 
 
 def gerar(proj, segs):
     import torch, soundfile as sf
     from voxcpm import VoxCPM
-    swap(); torch.set_num_threads(os.cpu_count() or 2)
-    m = VoxCPM.from_pretrained('openbmb/VoxCPM2', load_denoiser=False, optimize=False, device='cpu')
+    swap(); torch.set_num_threads(os.cpu_count() or 2); dev = device(); print('voz: dispositivo', dev, flush=True)
+    m = VoxCPM.from_pretrained('openbmb/VoxCPM2', load_denoiser=False, optimize=False, device=dev)
     os.makedirs(os.path.join(proj, 'audio'), exist_ok=True)
     for seg in segs:
         out = os.path.join(proj, 'audio', seg + '.wav')

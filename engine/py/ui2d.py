@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 OL = (29, 29, 43, 255)
 SS = 3
-FONT = "/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf"
+FONT = (__import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', 'fonts', 'Poppins-Bold.ttf'))
 
 @lru_cache(None)
 def font(sz):

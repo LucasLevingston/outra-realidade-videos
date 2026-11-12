@@ -266,7 +266,7 @@ def turtle_img():
     return UI.sprite(64, 56, fn, k=2)
 
 # ---------------------------------------------------------------- legenda (frase inteira, embaixo)
-FONT = '/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'
+FONT = (__import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', 'fonts', 'Poppins-Bold.ttf'))
 @lru_cache(maxsize=512)
 def subtitle_img(text):
     f = ImageFont.truetype(FONT, 46)

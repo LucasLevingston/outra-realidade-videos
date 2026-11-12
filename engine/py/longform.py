@@ -175,7 +175,7 @@ if __name__ == '__main__':
 # ---------------------------------------------------------------- render
 from PIL import Image, ImageDraw, ImageFont
 import bisect
-FONTB = '/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'
+FONTB = (__import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', 'fonts', 'Poppins-Bold.ttf'))
 _card_cache = {}
 def card_img(a, b):
     k = (a, b)

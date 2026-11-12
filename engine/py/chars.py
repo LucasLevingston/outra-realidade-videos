@@ -124,7 +124,7 @@ def draw(d, C, arms, face, look, extra):
     if 'sign' in extra:
         from PIL import ImageFont
         d.rr(170, 560, 430, 680, 12, hx('#fff4d6'), w=7)
-        f = ImageFont.truetype('/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf', 30 * K)
+        f = ImageFont.truetype((__import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), '..', 'fonts', 'Poppins-Bold.ttf')), 30 * K)
         d.d.text((300 * K, 620 * K), 'DESEMPREGADO', font=f, fill=hx('#d63a3a'), anchor='mm')
     if 'photo' in extra: d.rr(254, 590, 346, 660, 4, hx('#ffffff'), w=5); d.ell(300, 622, 18, 18, hx('#fff3b0'), w=3)
     # pescoço

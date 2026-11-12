@@ -7,9 +7,10 @@ O mesmo motor faz o **Short 9:16** e o **vídeo longo 16:9**.
 ```bash
 pip install --break-system-packages -q opencv-python-headless faster-whisper   # playwright + chrome já vêm no ambiente
 python3 REPO/engine/py/voz.py setup          # voz: VoxCPM2 (VoiceStudio) + swap de 8 GB + modelo (~5 GB)
-python3 REPO/engine/py/hyperframes.py setup  # HyperFrames + GSAP em /home/claude/hf
+python3 REPO/engine/py/hyperframes.py setup  # HyperFrames + GSAP em ~/.cache/outra-realidade-hf
 ```
-Disco: o modelo da voz (~5 GB), o swap (8 GB) e o render do HyperFrames (~1 GB temporário) somam ~15 GB. Se faltar espaço, apagar caches (`~/.cache/pip`, modelos não usados em `~/.cache/huggingface`).
+Funciona na nuvem e no computador do usuário (Windows, Mac ou Linux, com Python, Node 22+, ffmpeg e Chrome). A voz usa a placa de vídeo se houver (CUDA/MPS); `VOZ_DEVICE=cpu` força o processador. O swap de 8 GB só é ligado no Linux com menos de 12 GB de memória.
+Disco: o modelo da voz (~5 GB), o swap (8 GB, só na nuvem) e o render do HyperFrames (~1 GB temporário) somam até ~15 GB. Se faltar espaço, apagar caches (`~/.cache/pip`, modelos não usados em `~/.cache/huggingface`).
 three.js r160 já está em `engine/web/three.module.js` (sem rede).
 
 ## Projeto
