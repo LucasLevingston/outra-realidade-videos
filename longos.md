@@ -12,12 +12,12 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 
 | ✓ | # | Tema | Short ligado | Status | Data (19:00 BRT) | Planner |
 |---|---|---|---|---|---|---|
+| ✅ | L1 | E se a Lua desaparecesse para sempre? (28:03, estilo 3D+2D) | #3 | agendado | 2026-11-12 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6756396973424096304) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
 | ✓ | # | Tema | Short ligado | Capítulos sugeridos | Status |
 |---|---|---|---|---|---|
-| ⬜ | L1 | E se a Lua desaparecesse para sempre? | #3 | A primeira noite · As marés · O eixo da Terra bambeia · Estações enlouquecidas · Os animais perdidos · Um ano depois · O que sobra | ideia |
 | ⬜ | L2 | E se você fosse a última pessoa da Terra? | #25 | Acordar sozinho · A primeira semana · A cidade sem gente · Energia e comida · A natureza volta · O sinal · Um ano depois | ideia |
 | ⬜ | L3 | E se os humanos desaparecessem por 24 horas? | #1 | Hora 0 · Aviões e trânsito · Usinas e cidades · Os animais · Hora 12 · Hora 23 · A volta | ideia |
 | ⬜ | L4 | E se você tivesse que sobreviver 100 dias num bunker? | #30 | A porta fecha · Dia 1 a 10 · A comida acaba · O barulho lá fora · Dia 50 · A decisão · Dia 100 | ideia |
