@@ -3,6 +3,7 @@ Cada cena: dict com plate (spec), t0/t1 (s, timeline global), move, chars, fx, l
 import math, json, os, random
 import numpy as np, cv2
 from functools import lru_cache
+from PIL import ImageFilter
 from PIL import Image, ImageDraw, ImageFont
 import chars as CH
 import ui2d as UI
@@ -246,7 +247,12 @@ def fx_waves(c, t, sc):
     pass
 def fx_dark(c, t, sc):
     c.alpha_composite(Image.new('RGBA', c.size, (5, 5, 25, 70)))
-FX = {'rain': fx_rain, 'snow': fx_snow, 'twinkle': fx_twinkle, 'birds': fx_birds, 'dust': fx_dust, 'crabs': fx_crabs, 'turtles': fx_turtles,
+def fx_night(c, t, sc):
+    c.alpha_composite(Image.new('RGBA', c.size, (6, 4, 22, 165)))
+    W, H = c.size; g = Image.new('RGBA', c.size, (0, 0, 0, 0)); d = ImageDraw.Draw(g)
+    a = int(70 + 25 * math.sin(t * 7) + 15 * math.sin(t * 13))
+    d.ellipse([W * 0.35, H * 0.25, W * 1.3, H * 1.0], fill=(255, 120, 200, a)); c.alpha_composite(g.filter(ImageFilter.GaussianBlur(120)))
+FX = {'night': fx_night, 'rain': fx_rain, 'snow': fx_snow, 'twinkle': fx_twinkle, 'birds': fx_birds, 'dust': fx_dust, 'crabs': fx_crabs, 'turtles': fx_turtles,
       'lightning': fx_lightning, 'dark': fx_dark}
 
 @lru_cache(None)

@@ -492,3 +492,84 @@ SETS.clinic = (o, L) => {
   const pl = new THREE.PointLight('#f4fbff', 6, 14, 1.3); pl.position.set(0, 2.3, 0.5); G.add(pl);
   return G;
 };
+
+// Sala de estar (sofá, TV com o jogo, porta do corredor, relógio). opts: screen ('MISSÃO 12'), clock (horas, ex. 23.97), door ('dark'|'lit'), phone, sepia
+function gameTex(text, prog = 0.85) {
+  return canvasTex('game' + text + prog, 512, 300, (g, w, h) => {
+    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ff5fa2'); gr.addColorStop(0.55, '#ffa24a'); gr.addColorStop(0.56, '#2a3a5a'); gr.addColorStop(1, '#1a2238');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = '#ffe9a0'; g.beginPath(); g.arc(w * 0.72, h * 0.5, 38, Math.PI, 0); g.fill();
+    g.fillStyle = '#1a2238'; for (let i = 0; i < 9; i++) { const bw = 30 + (i * 37) % 40, bh = 40 + (i * 53) % 70; g.fillRect(i * 58, h * 0.56 - bh, bw, bh); }
+    g.fillStyle = '#ffffff'; g.font = 'bold 54px sans-serif'; g.textAlign = 'center'; g.fillText(text, w / 2, h * 0.3);
+    g.fillStyle = 'rgba(0,0,0,.45)'; g.fillRect(w * 0.15, h * 0.8, w * 0.7, 18); g.fillStyle = '#ffd23f'; g.fillRect(w * 0.15, h * 0.8, w * 0.7 * prog, 18);
+  });
+}
+function clockTex(hr) {
+  return canvasTex('clk' + hr, 256, 256, (g) => { g.fillStyle = '#fff'; g.beginPath(); g.arc(128, 128, 122, 0, 7); g.fill(); g.lineWidth = 12; g.strokeStyle = '#1d1a33'; g.stroke();
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; g.lineWidth = 6; g.beginPath(); g.moveTo(128 + Math.sin(a) * 96, 128 - Math.cos(a) * 96); g.lineTo(128 + Math.sin(a) * 110, 128 - Math.cos(a) * 110); g.stroke(); }
+    const hh = (hr % 12) / 12 * Math.PI * 2, mm = (hr % 1) * Math.PI * 2;
+    g.lineCap = 'round'; g.lineWidth = 12; g.beginPath(); g.moveTo(128, 128); g.lineTo(128 + Math.sin(hh) * 56, 128 - Math.cos(hh) * 56); g.stroke();
+    g.lineWidth = 8; g.beginPath(); g.moveTo(128, 128); g.lineTo(128 + Math.sin(mm) * 88, 128 - Math.cos(mm) * 88); g.stroke();
+    g.strokeStyle = '#e04848'; g.lineWidth = 4; g.beginPath(); g.moveTo(128, 128); g.lineTo(128 + Math.sin(mm + 1) * 92, 128 - Math.cos(mm + 1) * 92); g.stroke(); });
+}
+SETS.livingroom = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L) || L.name === 'interior';
+  plane(G, 10, 8, M(canvasTex('lrfloor', 256, 256, P.planks('#b07a48', '#7a4f2c'), 3, 3)), 0, 0, 0);
+  const wall = M(canvasTex('lrwall', 256, 256, P.plaster('#e9b97a', '#d9a462'), 3, 2));
+  box(G, 10, 6, 0.2, wall, 0, 0, -3.6); box(G, 0.2, 6, 9, wall, -4.6, 0, 0.5); box(G, 0.2, 6, 9, wall, 4.6, 0, 0.5);
+  plane(G, 10, 9, M('#f4e6cc'), 0, 4.2, 0.5, Math.PI / 2); box(G, 10, 0.25, 0.3, M('#f4ede0'), 0, 3.0, -3.45);
+  box(G, 10, 0.12, 0.06, M('#8a5a30'), 0, 0.9, -3.48);
+  // janela
+  const sky = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 1.4), new THREE.MeshBasicMaterial({ color: night ? '#141a52' : '#9fd6ff', fog: false })); sky.position.set(-2.9, 1.95, -3.48); G.add(sky);
+  if (night) { srand(9); for (let i = 0; i < 12; i++) { const s = new THREE.Mesh(new THREE.CircleGeometry(0.02, 6), new THREE.MeshBasicMaterial({ color: '#fff' })); s.position.set(-3.6 + rnd() * 1.4, 1.4 + rnd() * 1.1, -3.47); G.add(s); }
+    for (let i = 0; i < 4; i++) { const b = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.3 + i % 3 * 0.15), new THREE.MeshBasicMaterial({ color: '#0b0f30' })); b.position.set(-3.55 + i * 0.4, 1.4 + (0.15 + i % 3 * 0.075), -3.465); G.add(b); } }
+  else { const sun = new THREE.Mesh(new THREE.CircleGeometry(0.16, 20), new THREE.MeshBasicMaterial({ color: '#ffe27a', fog: false })); sun.position.set(-2.4, 2.35, -3.47); G.add(sun); }
+  for (const [w, h, x, y] of [[1.9, 0.08, -2.9, 1.22], [1.9, 0.08, -2.9, 2.62], [0.08, 1.46, -3.8, 1.22], [0.08, 1.46, -2.0, 1.22]]) box(G, w, h, 0.1, M('#ffffff'), x, y, -3.45);
+  // prateleira com livros + quadros
+  box(G, 1.8, 0.06, 0.25, M('#8a5a30'), 0.0, 2.0, -3.4); srand(12);
+  for (let i = 0; i < 9; i++) box(G, 0.14, 0.32 + rnd() * 0.12, 0.2, M(pick(['#e04848', '#3a8dde', '#ffd23f', '#5cbf9a', '#9d7ad6', '#ff9f1c'])), -0.75 + i * 0.18, 2.06, -3.38);
+  const pic = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.5), M(canvasTex('lrpic', 280, 200, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#9fd6ff'; g.fillRect(14, 14, w - 28, h - 28); g.fillStyle = '#5cbf6a'; g.beginPath(); g.moveTo(14, h - 14); g.lineTo(110, 70); g.lineTo(200, h - 14); g.fill(); })));
+  pic.position.set(1.2, 2.45, -3.47); G.add(pic);
+  // relógio de parede
+  const clk = new THREE.Mesh(new THREE.CircleGeometry(0.3, 28), M(clockTex(o.clock ?? 15.0))); clk.position.set(-0.6, 2.65, -3.47); G.add(clk);
+  // sofá
+  const sc = '#3d6fb6';
+  box(G, 2.8, 0.45, 0.95, M(sc), -0.6, 0, -2.75); box(G, 2.8, 0.75, 0.25, M(shade(sc, -14)), -0.6, 0.45, -3.15);
+  box(G, 0.3, 0.7, 0.95, M(shade(sc, -8)), -2.0, 0, -2.75); box(G, 0.3, 0.7, 0.95, M(shade(sc, -8)), 0.8, 0, -2.75);
+  box(G, 0.6, 0.45, 0.2, M('#ffd23f'), -1.4, 0.48, -2.95);
+  // tapete + mesinha
+  const rug = new THREE.Mesh(new THREE.CircleGeometry(1.5, 40), M('#c44a4a')); rug.rotation.x = -Math.PI / 2; rug.scale.set(1.3, 0.7, 1); rug.position.set(-0.6, 0.012, -1.2); G.add(rug);
+  box(G, 1.2, 0.06, 0.6, M('#8a5a30'), -0.6, 0.38, -1.15); for (const [lx, lz] of [[-1.1, -1.35], [-0.1, -1.35], [-1.1, -0.95], [-0.1, -0.95]]) box(G, 0.05, 0.38, 0.05, M('#6a3e1e'), lx, 0, lz);
+  if (o.phone !== false) box(G, 0.12, 0.02, 0.22, M('#22222e', { emissive: o.phoneOn ? '#5fe0a0' : '#000', emissiveIntensity: 0.6 }), -0.3, 0.44, -1.1);
+  // abajur
+  cyl(G, 0.03, 0.03, 1.4, M('#3a3a4e'), -2.5, 0, -2.9, 8); cone(G, 0.28, 0.32, M('#fff3c4', { emissive: night ? '#ffe2a0' : '#000', emissiveIntensity: 0.6 }), -2.5, 1.35, -2.9, 16);
+  // TV no rack (lado direito, virada pro sofá)
+  box(G, 1.6, 0.5, 0.5, M('#5a3a22'), 2.5, 0, -3.0, -0.35);
+  const tv = new THREE.Group(); box(tv, 1.5, 0.9, 0.08, M('#15151f'), 0, 0, 0);
+  const scr = new THREE.Mesh(new THREE.PlaneGeometry(1.38, 0.8), new THREE.MeshBasicMaterial({ map: gameTex(o.screen || 'MISSÃO 12', o.prog ?? 0.85), fog: false })); scr.position.set(0, 0.45, 0.045); tv.add(scr);
+  tv.position.set(2.5, 0.55, -3.0); tv.rotation.y = -0.35; G.add(tv);
+  if (night) { const tl = new THREE.PointLight('#ff9ad0', 5, 5, 1.6); tl.position.set(2.1, 1.0, -2.3); G.add(tl); }
+  // porta do corredor (parede do fundo, à direita)
+  const dark = o.door === 'lit' ? '#f2d08a' : '#0d0b18';
+  const hall = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 2.2), new THREE.MeshBasicMaterial({ color: dark, fog: false })); hall.position.set(4.49, 1.1, -0.9); hall.rotation.y = -Math.PI / 2; G.add(hall);
+  for (const [d, h, z, y] of [[1.3, 0.1, -0.9, 2.2], [0.1, 2.3, -1.5, 0], [0.1, 2.3, -0.3, 0]]) box(G, 0.14, h, d, M('#f4ede0'), 4.45, y, z);
+  // planta
+  cyl(G, 0.2, 0.15, 0.4, M('#c8553d'), 1.6, 0, -3.1, 14); for (let i = 0; i < 5; i++) { const lf = cone(G, 0.08, 0.8, M('#4a9a4a'), 1.6 + (i - 2) * 0.06, 0.38, -3.1, 6); lf.rotation.z = (i - 2) * 0.3; }
+  const pl = new THREE.PointLight(night ? '#ffd9a0' : '#fff4e0', night ? 5 : 7, 9, 1.4); pl.position.set(-1.6, 2.4, -1.2); G.add(pl);
+  if (night) glow(G, 'rgba(255,220,160,0.6)', -2.5, 1.5, -2.9, 1.0);
+  return G;
+};
+
+// Prédio residencial à noite (janelas acesas). opts: lit (0..1)
+SETS.tower = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L);
+  plane(G, 300, 300, M('#1e1c34'), 0, 0, 0);
+  const f = facade('torre' + (o.lit ?? 0.3), '#3b3f6e', o.lit ?? 0.3, 6, 16, night);
+  box(G, 10, 34, 8, M(f.map, night ? { emissive: '#fff', emissiveMap: f.emi, emissiveIntensity: 1.0 } : {}), 0, 0, 0);
+  box(G, 10.6, 0.6, 8.6, M('#2a2d52'), 0, 34, 0); box(G, 2, 2.2, 2, M('#2a2d52'), 2.5, 34.6, 0);
+  srand(21);
+  for (let i = 0; i < 16; i++) { const side = i % 2 ? 1 : -1, x = side * (9 + rnd() * 26), z = -6 - rnd() * 30, h = 8 + rnd() * 22, w = 6 + rnd() * 5;
+    const ff = facade('viz' + i, pick(['#2e3160', '#353a6a', '#2a2c55']), 0.35, 4, 8, night);
+    box(G, w, h, 6, M(ff.map, night ? { emissive: '#fff', emissiveMap: ff.emi, emissiveIntensity: 0.8 } : {}), x, 0, z); }
+  if (night) moonMesh(G, L, o.moonAz ?? 200, o.moonEl ?? 40);
+  return G;
+};

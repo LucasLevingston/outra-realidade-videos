@@ -102,7 +102,7 @@ def plan(proj):
             for j in range(1, n):
                 ideal = p0 + (p1 - p0) * j / n
                 cands = [s for s in sent_starts if cuts[-1] + 2.5 < s < p1 - 2.5]
-                cuts.append(min(cands, key=lambda s: abs(s - ideal)) if cands else ideal)
+                cuts.append(min(cands, key=lambda s: abs(s - ideal)) if cands else max(ideal, cuts[-1] + (p1 - cuts[-1]) / (n - j + 1)))  # nunca volta no tempo
             cuts.append(p1)
             # palavras do parágrafo pra rótulos
             pw = [(norm(w), T0 + a) for k in keys if k[0] == pi for (w, a, b) in sentences[k]['words']]

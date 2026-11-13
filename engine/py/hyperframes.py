@@ -56,6 +56,9 @@ def build(proj):
         els.append(f'<div id="{i}" class="clip bubble" data-start="{a:.3f}" data-duration="{b - a:.3f}"><div class="tag" style="background:{col}">{esc(name)}</div>{esc(txt)}<div class="tail"></div></div>')
         tl.append(f'tl.fromTo("#{i}",{{scale:0.3,opacity:0,y:30}},{{scale:1,opacity:1,y:0,duration:0.32,ease:"back.out(1.8)"}},{a:.3f});')
         tl.append(f'tl.to("#{i}",{{opacity:0,duration:0.2}},{b - 0.2:.3f});')
+    # elementos extras do HyperFrames (HF no scenes.py): relógio, contador, etiqueta, carimbo, nome, celular, escolha A/B…
+    x_els, x_tl, low = extras(S, words, total)
+    els += x_els; tl += x_tl
     # legenda karaokê: uma palavra por vez, centro (~45% da altura); palavras-chave em amarelo
     KEY = set(getattr(S, 'KEYWORDS', []))
     for j, (w, a, b) in enumerate(words):
@@ -64,6 +67,7 @@ def build(proj):
         end = min(end, nxt - 0.02) if j + 1 < len(words) else end   # uma palavra por vez: nunca sobrepor a seguinte
         disp = w.strip(',.;:').upper().replace('"', '').replace('“', '').replace('”', '')
         a0 = max(0, a - 0.02); i = f'w{j}'; key = ' key' if LF.norm(w) in KEY else ''
+        if any(x0 <= a0 < x1 for x0, x1 in low): key += ' low'   # card no meio da tela: legenda desce
         if not disp or end - a0 < 0.06: continue   # palavra colada na seguinte (mesmo instante): pula
         els.append(f'<div id="{i}" class="clip word{key}" data-start="{a0:.3f}" data-duration="{max(0.08, end - a0):.3f}">{esc(disp)}</div>')
         tl.append(f'tl.fromTo("#{i}",{{scale:1.18}},{{scale:1,duration:0.14,ease:"power2.out"}},{a0:.3f});')
@@ -81,7 +85,7 @@ html, body {{ margin: 0; background: #000; }}
 #root {{ position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Pop, sans-serif; font-weight: 700; }}
 .clip {{ position: absolute; }}
 #bg {{ left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }}
-.pill {{ left: 50%; top: 255px; transform-origin: 50% 50%; translate: -50% 0; padding: 14px 40px; border-radius: 60px; font-size: 64px; line-height: 1.05;
+.pill {{ left: 50%; top: {getattr(S, 'PILL_TOP', 255)}px; transform-origin: 50% 50%; translate: -50% 0; padding: 14px 40px; border-radius: 60px; font-size: 64px; line-height: 1.05;
         white-space: nowrap; border: 6px solid #1d1d2b; box-shadow: 0 8px 0 rgba(20,16,28,.35); text-align: center; }}
 .pill .small {{ font-size: 28px; opacity: .85; letter-spacing: 1px; }}
 .bubble {{ left: 50%; top: 450px; translate: -50% 0; width: 820px; box-sizing: border-box; background: #fff; color: #1d1d2b; border: 6px solid #1d1d2b;
@@ -92,6 +96,8 @@ html, body {{ margin: 0; background: #000; }}
 .word {{ left: 0; width: 1080px; top: 800px; text-align: center; font-size: 104px; color: #fff; letter-spacing: 1px;
         -webkit-text-stroke: 14px #14101c; paint-order: stroke fill; text-shadow: 0 8px 0 rgba(20,16,28,.45); }}
 .word.key {{ color: #ffd23f; }}
+.word.low {{ top: 1290px; }}
+{EXTRA_CSS}
 .flash {{ left: 0; top: 0; width: 1080px; height: 1920px; background: #fff; }}
 </style></head>
 <body>
@@ -112,6 +118,128 @@ window.__timelines["root"] = tl;
     open(os.path.join(out, 'index.html'), 'w').write(doc)
     json.dump({'name': os.path.basename(proj.rstrip('/'))}, open(os.path.join(out, 'hyperframes.json'), 'w'))
     print(f'hf: {len(els)} elementos, {total:.1f}s -> {out}/index.html')
+
+
+EXTRA_CSS = '''
+.hud { left: 50px; top: 150px; background: rgba(18,16,28,.92); border-left: 10px solid #e04848; border-radius: 18px; padding: 12px 26px 14px; color: #fff; }
+.hud .d { font-size: 24px; opacity: .7; letter-spacing: 2px; }
+.hud .t { font-size: 76px; line-height: 1; }
+.hud .s { display: inline-block; margin-top: 8px; background: #ffd23f; color: #1d1d2b; font-size: 22px; padding: 3px 12px; border-radius: 8px; }
+.counter { right: 50px; top: 150px; background: rgba(18,16,28,.92); border-radius: 18px; padding: 12px 26px; color: #fff; text-align: center; min-width: 200px; }
+.counter .l { font-size: 22px; opacity: .75; letter-spacing: 1px; }
+.counter .v { font-size: 92px; line-height: 1; color: #ff5a5a; }
+.tag { left: 50%; top: 0; width: 660px; margin-left: -330px; transform-origin: 50% 0; }
+.tag .str { position: absolute; left: 50%; top: 0; width: 6px; height: 470px; margin-left: -3px; background: #f4ede0; }
+.tag .card { position: absolute; left: 0; top: 460px; width: 660px; box-sizing: border-box; background: #ffd23f; border: 7px solid #1d1d2b; border-radius: 26px;
+             padding: 26px 30px; text-align: center; box-shadow: 0 12px 0 rgba(20,16,28,.35); }
+.tag .card .h { font-size: 64px; color: #d42a2a; line-height: 1.05; }
+.tag .card .b { font-size: 40px; color: #1d1d2b; line-height: 1.1; margin-top: 6px; }
+.tag .card .hole { position: absolute; left: 50%; top: -14px; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; background: #1d1d2b; }
+.stamp { left: 50%; top: 620px; translate: -50% 0; border: 12px solid #e04848; color: #e04848; border-radius: 22px; padding: 10px 40px; font-size: 96px;
+         letter-spacing: 3px; white-space: nowrap; background: rgba(255,255,255,.88); }
+.stamp.sm { top: 720px; font-size: 54px; border-width: 8px; padding: 6px 24px; }
+.name { left: 50px; top: 1400px; background: rgba(18,16,28,.92); border-left: 10px solid #e04848; border-radius: 16px; padding: 12px 26px; color: #fff; }
+.name .n { font-size: 50px; line-height: 1.05; }
+.name .s { font-size: 24px; opacity: .8; letter-spacing: 1px; }
+.badge { right: 50px; top: 360px; background: #1d1d2b; color: #fff; font-size: 34px; padding: 10px 24px; border-radius: 12px; letter-spacing: 2px; }
+.tone { left: 0; top: 0; width: 1080px; height: 1920px; background: #b08850; mix-blend-mode: color; opacity: .75; }
+.phone { left: 50%; top: 420px; width: 600px; height: 760px; margin-left: -300px; background: #1d1d2b; border-radius: 60px; padding: 22px; box-sizing: border-box; }
+.phone .scr { width: 100%; height: 100%; background: #efe7da; border-radius: 42px; overflow: hidden; }
+.phone .hd { background: #2f9e74; color: #fff; padding: 30px 30px 18px; font-size: 38px; }
+.phone .hd small { display: block; font-size: 22px; opacity: .85; }
+.phone .m { position: absolute; left: 60px; width: 470px; box-sizing: border-box; background: #fff; border-radius: 20px; padding: 12px 20px; font-size: 32px; color: #1d1d2b; }
+.phone .m small { display: block; font-size: 20px; color: #2f9e74; }
+.bigclock { left: 50%; top: 560px; margin-left: -300px; width: 600px; background: #1d1d2b; color: #fff; border-radius: 40px; text-align: center; font-size: 200px; line-height: 1.3; border: 8px solid #f4ede0; }
+.choice { left: 0; top: 0; width: 1080px; height: 1920px; background: rgba(10,8,22,.62); }
+.choice .ti { position: absolute; left: 0; width: 1080px; top: 330px; text-align: center; font-size: 104px; color: #fff; -webkit-text-stroke: 12px #14101c; paint-order: stroke fill; }
+.choice .op { position: absolute; left: 110px; width: 860px; box-sizing: border-box; border-radius: 34px; text-align: center; color: #fff; padding: 22px 30px 30px; border: 8px solid transparent; }
+.choice .op .k { font-size: 120px; line-height: 1; }
+.choice .op .t { font-size: 48px; }
+.choice .cta { position: absolute; left: 0; width: 1080px; top: 1300px; text-align: center; font-size: 60px; color: #ffd23f; -webkit-text-stroke: 10px #14101c; paint-order: stroke fill; }
+'''
+
+
+def extras(S, words, total):
+    """Elementos extras declarados em HF (lista de dicts) no scenes.py. Âncoras são palavras da narração:
+    'palavra' = 1ª ocorrência, 'palavra#2' = 2ª, '>palavra' = última; 'at' liga, 'until' desliga (padrão: próximo item do mesmo grupo).
+    kinds: hud(day,time,date) · counter(label,value) · tag(title,sub,stamp,stamp_at) · stamp(text) · name(name,sub) · badge(text)
+           tone(color) · phone(title,sub,msgs=[(quem,texto,âncora)]) · bigclock(text) · choice(title,a,b,hl=[(âncora,'a'|'b'|'ab')],cta,cta_at)
+    'low': True desce a legenda karaokê enquanto o item estiver na tela."""
+    items = getattr(S, 'HF', [])
+    if not items: return [], [], []
+    def find(anchor, default=None):
+        if anchor is None: return default
+        if isinstance(anchor, (int, float)): return float(anchor)
+        last = anchor.startswith('>'); a = anchor.lstrip('>'); n = 1
+        if '#' in a: a, n = a.split('#'); n = int(n)
+        hits = [w[1] for w in words if LF.norm(w[0]).startswith(LF.norm(a))]
+        if not hits: raise SystemExit(f'HF: âncora "{anchor}" não está na narração')
+        return hits[-1] if last else hits[n - 1]
+    # início de cada item e fim padrão = início do próximo do mesmo grupo
+    for it in items: it['_t0'] = max(0, find(it['at']) - 0.05)
+    for k, it in enumerate(items):
+        nxt = [o['_t0'] for o in items[k + 1:] if o.get('group', o['kind']) == it.get('group', it['kind'])]
+        it['_t1'] = min(total, find(it.get('until'), nxt[0] if nxt else total) + (0.3 if it.get('until') else 0))
+    els, tl, low = [], [], []
+    for k, it in enumerate(items):
+        a, b, kind, i = it['_t0'], it['_t1'], it['kind'], f'x{k}'
+        if b - a < 0.15: continue
+        if it.get('low'): low.append((a, b))
+        clip = lambda cls, inner, style='': f'<div id="{i}" class="clip {cls}" data-start="{a:.3f}" data-duration="{b - a:.3f}" style="{style}">{inner}</div>'
+        pop = f'tl.fromTo("#{i}",{{scale:0.6,opacity:0}},{{scale:1,opacity:1,duration:0.25,ease:"back.out(2)"}},{a:.3f});'
+        out = f'tl.to("#{i}",{{opacity:0,duration:0.15}},{b - 0.15:.3f});'
+        if kind == 'hud':
+            els.append(clip('hud', f'<div class="d">{esc(it["day"])}</div><div class="t">{esc(it["time"])}</div><div class="s">{esc(it["date"])}</div>'))
+            tl.append(f'tl.fromTo("#{i} .t",{{y:-14,opacity:0.3}},{{y:0,opacity:1,duration:0.2}},{a:.3f});')
+        elif kind == 'counter':
+            els.append(clip('counter', f'<div class="l">{esc(it["label"])}</div><div class="v">{esc(it["value"])}</div>'))
+            tl.append(f'tl.fromTo("#{i} .v",{{scale:1.5}},{{scale:1,duration:0.25,ease:"back.out(2)"}},{a:.3f});')
+        elif kind == 'tag':
+            st = ''
+            if it.get('stamp'):
+                st = f'<div class="stamp sm" id="{i}s" style="top:690px;left:62%;transform:rotate(-12deg)">{esc(it["stamp"])}</div>'
+            els.append(clip('tag', f'<div class="str"></div><div class="card"><div class="hole"></div><div class="h">{esc(it["title"])}</div><div class="b">{esc(it.get("sub", ""))}</div></div>{st}'))
+            tl.append(f'tl.fromTo("#{i}",{{y:-900,rotation:-14}},{{y:0,rotation:0,duration:1.1,ease:"elastic.out(1,0.45)"}},{a:.3f});')
+            tl.append(f'tl.to("#{i}",{{rotation:2.5,duration:1.4,ease:"sine.inOut",yoyo:true,repeat:{max(0, int((b - a - 1.1) / 1.4))}}},{a + 1.1:.3f});')
+            if it.get('stamp'):
+                ts = find(it.get('stamp_at'), a + 1.2)
+                tl.append(f'tl.fromTo("#{i}s",{{scale:2.6,opacity:0}},{{scale:1,opacity:1,duration:0.22,ease:"power3.in"}},{ts:.3f});')
+            tl.append(out)
+        elif kind == 'stamp':
+            els.append(clip('stamp', esc(it['text']), 'transform:rotate(-10deg)'))
+            tl.append(f'tl.fromTo("#{i}",{{scale:2.6,opacity:0}},{{scale:1,opacity:1,duration:0.22,ease:"power3.in"}},{a:.3f});'); tl.append(out)
+        elif kind == 'name':
+            els.append(clip('name', f'<div class="n">{esc(it["name"])}</div><div class="s">{esc(it.get("sub", ""))}</div>'))
+            tl.append(f'tl.fromTo("#{i}",{{x:-420,opacity:0}},{{x:0,opacity:1,duration:0.3,ease:"power3.out"}},{a:.3f});'); tl.append(out)
+        elif kind == 'badge':
+            els.append(clip('badge', esc(it['text']))); tl.append(pop); tl.append(out)
+        elif kind == 'tone':
+            els.append(clip('tone', '', f'background:{it.get("color", "#b08850")}'))
+            tl.append(f'tl.fromTo("#{i}",{{opacity:0}},{{opacity:0.75,duration:0.3}},{a:.3f});'); tl.append(out)
+        elif kind == 'phone':
+            ms = ''
+            for j, (who, txt, an) in enumerate(it.get('msgs', [])):
+                ms += f'<div class="m" id="{i}m{j}" style="top:{200 + j * 118}px"><small>{esc(who)}</small>{esc(txt)}</div>'
+                tl.append(f'tl.fromTo("#{i}m{j}",{{x:-60,opacity:0}},{{x:0,opacity:1,duration:0.22,ease:"back.out(2)"}},{find(an):.3f});')
+            els.append(clip('phone', f'<div class="scr"><div class="hd">{esc(it["title"])}<small>{esc(it.get("sub", ""))}</small></div>{ms}</div>'))
+            tl.append(f'tl.fromTo("#{i}",{{y:900}},{{y:0,duration:0.4,ease:"power3.out"}},{a:.3f});'); tl.append(out)
+        elif kind == 'bigclock':
+            els.append(clip('bigclock', esc(it['text']))); tl.append(pop); tl.append(out)
+        elif kind == 'choice':
+            ops = ''
+            for j, (key, col, top) in enumerate((('a', '#2f9e74', 640), ('b', '#7b4fc4', 920))):
+                ops += f'<div class="op" id="{i}{key}" style="top:{top}px;background:{col}"><div class="k">{key.upper()}</div><div class="t">{esc(it[key])}</div></div>'
+                tl.append(f'tl.fromTo("#{i}{key}",{{y:120,opacity:0}},{{y:0,opacity:1,duration:0.3,ease:"back.out(1.6)"}},{a + 0.15 + j * 0.15:.3f});')
+            cta = f'<div class="cta" id="{i}c">{esc(it.get("cta", ""))}</div>' if it.get('cta') else ''
+            els.append(clip('choice', f'<div class="ti">{esc(it.get("title", "VOCÊ DECIDE"))}</div>{ops}{cta}'))
+            tl.append(f'tl.fromTo("#{i}",{{opacity:0}},{{opacity:1,duration:0.25}},{a:.3f});')
+            for (an, which) in it.get('hl', []):
+                t = find(an)
+                for key in 'ab':
+                    on = key in which
+                    tl.append(f'tl.to("#{i}{key}",{{scale:{1.06 if on and which != "ab" else 1},opacity:{1 if on else 0.4},borderColor:"{"#ffd23f" if on and which != "ab" else "transparent"}",duration:0.2}},{t:.3f});')
+            if cta: tl.append(f'tl.fromTo("#{i}c",{{scale:0.4,opacity:0}},{{scale:1,opacity:1,duration:0.3,ease:"back.out(2)"}},{find(it.get("cta_at"), a + 1):.3f});')
+    return els, tl, low
 
 
 def render(proj, out_mp4):

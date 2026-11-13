@@ -59,13 +59,16 @@ SEG = {'short': [   # um item por parágrafo; cada item = lista de planos dividi
 - **Plano**: `(preset, luz, movimento, personagens, extras)`.
 - **Luz**: N noite · D dia · G fim de tarde · W amanhecer · O nublado · S tempestade · I interior noite · ID interior dia · X espaço.
 - **Movimentos**: push, pull, panR, panL, tiltU, tiltD, orbit, hold, drama (push + giro), whip.
-- **Extras**: `opts` (opções do cenário), `lab` (rótulos: palavra que dispara, texto, cor, subtítulo), `fx` (rain, snow, twinkle, birds, dust, crabs, turtles, dark), `speaker` (boca mexe nas frases com aspas), `shake` (palavra), `flash` (palavra).
+- **Extras**: `opts` (opções do cenário), `lab` (rótulos: palavra que dispara, texto, cor, subtítulo), `fx` (rain, snow, twinkle, birds, dust, crabs, turtles, dark, night = quarto escuro com luz de TV), `speaker` (boca mexe nas frases com aspas), `shake` (palavra), `flash` (palavra).
 - **Personagem**: `nome[!]@slot:braços/rosto^olharX,olharY+extra+extra` (`!` = espelhado; slot do preset ou `"x,z"` em metros).
   - Elenco (`chars.py`): dito, cida, caio, caio20, lia, beto, ze, filho, anchor, astro, prof, menina, locutor, lobo, craque, frances, goleiro, tecnico, p1–p6 (figurantes). Novos personagens: acrescentar em `CAST`.
   - Braços: hang, point, pointL, up, both_up, wave, hip, belly, temple, cross, hold, phone, oar, thumb, cheek, reach.
   - Rostos: neutral, happy, talk, surprise, worried, sad, laugh, angry, squint, cold, hot, shout, sleepy, proud.
   - Extras: phone, lantern, mug, tablet, paper, notebook, photo, icecream, sign, sunglasses, sweat, tears, wet, scarf, snowhat, shiver.
-- **Cenários** (`web/sets.js`): beach (praia de Santos: orla, prédios, ilha, canoas; opts moon, receded, snow, storm, sun, snowman, canoeTilt), stadium (campo, gols, torcida, refletores; opts score, crowd, ball), locker (vestiário; opts banner), kitchen, lab (observatório), street (opts stall, shop), space (Terra; opts tilt, moon, axisGlow, farMoon, mars, probe), harbor (colônia; opts lowtide, ships, storm), radio, studio, classroom, bedroom. Cenário novo = nova função em `SETS` + presets em `presets.py`.
+- **Cenários** (`web/sets.js`): beach (praia de Santos: orla, prédios, ilha, canoas; opts moon, receded, snow, storm, sun, snowman, canoeTilt), stadium (campo, gols, torcida, refletores; opts score, crowd, ball), locker (vestiário; opts banner), kitchen (opts tv), lab (observatório), livingroom (sala: sofá, TV com jogo, porta do corredor, relógio; opts screen, prog, clock, door), tower (prédio à noite; opts lit), street (opts stall, shop), space (Terra; opts tilt, moon, axisGlow, farMoon, mars, probe), harbor (colônia; opts lowtide, ships, storm), radio, studio, classroom, bedroom. Cenário novo = nova função em `SETS` + presets em `presets.py`.
+
+## Extras do HyperFrames (opcional, `HF = [...]` no scenes.py)
+Elementos ancorados em palavras da narração (`'palavra'`, `'palavra#2'`, `'>palavra'`): `hud` (relógio no topo), `counter` (contador), `tag` (etiqueta pendurada + carimbo), `stamp`, `name` (plaquinha de nome), `badge`, `tone` (tom sépia), `phone` (grupo de mensagens), `bigclock`, `choice` (tela A/B). `low: True` desce a legenda enquanto o item aparece; `PILL_TOP` muda a altura dos rótulos. Modelo: `projetos/short-gta6-casado-ref/scenes.py`.
 
 ## Regras do estilo
 - Cada frase ilustrada; algo novo a cada plano; nenhum plano parado (todos os movimentos têm deriva).
