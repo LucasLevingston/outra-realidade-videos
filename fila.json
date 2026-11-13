@@ -13,7 +13,8 @@
       "status": "agendado",
       "agendado_para": "2026-11-13T18:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847",
-      "ultimo_erro": null
+      "ultimo_erro": null,
+      "obs": "branch temporária não apagada (git push --delete recusado pelo proxy: remote end hung up); pode ser apagada à mão, o Metricool já copiou vídeo e capa"
     }
   ]
 }
