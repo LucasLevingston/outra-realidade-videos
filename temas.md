@@ -28,6 +28,12 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 
 | ✓ | # | Tema | Categoria | Status |
 |---|---|---|---|---|
+| ⬜ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | ideia |
+| ⬜ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | ideia |
+| ⬜ | 100 | Como sobreviver casado ao feriadão do lançamento do GTA 6 — A ou B? (roteiro do usuário, `projetos/short-gta6-casado`) | Cotidiano/humor | ideia |
+| ⬜ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, `projetos/short-gta6-trabalho`) | Cotidiano/humor | ideia |
+| ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
+| ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
 | ⬜ | 28 | E se você recebesse R$ 1 milhão todo mês? | Dinheiro | ideia |
 | ⬜ | 15 | E se o Sol se apagasse? | Universo | ideia |
 | ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | ideia |
@@ -118,4 +124,4 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 
 ## Ideias da lista que não entraram
 
-Repetidas ou parecidas com temas que já existem: humanos desaparecerem por 24 h (#1), Padrinhos Mágicos (#24), Lua desaparecer (#3), Sol apagar (#15), dinossauros (#14), gravidade sumir por 10 s (≈ #12), um mês sem celular (≈ #16) e Brasil campeão em 98 (coberto por #31). Fora também: Thanos/estalo, Batman com poderes do Superman, Homem-Aranha bilionário e Naruto (dependem do personagem da marca), GTA 6 (tema do canal LUNEX), "investir R$ 500 por mês por 30 anos" (é conta real, não ficção) e "não finja estar doente no lançamento do GTA 6" (não é "E se…").
+Repetidas ou parecidas com temas que já existem: humanos desaparecerem por 24 h (#1), Padrinhos Mágicos (#24), Lua desaparecer (#3), Sol apagar (#15), dinossauros (#14), gravidade sumir por 10 s (≈ #12), um mês sem celular (≈ #16) e Brasil campeão em 98 (coberto por #31). Fora também: Thanos/estalo, Batman com poderes do Superman, Homem-Aranha bilionário e Naruto (dependem do personagem da marca), GTA 6 como tema geral (tema do canal LUNEX) e "investir R$ 500 por mês por 30 anos" (é conta real, não ficção). Exceção: os roteiros de GTA 6 #100 e #101 foram enviados pelo próprio usuário e entraram a pedido dele.
