@@ -41,7 +41,7 @@ def plan(proj):
     shots = []; subs = []; talk = []; allwords = []
     for sg in segs:
         seg = sg['seg']; T0 = sg['start']
-        paras = [p.strip() for p in open(os.path.join(proj, 'script', seg + '.txt')).read().split('\n\n') if p.strip()]
+        paras = [re.sub(r'\{\w+\}\s*', '', p).strip() for p in open(os.path.join(proj, 'script', seg + '.txt')).read().split('\n\n') if p.strip()]  # {personagem} só marca a voz
         assert len(paras) == len(S.SEG[seg]), (seg, len(paras), len(S.SEG[seg]))
         # tokens do roteiro com (parágrafo, frase)
         stoks = []
@@ -106,6 +106,14 @@ def plan(proj):
             cuts.append(p1)
             # palavras do parágrafo pra rótulos
             pw = [(norm(w), T0 + a) for k in keys if k[0] == pi for (w, a, b) in sentences[k]['words']]
+            # corte ancorado: extras 'at' = palavra em que o plano começa (ex.: o plano de quem fala entra na fala dele)
+            for j in range(1, n):
+                at = shots_p[j][4].get('at')
+                if at:
+                    hit = next((t for (w, t) in pw if w.startswith(norm(at)) and t > cuts[j - 1] + 0.5), None)
+                    if hit is not None: cuts[j] = hit - 0.08
+            for j in range(1, n):  # mantém a ordem
+                cuts[j] = min(max(cuts[j], cuts[j - 1] + 0.8), cuts[j + 1] - 0.8) if not shots_p[j][4].get('at') else cuts[j]
             for j, shot in enumerate(shots_p):
                 preset, lt, move, chars, ex = shot
                 st0, st1 = cuts[j], cuts[j + 1]

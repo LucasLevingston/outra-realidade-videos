@@ -40,6 +40,12 @@ python3 $E/hyperframes.py PROJ render OUT.mp4        # render HyperFrames (~2 mi
 No Short, o motor desenha só o mundo 3D, os personagens e a câmera; o HyperFrames compõe por cima tudo o que é texto. Conferir sempre a folha (`sheet`) e alguns quadros do MP4 final.
 Tempo: Short ≈ 5–8 min no total; longo de 28 min ≈ 1 h de render com 2 processos.
 
+## Vozes (uma por personagem, timbre fixo)
+- `engine/vozes/<voz>.wav` são as referências fixas (narrador, homem, mulher, mulher2, senhora, idoso, crianca). Criadas uma vez com `voz.py vozes`; **nunca regerar**.
+- Todo trecho clona a referência da sua voz → o timbre não muda entre trechos nem entre vídeos.
+- No roteiro, fala de personagem = `{nome} "texto"` (ex.: `{bia} "Amor, amanhã a gente sai às dez, né?"`). O nome segue `ELENCO` no `voz.py` (personagem → voz). Sem marcação = narrador.
+- No `scenes.py`, o plano de quem fala leva `'speaker': 'nome'` e `'at': 'palavra'` (o plano começa nessa palavra), para o personagem estar na tela durante a própria fala.
+
 ## scenes.py
 ```python
 import sys; sys.path.insert(0, 'REPO/engine/py')

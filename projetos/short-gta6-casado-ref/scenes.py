@@ -6,7 +6,8 @@ OVERLAYS = False   # textos ficam na camada HyperFrames
 PILL_TOP = 420     # o HUD do relógio ocupa o topo esquerdo
 KEYWORDS = ['gta', 'casado', 'feriadao', 'trinta', 'trigesimo', 'bia', 'amanha', 'some', 'rafa', 'catorze', 'testada', 'diferente',
             'louca', 'churrasco', 'liberadas', 'tocar', 'horinha', 'roteador', 'salvado', 'corredor', 'dez', 'missao', 'escolhe']
-BUBBLES = [('Amor, amanhã a gente sai às dez, né?', 'BIA', '#ff9f1c', '>Amor', 'né'),
+BUBBLES = [('Cê viu o Rafa? Ele não sai do quarto desde a meia-noite.', 'LU', '#9d7ad6', 'viu', 'meia'),
+           ('Amor, amanhã a gente sai às dez, né?', 'BIA', '#ff9f1c', '>Amor', 'né'),
            ('Comenta aí: A ou B?', 'VOCÊ', '#2f9e95', '>Comenta', '>B')]
 CARDS = {}
 ORDER = ['short']
@@ -24,18 +25,18 @@ SEG = {'short': [
  [('tw_win', 'N', 'pull', [], {'opts': {'lit': 0.95}, 'flash': 'Meia'}),
   ('tw_up', 'N', 'push', [], {'opts': {'lit': 0.95}})],
  [('lr_sofa', 'I', 'push', ['rafa@v:hold/sleepy+controller'], {'opts': RAFA_ROOM, 'fx': ['night']})],
- [('lr_sofa', 'I', 'drama', ['rafa@v:hold/worried+controller+sweat'], {'opts': RAFA_ROOM, 'fx': ['night']}),
-  ('lr_tv', 'I', 'push', [], {'opts': RAFA_ROOM, 'fx': ['night']})],
+ [('lr_sofa', 'I', 'drama', ['rafa@v:hold/talk+controller+sweat'], {'opts': RAFA_ROOM, 'fx': ['night'], 'speaker': 'rafa'}),
+  ('lr_tv', 'I', 'push', [], {'opts': RAFA_ROOM, 'fx': ['night'], 'at': 'Ninguém'})],
  [('k_sink', 'G', 'push', ['voce@1.3,-2.2:hip/proud', 'bia!@2.2,-2.6:cross/happy^-1,0'], {'flash': 'semana'}),
   ('k_sink', 'G', 'push', ['voce@1.3,-2.2:hold/happy', 'bia!@2.2,-2.6:cheek/surprise^-1,0'], {}),
   ('k_tv', 'G', 'orbit', ['voce@a:thumb/happy', 'cida!@3.3,-0.7:both_up/laugh^-1,0'], {'opts': {'tv': 'CHURRASCO SÁBADO'}})],
  [('lr_wide', 'ID', 'push', ['voce@v:hold/happy+controller+sunglasses'], {'opts': DAY_ROOM, 'flash': 'Quinta'}),
-  ('lr_sofa', 'ID', 'drama', ['voce@v:phone/surprise+phone'], {'opts': DAY_ROOM, 'shake': 'tocar'}),
-  ('k_window', 'ID', 'push', ['lu@a:phone/worried+phone^0.5,0'], {})],
+  ('lr_sofa', 'ID', 'drama', ['voce@v:phone/surprise+phone'], {'opts': DAY_ROOM, 'shake': 'tocar', 'at': 'Até'}),
+  ('k_window', 'ID', 'push', ['lu@a:phone/worried+phone^0.5,0'], {'speaker': 'lu', 'at': 'Era'})],
  [('lr_sofa', 'I', 'push', ['rafa@v:hold/happy+controller'], {'opts': RAFA_ROOM, 'fx': ['night']}),
   ('lr_tv', 'I', 'drama', [], {'opts': dict(RAFA_ROOM, screen='SEM CONEXÃO', prog=0.0), 'fx': ['night'], 'shake': 'salvado'})],
  [('lr_wide', 'I', 'push', ['voce@v:hold/neutral+controller'], {'opts': NIGHT_ROOM}),
-  ('lr_door', 'I', 'push', ['bia@h:hip/talk^-1,0'], {'opts': NIGHT_ROOM, 'speaker': 'bia'})],
+  ('lr_door', 'I', 'push', ['bia@h:hip/talk^-1,0'], {'opts': NIGHT_ROOM, 'speaker': 'bia', 'at': 'Uma'})],
  [('lr_clock', 'I', 'drama', [], {'opts': NIGHT_ROOM}),
   ('lr_tv', 'I', 'push', [], {'opts': NIGHT_ROOM})],
  # 3 PERGUNTA FINAL
