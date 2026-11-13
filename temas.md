@@ -23,7 +23,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | cancelado (rascunho no Metricool, a pedido) | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
 | ✅ | 96 | E se o exame de próstata tivesse torcida organizada? (ref: https://www.instagram.com/p/Dfk8saMSyPq/) | Cotidiano/humor | cancelado (rascunho no Metricool, a pedido) | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8909388736104647664) |
 | ✅ | 97 | 5 coisas pra nunca fazer no exame de próstata (roteiro do usuário, torcida do Vasco) | Cotidiano/humor | agendado | 2026-11-13 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3227097217940016815) |
-| ✅ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847) |
+| ✅ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | pronto (v2 com voz pausada, aguardando reagendar; v1 apagada pelo usuário) | — | — |
 
 ## Ideias (backlog, em ordem de prioridade)
 

@@ -6,23 +6,16 @@
       "tipo": "short",
       "titulo": "E se uma pílula te fizesse dobrar de tamanho todo dia? 💊📏",
       "texto": "O Gui tinha 1,50 m e odiava ser baixinho… até sonhar com uma pílula vermelha. 💊\nDia 2: campeão de basquete. Dia 8: maior que a Torre Eiffel. Dia 23: do tamanho da Terra.\nComenta aí: você tomaria a pílula? 👇\n\n#OutraRealidade #ESe #Gigante #Pilula #Baixinho #Basquete #Curiosidades #Animação #Shorts",
-      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante/video.mp4",
-      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante/thumb.jpg",
-      "branch": "upload-2026-11-13-pilula-gigante",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/thumb.jpg",
+      "branch": "upload-2026-11-13-pilula-gigante-v2",
       "criado_em": "2026-11-13T00:45:00-03:00",
-      "status": "agendado",
-      "agendado_para": "2026-11-13T18:00:00-03:00",
-      "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847",
-      "ultimo_erro": null,
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": "conector do Metricool fora do ar (502) em 13/11 ~11:40; versão v1 (voz corrida) agendada p/ 13/11 18:00 será apagada pelo usuário; reagendar esta v2 no próximo horário livre",
       "obs": "branch temporária não apagada (git push --delete recusado pelo proxy: remote end hung up); pode ser apagada à mão, o Metricool já copiou vídeo e capa",
-      "substituir_midia": {
-        "motivo": "voz refeita com cadência humana (pedido do usuário em 13/11)",
-        "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/video.mp4",
-        "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/thumb.jpg",
-        "branch": "upload-2026-11-13-pilula-gigante-v2",
-        "status": "pendente",
-        "ultimo_erro": "conector do Metricool fora do ar (503) às 14:20 de 13/11; o post das 18:00 ainda tem a voz antiga"
-      }
+      "plannerUrl_v1_apagar": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847"
     }
   ]
 }
