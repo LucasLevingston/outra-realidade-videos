@@ -23,12 +23,12 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | cancelado (rascunho no Metricool, a pedido) | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
 | ✅ | 96 | E se o exame de próstata tivesse torcida organizada? (ref: https://www.instagram.com/p/Dfk8saMSyPq/) | Cotidiano/humor | cancelado (rascunho no Metricool, a pedido) | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8909388736104647664) |
 | ✅ | 97 | 5 coisas pra nunca fazer no exame de próstata (roteiro do usuário, torcida do Vasco) | Cotidiano/humor | agendado | 2026-11-13 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3227097217940016815) |
+| ✅ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
 | ✓ | # | Tema | Categoria | Status |
 |---|---|---|---|---|
-| ⬜ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | pronto |
 | ⬜ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | ideia |
 | ⬜ | 100 | Como sobreviver casado ao feriadão do lançamento do GTA 6 — A ou B? (roteiro do usuário, `projetos/short-gta6-casado`) | Cotidiano/humor | ideia |
 | ⬜ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, `projetos/short-gta6-trabalho`) | Cotidiano/humor | ideia |
