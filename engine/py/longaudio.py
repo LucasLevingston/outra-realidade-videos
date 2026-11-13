@@ -15,6 +15,7 @@ def mid(n): return 440 * 2 ** ((n - 69) / 12)
 def add(buf, x, t0, g=1.0):
     i = int(t0 * SR)
     if i < 0: x = x[-i:]; i = 0
+    if i >= len(buf) or not len(x): return
     j = min(len(buf), i + len(x)); buf[i:j] += x[:j - i] * g
 
 MOODS = {

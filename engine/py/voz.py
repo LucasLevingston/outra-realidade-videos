@@ -4,7 +4,7 @@ texto no formato '(descrição)texto', cfg 2.0, 10 passos, max_len = 6 × caract
 
 uso:
   python3 voz.py setup                         # instala voxcpm, liga swap de 8 GB (o modelo precisa de ~9 GB de memória) e baixa o modelo
-  python3 voz.py PROJ seg1 [seg2 ...]          # lê PROJ/script/<seg>.txt (parágrafos viram uma fala só) e grava PROJ/audio/<seg>.wav (48 kHz mono)
+  python3 voz.py PROJ seg1 [seg2 ...]          # lê PROJ/script/<seg>.txt, gera por trechos (parágrafo, até 14 palavras) e junta com pausas de respiração -> PROJ/audio/<seg>.wav (48 kHz mono)
 
 Usa a placa de vídeo quando houver (CUDA ou Apple MPS). Na nuvem (2 CPUs, sem placa): ~6,5 s de processamento por segundo de áudio (Short de 30 s ≈ 3–4 min).
 Retomável: um segmento cujo .wav já existe é pulado.
@@ -57,8 +57,45 @@ def swap():
         print('swap não ligado:', e)
 
 
+# Cadência humana: o roteiro NÃO é gerado de uma vez (sai corrido, sem respiro e "robotizado") nem frase a frase
+# isolada (sai lento e arrastado, ~2,5 palavras/s). Cada parágrafo vira trechos de até ~MAX_PALAVRAS palavras
+# (cortados em fim de frase), gerados com a mesma semente e unidos com pausas de respiração.
+MAX_PALAVRAS = 14        # tamanho máximo de um trecho gerado de uma vez
+PAUSA_TRECHO = 0.34      # s entre trechos do mesmo parágrafo
+PAUSA_PARAGRAFO = 0.62   # s entre parágrafos (troca de ideia/bloco)
+RITMO = float(os.environ.get('VOZ_RITMO', '1.15'))  # atempo com tom preservado: os trechos curtos saem lentos (~2,3 palavras/s); 1,15 leva a ~2,6
+
+
+def frases(texto):
+    """Lista de (trecho, pausa_depois). Parágrafos separados por linha em branco."""
+    import re
+    paras = [' '.join(p.split()) for p in texto.split('\n\n') if p.strip()]
+    out = []
+    for pi, p in enumerate(paras):
+        sents = [x for x in re.split(r'(?<=[.!?…])\s+', p) if x.strip()]
+        trechos, buf = [], []
+        for x in sents:
+            if buf and len(' '.join(buf + [x]).split()) > MAX_PALAVRAS:
+                trechos.append(' '.join(buf)); buf = []
+            buf.append(x)
+        if buf: trechos.append(' '.join(buf))
+        for ti, t in enumerate(trechos):
+            ultimo = ti == len(trechos) - 1
+            pausa = (PAUSA_PARAGRAFO if pi < len(paras) - 1 else 0.0) if ultimo else PAUSA_TRECHO
+            out.append((t, pausa))
+    return out
+
+
+def aparar(w, sr=48000, lim=0.012):
+    import numpy as np
+    a = np.abs(w); idx = np.where(a > lim)[0]
+    if not len(idx): return w
+    i0 = max(0, idx[0] - int(0.03 * sr)); i1 = min(len(w), idx[-1] + int(0.12 * sr))
+    return w[i0:i1]
+
+
 def gerar(proj, segs):
-    import torch, soundfile as sf
+    import torch, soundfile as sf, numpy as np
     from voxcpm import VoxCPM
     swap(); torch.set_num_threads(os.cpu_count() or 2); dev = device(); print('voz: dispositivo', dev, flush=True)
     m = VoxCPM.from_pretrained('openbmb/VoxCPM2', load_denoiser=False, optimize=False, device=dev)
@@ -66,13 +103,22 @@ def gerar(proj, segs):
     for seg in segs:
         out = os.path.join(proj, 'audio', seg + '.wav')
         if os.path.exists(out): print('pula', seg); continue
-        txt = ' '.join(open(os.path.join(proj, 'script', seg + '.txt')).read().split())
-        torch.manual_seed(SEMENTE)
-        t0 = time.time()
-        w = m.generate(text=f'({DESCRICAO}){txt}', cfg_value=2.0, inference_timesteps=10, max_len=min(4096, max(256, len(txt) * 6)))
+        t0 = time.time(); partes = []
+        lista = frases(open(os.path.join(proj, 'script', seg + '.txt')).read())
+        for k, (txt, pausa) in enumerate(lista):
+            torch.manual_seed(SEMENTE)
+            fala = txt.replace('"', '').replace('“', '').replace('”', '')
+            w = m.generate(text=f'({DESCRICAO}){fala}', cfg_value=2.0, inference_timesteps=10, max_len=min(4096, max(256, len(txt) * 6)))
+            w = aparar(np.asarray(w, dtype=np.float32))
+            partes += [w, np.zeros(int(pausa * 48000), np.float32)]
+            print(f'  frase {k + 1}/{len(lista)}: {len(w) / 48000:.1f} s  {txt[:60]}', flush=True)
+        w = np.concatenate(partes)
         tmp = out + '.48k.wav'; sf.write(tmp, w, 48000)
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp, '-ar', '48000', '-ac', '1', out], check=True); os.remove(tmp)
-        print(seg, f'{len(w) / 48000:.1f} s de áudio em {time.time() - t0:.0f} s', flush=True)
+        af = ['-af', f'atempo={RITMO}'] if abs(RITMO - 1) > 0.001 else []
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', tmp] + af + ['-ar', '48000', '-ac', '1', out], check=True); os.remove(tmp)
+        dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', out], capture_output=True, text=True).stdout)
+        npal = sum(len(t.split()) for t, _ in lista)
+        print(seg, f'{dur:.1f} s de áudio ({npal / dur:.2f} palavras/s) em {time.time() - t0:.0f} s', flush=True)
 
 
 if __name__ == '__main__':

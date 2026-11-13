@@ -24,7 +24,7 @@ PROJ/
 ## Passo a passo
 ```bash
 E=REPO/engine/py
-python3 $E/voz.py PROJ short              # narração (VoiceStudio/VoxCPM2, semente fixa)
+python3 $E/voz.py PROJ short              # narração (VoxCPM2, semente fixa), por trechos de até 14 palavras + pausas de respiração, ritmo 1,15 → ~2,6 palavras/s
 python3 $E/words.py PROJ short            # tempos das palavras (whisper local)
 python3 $E/longform.py PROJ plan          # alinha roteiro↔áudio e monta a linha do tempo
 python3 $E/longform.py PROJ plates        # renderiza as placas 3D (≈3 s cada, retomável)

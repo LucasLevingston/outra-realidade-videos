@@ -14,7 +14,15 @@
       "agendado_para": "2026-11-13T18:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847",
       "ultimo_erro": null,
-      "obs": "branch temporária não apagada (git push --delete recusado pelo proxy: remote end hung up); pode ser apagada à mão, o Metricool já copiou vídeo e capa"
+      "obs": "branch temporária não apagada (git push --delete recusado pelo proxy: remote end hung up); pode ser apagada à mão, o Metricool já copiou vídeo e capa",
+      "substituir_midia": {
+        "motivo": "voz refeita com cadência humana (pedido do usuário em 13/11)",
+        "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/video.mp4",
+        "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante-v2/thumb.jpg",
+        "branch": "upload-2026-11-13-pilula-gigante-v2",
+        "status": "pendente",
+        "ultimo_erro": "conector do Metricool fora do ar (503) às 14:20 de 13/11; o post das 18:00 ainda tem a voz antiga"
+      }
     }
   ]
 }
