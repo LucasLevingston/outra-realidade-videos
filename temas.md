@@ -28,7 +28,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 
 | ✓ | # | Tema | Categoria | Status |
 |---|---|---|---|---|
-| ⬜ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | ideia |
+| ⬜ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | pronto |
 | ⬜ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | ideia |
 | ⬜ | 100 | Como sobreviver casado ao feriadão do lançamento do GTA 6 — A ou B? (roteiro do usuário, `projetos/short-gta6-casado`) | Cotidiano/humor | ideia |
 | ⬜ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, `projetos/short-gta6-trabalho`) | Cotidiano/humor | ideia |

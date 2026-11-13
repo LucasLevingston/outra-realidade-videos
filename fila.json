@@ -1,4 +1,19 @@
 {
   "_como_funciona": "Todo vídeo produzido entra aqui com status 'pronto' ANTES de agendar. Quem agenda (sessão de produção ou a tarefa das 11h) usa o próximo horário livre no Metricool (marca 8036081) e troca o status para 'agendado' com data, hora e plannerUrl. Se o agendamento falhar, o item fica 'pronto' com o erro em 'ultimo_erro' e a tarefa das 11h tenta de novo. Nunca apagar itens.",
-  "itens": []
+  "itens": [
+    {
+      "slug": "pilula-gigante",
+      "tipo": "short",
+      "titulo": "E se uma pílula te fizesse dobrar de tamanho todo dia? 💊📏",
+      "texto": "O Gui tinha 1,50 m e odiava ser baixinho… até sonhar com uma pílula vermelha. 💊\nDia 2: campeão de basquete. Dia 8: maior que a Torre Eiffel. Dia 23: do tamanho da Terra.\nComenta aí: você tomaria a pílula? 👇\n\n#OutraRealidade #ESe #Gigante #Pilula #Baixinho #Basquete #Curiosidades #Animação #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-13-pilula-gigante/thumb.jpg",
+      "branch": "upload-2026-11-13-pilula-gigante",
+      "criado_em": "2026-11-13T00:45:00-03:00",
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": null
+    }
+  ]
 }

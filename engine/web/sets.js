@@ -367,7 +367,8 @@ SETS.classroom = (o, L) => {
   plane(G, 12, 10, M(canvasTex('cfloor', 256, 256, P.planks('#c89a62', '#9a6e42'), 2, 3)), 0, 0, 0);
   const wall = M(canvasTex('cwall', 256, 256, P.plaster('#9fd6c8', '#86c0b2'), 3, 2));
   box(G, 12, 3.4, 0.2, wall, 0, 0, -5); box(G, 0.2, 3.4, 10, wall, -6, 0, 0); box(G, 0.2, 3.4, 10, wall, 6, 0, 0);
-  const board = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 1.6), M(canvasTex('lousa', 1024, 400, (g, w, h) => { g.fillStyle = '#2f5a46'; g.fillRect(0, 0, w, h); g.strokeStyle = '#8a5a30'; g.lineWidth = 24; g.strokeRect(0, 0, w, h);
+  const board = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 1.6), M(canvasTex('lousa' + (o.board || ''), 1024, 400, (g, w, h) => { g.fillStyle = '#2f5a46'; g.fillRect(0, 0, w, h); g.strokeStyle = '#8a5a30'; g.lineWidth = 24; g.strokeRect(0, 0, w, h);
+    if (o.board) { g.fillStyle = '#f4f4ea'; g.font = 'bold 80px sans-serif'; o.board.split('\n').forEach((ln, i) => g.fillText(ln, 60, 130 + i * 110)); return; }
     g.fillStyle = '#f4f4ea'; g.font = 'bold 90px sans-serif'; g.fillText('A LUA', 60, 140); g.strokeStyle = '#f4f4ea'; g.lineWidth = 8; for (let i = 0; i < 4; i++) { g.beginPath(); g.arc(560 + i * 120, 200, 46, 0, 7); g.stroke(); g.beginPath(); g.arc(560 + i * 120 + (i - 1.5) * 20, 200, 46, -1.57, 1.57, i < 2); g.fill(); } })));
   board.position.set(-1.5, 1.8, -4.88); G.add(board);
   const mural = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.6), M(canvasTex('mural', 512, 340, (g, w, h) => { g.fillStyle = '#f4e6c8'; g.fillRect(0, 0, w, h); g.fillStyle = '#d9483b'; g.font = 'bold 34px sans-serif'; g.fillText('COISAS QUE A', 20, 50); g.fillText('GENTE TINHA', 20, 92);

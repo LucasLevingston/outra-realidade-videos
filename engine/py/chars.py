@@ -40,6 +40,7 @@ CAST = {
     'v2': dict(skin='#c99068', shirt='#1d1d22', stripe='#1d1d22', sash='#ffffff', pants='#1d1d22', shoes='#ffffff', hair='#1a1a1a', beard=True, h=1.0),
     'v3': dict(skin='#8a5a3e', shirt='#ffffff', stripe='#ffffff', sash='#1d1d22', pants='#1d1d22', shoes='#1a1a1a', hair='#1a1a1a', spiky=True, h=0.96),
     'v4': dict(skin='#f4d8bc', shirt='#1d1d22', stripe='#1d1d22', sash='#ffffff', pants='#3d4a6a', shoes='#ffffff', hair='#5a3a22', pony=True, h=0.94),
+    'gui': dict(skin='#f0c09a', shirt='#e04848', stripe='#ffffff', pants='#2a3a6a', shoes='#ffd23f', hair='#2a1a10', spiky=True, h=0.8),
     'tecnico': dict(skin='#e8b48a', shirt='#ffffff', stripe='#1d1d2b', pants='#2a2a3a', shoes='#1a1a1a', hair='#9a9aa0', tie='#1d1d2b', h=1.0),
 }
 # poses de braço: lista de pontos (ombro, cotovelo, mão) no canvas 600x1000
@@ -135,6 +136,10 @@ def draw(d, C, arms, face, look, extra):
     if 'tablet' in extra: d.rr(256, 600, 344, 680, 10, hx('#22222e'), w=6)
     if 'paper' in extra: d.rr(270, 600, 340, 690, 4, hx('#fffdf2'), w=5)
     if 'icecream' in extra: d.poly([(512, 480), (548, 480), (530, 540)], hx('#e8b060'), w=5); d.ell(530, 466, 22, 20, hx('#ff9ac0'), w=5)
+    if 'pill' in extra: d.rr(236, 596, 364, 652, 28, hx('#ffffff'), w=7); d.rr(300, 596, 364, 652, 28, hx('#e83a3a'), w=7); d.line([(300, 600), (300, 648)], OL, 6)
+    if 'ball' in extra:
+        d.ell(300, 600, 52, 52, hx('#f08a2c'), w=7); d.line([(248, 600), (352, 600)], OL, 5); d.line([(300, 548), (300, 652)], OL, 5)
+        d.arc(262, 600, 26, 44, 270, 90, OL, 5); d.arc(338, 600, 26, 44, 90, 270, OL, 5)
     if 'sign' in extra:
         from PIL import ImageFont
         d.rr(170, 560, 430, 680, 12, hx('#fff4d6'), w=7)

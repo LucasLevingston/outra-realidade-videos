@@ -124,13 +124,15 @@ def plate_spec(S, preset, light, opts):
     return spec
 
 def parse_char(s, slots):
-    m = re.match(r'(\w+)(!?)@([\w.,\-]+):(\w+)/(\w+)(\^[-\d.]+,[-\d.]+)?((?:\+\w+)*)', s)
-    name, flip, slot, arms, face, look, extra = m.groups()
+    m = re.match(r'(\w+)(!?)@([\w.,\-]+):(\w+)/(\w+)(\^[-\d.]+,[-\d.]+)?((?:\+\w+)*)(\*[\d.]+)?', s)
+    name, flip, slot, arms, face, look, extra, scl = m.groups()
     if slot in slots: x, z = slots[slot]
     else: x, z = map(float, slot.split(','))
     lk = tuple(map(float, look[1:].split(','))) if look else (0, 0)
     ex = tuple(e for e in extra.split('+') if e)
-    return dict(name=name, flip=bool(flip), x=x, z=z, arms=arms, face=face, look=lk, extra=ex)
+    d = dict(name=name, flip=bool(flip), x=x, z=z, arms=arms, face=face, look=lk, extra=ex)
+    if scl: d['scale'] = float(scl[1:])
+    return d
 
 def build_scenes(proj):
     S = load_scenes(proj); P = json.load(open(os.path.join(proj, 'plan.json')))
