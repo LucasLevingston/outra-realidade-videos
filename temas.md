@@ -16,13 +16,13 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 1 | E se os humanos desaparecessem por 24 horas? | Realidade alternativa | criado | — | — |
 | ✅ | 2 | E se o Neymar tivesse sido titular contra a Noruega? | Esporte | criado | — | — |
 | ✅ | 23 | E se Messi e Cristiano Ronaldo não tivessem existido? | Esporte | criado | — | — |
-| ✅ | 24 | E se você tivesse padrinhos mágicos? | Realidade alternativa | agendado | 2026-11-13 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5906348805063163780) |
-| ✅ | 3 | E se a Lua desaparecesse durante uma noite? | Universo | agendado | 2026-11-14 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4779809927200422861) |
-| ✅ | 25 | E se você acordasse e fosse a última pessoa da Terra? | Sobrevivência | agendado | 2026-11-15 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-1304042343711881404) |
+| ✅ | 24 | E se você tivesse padrinhos mágicos? | Realidade alternativa | cancelado (rascunho no Metricool, a pedido) | 2026-11-13 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5906348805063163780) |
+| ✅ | 3 | E se a Lua desaparecesse durante uma noite? | Universo | cancelado (rascunho no Metricool, a pedido) (o longo da Lua de 12/11 continua) | 2026-11-14 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4779809927200422861) |
+| ✅ | 25 | E se você acordasse e fosse a última pessoa da Terra? | Sobrevivência | agendado | 2026-11-13 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-1304042343711881404) |
 | ✅ | 26 | E se o Neymar voltasse pro Santos e ganhasse a Copa do Mundo? | Esporte | agendado | 2026-11-12 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=7021959763611501496) |
-| ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
+| ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | cancelado (rascunho no Metricool, a pedido) | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
 | ✅ | 96 | E se o exame de próstata tivesse torcida organizada? (ref: https://www.instagram.com/p/Dfk8saMSyPq/) | Cotidiano/humor | cancelado (rascunho no Metricool, a pedido) | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8909388736104647664) |
-| ✅ | 97 | 5 coisas pra nunca fazer no exame de próstata (roteiro do usuário, torcida do Vasco) | Cotidiano/humor | agendado | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3227097217940016815) |
+| ✅ | 97 | 5 coisas pra nunca fazer no exame de próstata (roteiro do usuário, torcida do Vasco) | Cotidiano/humor | agendado | 2026-11-13 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3227097217940016815) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
