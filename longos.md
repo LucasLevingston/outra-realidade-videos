@@ -19,6 +19,12 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 | ✓ | # | Tema | Short ligado | Capítulos sugeridos | Status |
 |---|---|---|---|---|---|
 | ⬜ | L19 | E se você voltasse pra 2004 com uma IA no celular? (**próximo: 15/11 18:00**, roteiro de referência do usuário em `projetos/longo-2004-ia/REFERENCIA.md`, seguir obrigatoriamente) | — | O dia em que voltou · A loja de bolo da Dona Cida · O técnico do bairro · A cidade inteira | ideia |
+| ⬜ | L20 | E se a sua beleza dobrasse todo dia? (roteiro de referência do usuário em `projetos/longo-beleza-dobra/REFERENCIA.md`, seguir obrigatoriamente) | — | Dia 0, o menino invisível · Dias 1 a 4, a nota sobe · Dias 5 e 6, acima de 10 · O que não dobra | ideia |
+| ⬜ | L21 | E se você fosse o último homem da Terra? (roteiro de referência do usuário em `projetos/longo-ultimo-homem/REFERENCIA.md`, seguir obrigatoriamente) | — | A conta · O homem mais famoso da história · A disputa · Dispensado | ideia |
+| ⬜ | L22 | E se você ouvisse o que toda menina pensa de você? (roteiro de referência do usuário em `projetos/longo-ouvir-pensamentos/REFERENCIA.md`, seguir obrigatoriamente) | — | Dias 1 a 3, a descoberta · A personalidade perfeita e o encontro · O barulho e o vídeo viral · O silêncio | ideia |
+| ⬜ | L23 | E se você fosse imortal? (roteiro de referência do usuário em `projetos/longo-imortal/REFERENCIA.md`, seguir obrigatoriamente) | — | O começo incrível · Todo mundo envelhece · Os cadernos e a Clara · O incêndio e os mil anos | ideia |
+| ⬜ | L24 | E se o seu pulo dobrasse todo dia? (roteiro de referência do usuário em `projetos/longo-pulo-dobra/REFERENCIA.md`, seguir obrigatoriamente) | — | Dias 0 a 2 · Dias 3 e 4 · Dia 5, debaixo d'água · Dia 6, o trampolim | ideia |
+| ⬜ | L25 | E se o seu QI dobrasse todo dia? (roteiro de referência do usuário em `projetos/longo-qi-dobra/REFERENCIA.md`, seguir obrigatoriamente) | — | Dias 0 a 3 · Dias 4 a 6 · Dias 7 e 8 · Dias 9 e 10 | ideia |
 | ⬜ | L2 | E se você fosse a última pessoa da Terra? | #25 | Acordar sozinho · A primeira semana · A cidade sem gente · Energia e comida · A natureza volta · O sinal · Um ano depois | ideia |
 | ⬜ | L3 | E se os humanos desaparecessem por 24 horas? | #1 | Hora 0 · Aviões e trânsito · Usinas e cidades · Os animais · Hora 12 · Hora 23 · A volta | ideia |
 | ⬜ | L4 | E se você tivesse que sobreviver 100 dias num bunker? | #30 | A porta fecha · Dia 1 a 10 · A comida acaba · O barulho lá fora · Dia 50 · A decisão · Dia 100 | ideia |
