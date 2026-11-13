@@ -18,6 +18,7 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 
 | ✓ | # | Tema | Short ligado | Capítulos sugeridos | Status |
 |---|---|---|---|---|---|
+| ⬜ | L19 | E se você voltasse pra 2004 com uma IA no celular? (**próximo: 15/11 18:00**, roteiro de referência do usuário em `projetos/longo-2004-ia/REFERENCIA.md`, seguir obrigatoriamente) | — | O dia em que voltou · A loja de bolo da Dona Cida · O técnico do bairro · A cidade inteira | ideia |
 | ⬜ | L2 | E se você fosse a última pessoa da Terra? | #25 | Acordar sozinho · A primeira semana · A cidade sem gente · Energia e comida · A natureza volta · O sinal · Um ano depois | ideia |
 | ⬜ | L3 | E se os humanos desaparecessem por 24 horas? | #1 | Hora 0 · Aviões e trânsito · Usinas e cidades · Os animais · Hora 12 · Hora 23 · A volta | ideia |
 | ⬜ | L4 | E se você tivesse que sobreviver 100 dias num bunker? | #30 | A porta fecha · Dia 1 a 10 · A comida acaba · O barulho lá fora · Dia 50 · A decisão · Dia 100 | ideia |
