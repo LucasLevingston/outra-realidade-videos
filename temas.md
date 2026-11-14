@@ -23,7 +23,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 27 | E se você descobrisse que sua vida é uma simulação? | Realidade alternativa | cancelado (rascunho no Metricool, a pedido) | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6551789525586624739) |
 | ✅ | 96 | E se o exame de próstata tivesse torcida organizada? (ref: https://www.instagram.com/p/Dfk8saMSyPq/) | Cotidiano/humor | cancelado (rascunho no Metricool, a pedido) | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8909388736104647664) |
 | ✅ | 97 | 5 coisas pra nunca fazer no exame de próstata (roteiro do usuário, torcida do Vasco) | Cotidiano/humor | agendado | 2026-11-13 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3227097217940016815) |
-| ✅ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | pronto (v2 com voz pausada, aguardando reagendar; v1 apagada pelo usuário) | — | — |
+| ✅ | 98 | A pílula que fazia o Gui dobrar de tamanho todo dia (roteiro do usuário, `projetos/short-pilula-gigante`) | Realidade alternativa | agendado (v2 com voz pausada) | 2026-11-14 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-5346849124629724826) |
 | ✅ | 100 | E se o GTA 6 lançar e você for casado? A ou B (ref: https://www.youtube.com/shorts/56c8c2nRsF4, `projetos/short-gta6-casado-ref`) | Cotidiano/humor | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=4571765839384297955) |
 | ✅ | 28 | E se você recebesse R$ 1 milhão todo mês? (`projetos/short-milhao-mes`) | Dinheiro | agendado | 2026-11-14 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=5672164890864600142) |
 
@@ -36,7 +36,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
 | ⬜ | 15 | E se o Sol se apagasse? | Universo | ideia |
-| ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | ideia |
+| ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | em produção (sessão B 14/11 02:45) |
 | ⬜ | 30 | E se você tivesse que sobreviver 100 dias num bunker? | Sobrevivência | ideia |
 | ⬜ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? | Esporte | ideia |
 | ⬜ | 32 | E se você pudesse voltar aos 18 anos com tudo que sabe hoje? | Realidade alternativa | ideia |
