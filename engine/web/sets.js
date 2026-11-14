@@ -380,6 +380,74 @@ SETS.classroom = (o, L) => {
   return G;
 };
 
+
+// Quarto/sala/lan house de 2004: mesa com computador de tubo, pilha de CD, pôster, calendário. opts:
+// screen (texto da tela), scr ('desktop'|'site'|'app'|'dial'|'slides'|'chat'), cal ('MARÇO\n2004'), lan (fileira de PCs + placa), bed, wall (cor), poster
+function pcTex(kind, text) {
+  return canvasTex('pc' + kind + text, 512, 384, (g, w, h) => {
+    const txt = (s, x, y, sz, c, al = 'left') => { g.fillStyle = c; g.font = 'bold ' + sz + 'px sans-serif'; g.textAlign = al; g.fillText(s, x, y); };
+    if (kind === 'site') { g.fillStyle = '#fff6f9'; g.fillRect(0, 0, w, h); g.fillStyle = '#e86a8a'; g.fillRect(0, 0, w, 78); txt(text || 'BOLOS DA DONA CIDA', w / 2, 52, 34, '#fff', 'center');
+      const cs = ['#f0a040', '#e8d070', '#f4f0e0']; for (let i = 0; i < 3; i++) { const x = 24 + i * 162; g.fillStyle = '#ffffff'; g.fillRect(x, 100, 140, 190); g.strokeStyle = '#e86a8a'; g.lineWidth = 4; g.strokeRect(x, 100, 140, 190);
+        g.fillStyle = cs[i]; g.beginPath(); g.ellipse(x + 70, 170, 50, 32, 0, 0, 7); g.fill(); g.fillStyle = '#e86a8a'; g.fillRect(x + 20, 240, 100, 34); txt('PEDIR', x + 70, 265, 22, '#fff', 'center'); }
+      txt('CARRINHO · CARTÃO · ENTREGA', w / 2, 340, 24, '#7a3a50', 'center'); return; }
+    if (kind === 'app') { g.fillStyle = '#f2f4f8'; g.fillRect(0, 0, w, h); g.fillStyle = '#2f9e4a'; g.fillRect(0, 0, w, 70); txt(text || 'CONSERTOS DO BETO', w / 2, 48, 32, '#fff', 'center');
+      const cols = ['#4fbf5a', '#ffc83a', '#e04848', '#4fbf5a', '#ffc83a', '#4fbf5a']; for (let i = 0; i < 6; i++) { const y = 90 + i * 48; g.fillStyle = '#fff'; g.fillRect(20, y, w - 40, 40);
+        g.fillStyle = cols[i]; g.beginPath(); g.arc(46, y + 20, 12, 0, 7); g.fill(); g.fillStyle = '#9aa0b0'; g.fillRect(72, y + 12, 200 - i * 14, 16); g.fillRect(310, y + 12, 140, 16); } return; }
+    if (kind === 'dial') { g.fillStyle = '#0a0a12'; g.fillRect(0, 0, w, h); txt(text || 'CONECTANDO... 56K', 30, 120, 34, '#5fe0a0'); txt('▓▓▓▓▓▓░░░░░░', 30, 200, 40, '#5fe0a0'); return; }
+    if (kind === 'slides') { g.fillStyle = '#1d3a8a'; g.fillRect(0, 0, w, h); txt(text || 'REGIÕES DO BRASIL', w / 2, 60, 32, '#ffd23f', 'center');
+      const rc = ['#5cbf6a', '#ffd23f', '#ff9f1c', '#e04848', '#9d7ad6']; for (let i = 0; i < 5; i++) { g.fillStyle = rc[i]; g.fillRect(40 + i * 90, 300 - (60 + i * 30 % 120), 60, 60 + i * 30 % 120); } return; }
+    if (kind === 'chat') { g.fillStyle = '#14161f'; g.fillRect(0, 0, w, h); g.fillStyle = '#2a8a6a'; g.fillRect(150, 40, 330, 60); txt('me leva pra casa', 170, 80, 26, '#fff');
+      g.fillStyle = '#2a2e3e'; g.fillRect(30, 130, 330, 90); txt(text || 'Feito. ✓', 50, 180, 28, '#ffd23f'); return; }
+    // desktop
+    const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#3a7ad6'); gr.addColorStop(1, '#5aa0e8'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#5cbf6a'; g.beginPath(); g.ellipse(w * 0.5, h * 1.05, w * 0.8, h * 0.35, 0, 0, 7); g.fill();
+    for (let i = 0; i < 4; i++) { g.fillStyle = '#ffd23f'; g.fillRect(20, 20 + i * 70, 44, 40); }
+    g.fillStyle = '#2a4aa0'; g.fillRect(0, h - 34, w, 34); g.fillStyle = '#3fae4a'; g.fillRect(0, h - 34, 110, 34); txt('iniciar', 14, h - 10, 22, '#fff');
+    if (text) txt(text, w / 2, h / 2, 36, '#fff', 'center');
+    g.fillStyle = '#fff'; g.strokeStyle = '#000'; g.lineWidth = 3; g.beginPath(); g.moveTo(330, 150); g.lineTo(330, 200); g.lineTo(342, 188); g.lineTo(354, 212); g.lineTo(362, 208); g.lineTo(350, 184); g.lineTo(366, 184); g.closePath(); g.fill(); g.stroke();
+  });
+}
+function crt(G, x, z, kind, text, glowOn, ry = 0) {
+  const g = new THREE.Group();
+  box(g, 1.3, 0.06, 0.7, M('#c48a52'), 0, 0.74, 0); for (const [dx, dz] of [[-0.6, -0.3], [0.6, -0.3], [-0.6, 0.3], [0.6, 0.3]]) box(g, 0.06, 0.74, 0.06, M('#8a5a30'), dx, 0, dz);
+  box(g, 0.62, 0.52, 0.55, M('#e6dcc4'), 0, 0.8, -0.08); box(g, 0.4, 0.34, 0.3, M('#d8ccb0'), 0, 0.92, -0.45);
+  const s = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.38), new THREE.MeshBasicMaterial({ map: pcTex(kind, text), fog: false })); s.position.set(0, 1.06, 0.2); g.add(s);
+  box(g, 0.56, 0.03, 0.18, M('#d8ccb0'), 0, 0.8, 0.3); box(g, 0.08, 0.03, 0.12, M('#d8ccb0'), 0.42, 0.8, 0.3);
+  box(g, 0.2, 0.42, 0.5, M('#e6dcc4'), -0.5, 0.8, -0.05);
+  g.position.set(x, 0, z); g.rotation.y = ry; G.add(g);
+  if (glowOn) { const pl = new THREE.PointLight('#9fd0ff', 2.5, 3, 1.6); pl.position.set(x, 1.1, z + 0.7); G.add(pl); }
+  return g;
+}
+SETS.pc2004 = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L) || L.name === 'interior';
+  plane(G, 10, 8, M(canvasTex('pcfloor' + (o.lan ? 'L' : ''), 256, 256, o.lan ? P.checker('#8a8aa0', '#b8b8c8', 8) : P.planks('#b88a58', '#8a5a30'), 3, 3)), 0, 0, 0);
+  const wc = o.wall || (o.lan ? '#5a6ab0' : '#e9c27a');
+  const wall = M(canvasTex('pcwall' + wc, 256, 256, P.plaster(wc, shade(wc, -16)), 3, 2));
+  box(G, 10, 3.4, 0.2, wall, 0, 0, -3.5); box(G, 0.2, 3.4, 8, wall, -4.5, 0, 0); box(G, 0.2, 3.4, 8, wall, 4.5, 0, 0);
+  plane(G, 10, 8, M('#f4e6cc'), 0, 3.4, 0, Math.PI / 2);
+  const win = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.1), new THREE.MeshBasicMaterial({ color: night ? '#141a52' : '#9fd6ff', fog: false })); win.position.set(-2.6, 1.9, -3.38); G.add(win);
+  for (const [w, h, x, y] of [[1.6, 0.08, -2.6, 1.3], [1.6, 0.08, -2.6, 2.46], [0.08, 1.2, -3.4, 1.3], [0.08, 1.2, -1.8, 1.3]]) box(G, w, h, 0.1, M('#ffffff'), x, y, -3.36);
+  if (o.lan) {
+    for (let i = 0; i < 4; i++) crt(G, -3.0 + i * 1.6, -2.7, i === 1 ? 'dial' : 'desktop', '', night);
+    const sg = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.6), M(signTex(o.sign || 'LAN HOUSE DO BETO\nR$ 1,50 A HORA', '#ffd23f', '#1d1d2b', 1024, 200))); sg.position.set(0.2, 2.85, -3.38); G.add(sg);
+    box(G, 1.6, 1.8, 0.5, M('#7a5a3a'), 3.4, 0, -1.2); srand(4); for (let i = 0; i < 6; i++) box(G, 0.4, 0.3, 0.4, M(pick(['#e6dcc4', '#9aa0b0', '#3a3a4e'])), 3.0 + (i % 3) * 0.42, 0.25 + Math.floor(i / 3) * 0.8, -1.2);
+  } else {
+    crt(G, 1.2, -2.85, o.scr || 'desktop', o.screen || '', night);
+    srand(8); for (let i = 0; i < 7; i++) cyl(G, 0.13, 0.13, 0.012, M(pick(['#e8e8f0', '#d0d4e0', '#ffd23f'])), 1.74, 0.8 + i * 0.016, -3.05, 20);
+    const pst = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.25), M(canvasTex('poster' + (o.poster || ''), 256, 360, (g, w, h) => { g.fillStyle = '#1d1d2b'; g.fillRect(0, 0, w, h); g.fillStyle = '#e04848'; g.font = 'bold 54px sans-serif'; g.textAlign = 'center'; g.fillText(o.poster || 'ROCK', w / 2, 70);
+      g.fillStyle = '#ffd23f'; for (let i = 0; i < 4; i++) { g.beginPath(); g.arc(50 + i * 52, 230, 22, 0, 7); g.fill(); } g.fillStyle = '#fff'; g.font = 'bold 30px sans-serif'; g.fillText('AO VIVO', w / 2, 320); })));
+    pst.position.set(-0.8, 1.9, -3.38); G.add(pst);
+    if (o.bed) { box(G, 1.2, 0.45, 2.2, M('#f2ece0'), -3.5, 0, -1.2); box(G, 1.25, 0.1, 2.25, M('#3a8dde'), -3.5, 0.45, -1.2); box(G, 0.9, 0.18, 0.5, M('#ffffff'), -3.5, 0.55, -2.0); }
+  }
+  if (o.cal !== false) { const cal = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.75), M(canvasTex('cal' + (o.cal || ''), 256, 320, (g, w, h) => { g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h); g.fillStyle = '#d42a2a'; g.fillRect(0, 0, w, 120);
+      g.fillStyle = '#fff'; g.font = 'bold 46px sans-serif'; g.textAlign = 'center'; const ls = (o.cal || 'MARÇO\n2004').split('\n'); ls.forEach((l, i) => g.fillText(l, w / 2, 52 + i * 52));
+      g.fillStyle = '#9aa0b0'; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) g.fillRect(16 + c * 40, 140 + r * 42, 30, 30); })));
+    cal.position.set(3.0, 1.9, -3.38); G.add(cal); }
+  const pl = new THREE.PointLight(night ? '#ffd9a0' : '#fff4e0', night ? 6 : 8, 10, 1.4); pl.position.set(0, 2.8, 0.5); G.add(pl);
+  if (night) glow(G, 'rgba(160,200,255,0.35)', 1.2, 1.1, -2.4, 1.2);
+  return G;
+};
+
 // Quarto do Caio (cap. 7)
 SETS.bedroom = (o, L) => {
   const G = new THREE.Group(); const night = isNight(L);

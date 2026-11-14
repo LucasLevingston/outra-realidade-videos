@@ -13,13 +13,13 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 | ✓ | # | Tema | Short ligado | Status | Data (BRT) | Planner |
 |---|---|---|---|---|---|---|
 | ✅ | L1 | E se a Lua desaparecesse para sempre? (28:03, estilo 3D+2D) | #3 | agendado | 2026-11-12 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6756396973424096304) |
+| ✅ | L19 | E se você voltasse pra 2004 com uma IA no celular? (11:10, estilo 3D+2D, cenário novo `pc2004`) | — | agendado | 2026-11-15 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-3091445263693560452) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
 | ✓ | # | Tema | Short ligado | Capítulos sugeridos | Status |
 |---|---|---|---|---|---|
-| ⬜ | L19 | E se você voltasse pra 2004 com uma IA no celular? (**próximo: 15/11 18:00**, roteiro de referência do usuário em `projetos/longo-2004-ia/REFERENCIA.md`, seguir obrigatoriamente) | — | O dia em que voltou · A loja de bolo da Dona Cida · O técnico do bairro · A cidade inteira | ideia |
-| ⬜ | L20 | E se a sua beleza dobrasse todo dia? (roteiro de referência do usuário em `projetos/longo-beleza-dobra/REFERENCIA.md`, seguir obrigatoriamente) | — | Dia 0, o menino invisível · Dias 1 a 4, a nota sobe · Dias 5 e 6, acima de 10 · O que não dobra | ideia |
+| ⬜ | L20 | E se a sua beleza dobrasse todo dia? (**próximo: 18/11 18:00**, roteiro de referência do usuário em `projetos/longo-beleza-dobra/REFERENCIA.md`, seguir obrigatoriamente) | — | Dia 0, o menino invisível · Dias 1 a 4, a nota sobe · Dias 5 e 6, acima de 10 · O que não dobra | ideia |
 | ⬜ | L21 | E se você fosse o último homem da Terra? (roteiro de referência do usuário em `projetos/longo-ultimo-homem/REFERENCIA.md`, seguir obrigatoriamente) | — | A conta · O homem mais famoso da história · A disputa · Dispensado | ideia |
 | ⬜ | L22 | E se você ouvisse o que toda menina pensa de você? (roteiro de referência do usuário em `projetos/longo-ouvir-pensamentos/REFERENCIA.md`, seguir obrigatoriamente) | — | Dias 1 a 3, a descoberta · A personalidade perfeita e o encontro · O barulho e o vídeo viral · O silêncio | ideia |
 | ⬜ | L23 | E se você fosse imortal? (roteiro de referência do usuário em `projetos/longo-imortal/REFERENCIA.md`, seguir obrigatoriamente) | — | O começo incrível · Todo mundo envelhece · Os cadernos e a Clara · O incêndio e os mil anos | ideia |
