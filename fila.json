@@ -43,7 +43,7 @@
       "status": "agendado",
       "agendado_para": "2026-11-14T18:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3112750305140163313",
-      "ultimo_erro": null
+      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-14-videogame NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
     }
   ]
 }
