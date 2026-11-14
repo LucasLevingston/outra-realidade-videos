@@ -30,6 +30,20 @@
       "agendado_para": "2026-11-14T15:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=5672164890864600142",
       "ultimo_erro": "agendado ok; branch temporária upload-2026-11-14-milhao-mes NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
+    },
+    {
+      "slug": "videogame",
+      "tipo": "short",
+      "titulo": "E se você fosse o único humano dentro de um videogame? 🎮🪙",
+      "texto": "E se você acordasse dentro de um videogame… e fosse o único humano lá dentro? 🎮\nO Caio ganhou barra de vida, moeda chutando lixeira, checkpoint na porta de casa… e uma missão no céu: derrotar o chefão de 30 metros.\nComenta aí: você saía do jogo ou ficava? 👇\n\n#OutraRealidade #ESe #Videogame #Games #Gamer #NPC #Curiosidades #Animação #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-14-videogame/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-14-videogame/thumb.jpg",
+      "branch": "upload-2026-11-14-videogame",
+      "criado_em": "2026-11-14T03:20:00-03:00",
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": null
     }
   ]
 }

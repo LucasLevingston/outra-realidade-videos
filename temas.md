@@ -36,7 +36,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
 | ⬜ | 15 | E se o Sol se apagasse? | Universo | ideia |
-| ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | em produção (sessão B 14/11 02:45) |
+| ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | pronto (`projetos/short-videogame`) |
 | ⬜ | 30 | E se você tivesse que sobreviver 100 dias num bunker? | Sobrevivência | ideia |
 | ⬜ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? | Esporte | ideia |
 | ⬜ | 32 | E se você pudesse voltar aos 18 anos com tudo que sabe hoje? | Realidade alternativa | ideia |
