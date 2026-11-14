@@ -34,7 +34,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ⬜ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, `projetos/short-gta6-trabalho`) | Cotidiano/humor | ideia |
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
-| ⬜ | 28 | E se você recebesse R$ 1 milhão todo mês? | Dinheiro | ideia |
+| ⬜ | 28 | E se você recebesse R$ 1 milhão todo mês? (`projetos/short-milhao-mes`) | Dinheiro | pronto |
 | ⬜ | 15 | E se o Sol se apagasse? | Universo | ideia |
 | ⬜ | 29 | E se você fosse o único humano dentro de um videogame? | Universos fictícios | ideia |
 | ⬜ | 30 | E se você tivesse que sobreviver 100 dias num bunker? | Sobrevivência | ideia |

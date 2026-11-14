@@ -16,6 +16,20 @@
       "ultimo_erro": "conector do Metricool fora do ar (502) em 13/11 ~11:40; versão v1 (voz corrida) agendada p/ 13/11 18:00 será apagada pelo usuário; reagendar esta v2 no próximo horário livre",
       "obs": "branch temporária não apagada (git push --delete recusado pelo proxy: remote end hung up); pode ser apagada à mão, o Metricool já copiou vídeo e capa",
       "plannerUrl_v1_apagar": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2642455100511664847"
+    },
+    {
+      "slug": "milhao-mes",
+      "tipo": "short",
+      "titulo": "E se caísse R$ 1 milhão na sua conta todo mês? 💸🏦",
+      "texto": "E se caísse R$ 1 milhão na sua conta todo mês, pra sempre? 💸\nO Beto quitou as dívidas da família, comprou o prédio inteiro e virou dono de um estádio… e a fila de primos só cresce.\nComenta aí: o que você faria com o primeiro milhão? 👇\n\n#OutraRealidade #ESe #Milhao #Dinheiro #Rico #Loteria #Curiosidades #Animação #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-14-milhao-mes/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-14-milhao-mes/thumb.jpg",
+      "branch": "upload-2026-11-14-milhao-mes",
+      "criado_em": "2026-11-14T00:30:00-03:00",
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": null
     }
   ]
 }
