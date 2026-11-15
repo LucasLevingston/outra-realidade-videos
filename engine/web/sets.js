@@ -628,6 +628,59 @@ SETS.livingroom = (o, L) => {
 };
 
 // Prédio residencial à noite (janelas acesas). opts: lit (0..1)
+// banheiro com janela pro vizinho (cortina em etapas: none, nailed, rings, gap, wide, silhouette, blackout)
+SETS.bath = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L); const cur = o.curtain || 'none';
+  const tile = M(canvasTex('btile', 256, 256, P.checker('#cdeef2', '#b4e0e8', 8), 4, 2));
+  plane(G, 7, 7, M(canvasTex('bfl', 256, 256, P.checker('#ffffff', '#7fc7d9', 6), 3, 3)), 0, 0, 0);
+  // parede do fundo com o vão da janela (x -0.8..0.8, y 1.2..2.4)
+  box(G, 2.2, 3, 0.2, tile, -1.9, 0, -3.5); box(G, 2.2, 3, 0.2, tile, 1.9, 0, -3.5);
+  box(G, 1.6, 1.2, 0.2, tile, 0, 0, -3.5); box(G, 1.6, 0.6, 0.2, tile, 0, 2.4, -3.5);
+  box(G, 0.2, 3, 7, tile, -3, 0, 0); box(G, 0.2, 3, 7, tile, 3, 0, 0);
+  const roof = mesh(new THREE.BoxGeometry(6.4, 0.3, 7.4), M('#f4f1e6'), 0, 3.15, 0, 0, false); G.add(roof);
+  // moldura branca
+  box(G, 1.8, 0.1, 0.3, M('#ffffff'), 0, 1.12, -3.45); box(G, 1.8, 0.1, 0.3, M('#ffffff'), 0, 2.4, -3.45);
+  box(G, 0.1, 1.3, 0.3, M('#ffffff'), -0.85, 1.12, -3.45); box(G, 0.1, 1.3, 0.3, M('#ffffff'), 0.85, 1.12, -3.45);
+  // chuveiro
+  cyl(G, 0.025, 0.025, 0.5, M('#b8bcc8'), 1.4, 2.2, -3.38, 8); box(G, 0.04, 0.04, 0.45, M('#b8bcc8'), 1.4, 2.68, -3.18);
+  const sh = cyl(G, 0.16, 0.1, 0.06, M('#d8dce6'), 1.4, 2.6, -2.95, 16);
+  if (o.water !== false && cur !== 'silhouette') { srand(13); for (let i = 0; i < 26; i++) { const d = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.14, 4), new THREE.MeshBasicMaterial({ color: '#bfe8ff', transparent: true, opacity: 0.8 })); d.position.set(1.4 + (rnd() - 0.5) * 0.5, 0.5 + rnd() * 2.0, -2.95 + (rnd() - 0.5) * 0.5); d.userData.noInk = true; G.add(d); } }
+  box(G, 1.4, 0.06, 1.4, M('#e9edf2'), 1.4, 0, -2.7); // piso do box
+  // pia + espelho + toalha na parede esquerda
+  box(G, 0.6, 0.8, 0.5, M('#ffffff'), -2.6, 0, -1.2); box(G, 0.04, 0.7, 0.9, M('#bfe8ff'), -2.88, 1.3, -1.2);
+  box(G, 0.06, 0.06, 0.8, M('#b8bcc8'), -2.88, 1.9, 0.3); box(G, 0.04, 0.7, 0.6, M('#e04848'), -2.86, 1.25, 0.3);
+  box(G, 0.5, 0.45, 0.6, M('#ffffff'), -2.5, 0, -2.6); box(G, 0.5, 0.5, 0.2, M('#ffffff'), -2.5, 0.45, -2.85);
+  // casa do vizinho lá fora
+  plane(G, 40, 14, M(canvasTex('grass', 256, 256, P.grass(), 10, 4)), 0, 0.01, -10.5);
+  const fac = M(canvasTex('vizfac', 256, 256, P.plaster('#f0b27a', '#dc9a62'), 4, 2));
+  box(G, 3.2, 5, 0.6, fac, -3.0, 0, -9.6); box(G, 3.2, 5, 0.6, fac, 2.8, 0, -9.6);
+  box(G, 2.6, 1.0, 0.6, fac, -0.1, 0, -9.6); box(G, 2.6, 2.4, 0.6, fac, -0.1, 2.6, -9.6);
+  box(G, 9, 0.5, 2, M('#c8553d'), -0.1, 5, -9.8);
+  const vw = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 1.6), new THREE.MeshBasicMaterial({ color: night ? '#ffd36b' : '#5a4a6a', fog: false })); vw.position.set(-0.1, 1.8, -9.85); G.add(vw);
+  box(G, 2.8, 0.12, 0.8, M('#ffffff'), -0.1, 0.95, -9.4);
+  if (night) glow(G, 'rgba(255,210,120,0.55)', -0.1, 1.8, -9.2, 3);
+  box(G, 16, 1.2, 0.15, M(canvasTex('cerca', 256, 64, P.planks('#e8e0cc', '#c8bea6'), 8, 1)), 0, 0, -6.2); // muro baixo
+  // cortina
+  const cloth = (c, dark) => (g, w, h) => { g.fillStyle = c; g.fillRect(0, 0, w, h); if (!dark) { g.fillStyle = 'rgba(255,255,255,0.35)'; for (let i = 0; i < w; i += 32) g.fillRect(i, 0, 12, h); } else { g.fillStyle = 'rgba(0,0,0,0.25)'; for (let i = 0; i < w; i += 40) g.fillRect(i, 0, 6, h); } };
+  const glowC = cur === 'silhouette' && night;
+  const cm = (key, col, dark) => M(canvasTex(key, 128, 256, cloth(col, dark)), glowC ? { emissive: '#ffcf7a', emissiveIntensity: 0.55 } : {});
+  const panel = (x0, x1, yt, yb, z, mat, folds = 6, rot = 0) => { const w = (x1 - x0) / folds; for (let i = 0; i < folds; i++) { const b = mesh(new THREE.BoxGeometry(w * 1.02, yt - yb, 0.03), mat, x0 + w * (i + 0.5), (yt + yb) / 2, z + (i % 2 ? 0.035 : 0), rot, false); G.add(b); } };
+  const rod = () => { const r = mesh(new THREE.CylinderGeometry(0.025, 0.025, 2.5, 8), M('#b07a48'), 0, 2.62, -3.3); r.rotation.z = Math.PI / 2; G.add(r); };
+  const rings = (x0, x1, n) => { for (let i = 0; i < n; i++) { const t = new THREE.Mesh(new THREE.TorusGeometry(0.035, 0.01, 6, 12), M('#d9a640')); t.position.set(x0 + (x1 - x0) * i / (n - 1), 2.6, -3.3); G.add(t); } };
+  const cA = cm('pano1', '#e86a8a'), cB = cm('pano2', '#3a8dde');
+  if (cur === 'nailed') { panel(-0.85, 0, 2.45, 1.1, -3.36, cA, 4); panel(0, 0.85, 2.45, 1.1, -3.36, cB, 4);
+    for (const nx of [-0.8, -0.05, 0.05, 0.8]) for (const ny of [2.4, 1.15]) sph(G, 0.025, M('#555'), nx, ny, -3.31, 8); }
+  if (cur === 'rings') { rod(); panel(-1.2, -0.75, 2.58, 1.0, -3.3, cA, 5); panel(0.75, 1.2, 2.58, 1.0, -3.3, cB, 5); rings(-1.2, -0.75, 4); rings(0.75, 1.2, 4); }
+  if (cur === 'gap') { rod(); panel(-0.9, -0.3, 2.58, 1.0, -3.3, cA, 6, 0.25); panel(0.3, 0.9, 2.58, 1.0, -3.3, cB, 6, -0.25); rings(-0.9, -0.3, 5); rings(0.3, 0.9, 5); }
+  if (cur === 'wide' || cur === 'silhouette') { rod(); const a = glowC ? cm('pano1g', '#f6e7c8') : cA, b = glowC ? cm('pano2g', '#f6e7c8') : cB;
+    panel(-1.15, 0.15, 2.58, 0.95, -3.3, a, 8); panel(-0.15, 1.15, 2.58, 0.95, -3.25, b, 8); rings(-1.15, 0.15, 6); rings(-0.15, 1.15, 6);
+    if (glowC) { const s = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.4), new THREE.MeshBasicMaterial({ map: canvasTex('silh', 256, 384, (g, w, h) => { g.clearRect(0, 0, w, h); g.fillStyle = '#3a2440'; g.beginPath(); g.ellipse(w / 2, h * 0.27, w * 0.3, h * 0.2, 0.15, 0, 7); g.fill(); g.fillRect(w * 0.32, h * 0.45, w * 0.36, h * 0.55); g.fillRect(w * 0.12, h * 0.48, w * 0.2, h * 0.08); g.fillRect(w * 0.7, h * 0.2, w * 0.09, h * 0.3); }), transparent: true })); s.position.set(0.1, 1.7, -3.4); s.rotation.y = Math.PI; s.userData.noInk = true; G.add(s); } }
+  if (cur === 'blackout') { rod(); const d = cm('pano3', '#1f2552', true); panel(-1.15, 0.15, 2.58, 0.95, -3.3, d, 8); panel(-0.15, 1.15, 2.58, 0.95, -3.25, d, 8); rings(-1.15, 0.15, 6); rings(-0.15, 1.15, 6);
+    box(G, 2.4, 1.7, 0.04, M('#14183a'), 0, 0.92, -3.4); }
+  const pl = new THREE.PointLight('#fff0d0', night ? 7 : 4, 8, 1.4); pl.position.set(0, 2.8, -1.0); pl.castShadow = false; G.add(pl);
+  glow(G, 'rgba(255,240,200,0.5)', 0, 2.9, -1.0, 1.0);
+  return G;
+};
 SETS.tower = (o, L) => {
   const G = new THREE.Group(); const night = isNight(L);
   plane(G, 300, 300, M('#1e1c34'), 0, 0, 0);
