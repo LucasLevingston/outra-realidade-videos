@@ -760,3 +760,73 @@ SETS.bunker = (o, L) => {
   const pl2 = new THREE.PointLight('#e8ecff', dim ? 1 : 3, 9, 1.6); pl2.position.set(1.2, 2.7, 0.5); G.add(pl2);
   return G;
 };
+
+// Escritório (mesas com monitor, gráfico de metas, certificado, bebedouro) + cabine do banheiro no canto esquerdo.
+// opts: screen (texto do monitor principal), live (monitor "AO VIVO"), cert (certificado na parede), stall ('open'|'closed')
+function officeScreen(text, live) {
+  return canvasTex('ofs' + text + live, 512, 320, (g, w, h) => {
+    if (live) { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ff5fa2'); gr.addColorStop(0.6, '#ffa24a'); gr.addColorStop(0.61, '#2a3a5a'); gr.addColorStop(1, '#1a2238');
+      g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = '#1a2238'; for (let i = 0; i < 9; i++) { const bw = 30 + (i * 37) % 40, bh = 40 + (i * 53) % 70; g.fillRect(i * 58, h * 0.61 - bh, bw, bh); }
+      g.fillStyle = '#e02a2a'; g.fillRect(16, 16, 150, 52); g.fillStyle = '#fff'; g.font = 'bold 36px sans-serif'; g.fillText('● AO VIVO', 24, 54);
+      g.fillStyle = '#fff'; g.font = 'bold 50px sans-serif'; g.textAlign = 'center'; g.fillText(text, w / 2, h * 0.42); return; }
+    g.fillStyle = '#f4f6fa'; g.fillRect(0, 0, w, h); g.fillStyle = '#2f9e74'; g.fillRect(0, 0, w, 46);
+    g.fillStyle = '#fff'; g.font = 'bold 30px sans-serif'; g.fillText(text, 14, 33);
+    g.strokeStyle = '#c8cdd8'; g.lineWidth = 2; for (let y = 70; y < h; y += 32) { g.beginPath(); g.moveTo(10, y); g.lineTo(w - 10, y); g.stroke(); }
+    for (let x = 130; x < w; x += 120) { g.beginPath(); g.moveTo(x, 50); g.lineTo(x, h); g.stroke(); }
+    g.fillStyle = '#5a6a8a'; srand(text.length); for (let y = 80; y < h - 10; y += 32) for (let x = 20; x < w - 40; x += 120) g.fillRect(x, y, 30 + rnd() * 60, 10);
+  });
+}
+SETS.office = (o, L) => {
+  const G = new THREE.Group(); const night = isNight(L) || L.name === 'interior';
+  plane(G, 12, 9, M(canvasTex('offl', 256, 256, P.checker('#d9dce6', '#c8ccd8', 8), 3, 3)), 0, 0, -0.5);
+  const wall = M(canvasTex('ofwall', 256, 256, P.plaster('#e6e8f2', '#d4d8e6'), 3, 2));
+  box(G, 12, 3.4, 0.2, wall, 0, 0, -4.1); box(G, 0.2, 3.4, 9, wall, 5.2, 0, -0.5);
+  plane(G, 12, 9, M('#c9ccd8'), 0, 3.4, -0.5, Math.PI / 2);
+  box(G, 12, 0.14, 0.06, M('#8a90a8'), 0, 0.9, -3.98);
+  // janelas com prédios (dia/noite)
+  for (const wx of [2.0, 3.9]) {
+    const sky = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), new THREE.MeshBasicMaterial({ map: canvasTex('ofsky' + night + wx, 256, 256, (g, w, h) => {
+      g.fillStyle = night ? '#141a52' : '#9fd6ff'; g.fillRect(0, 0, w, h); srand(wx * 10);
+      for (let i = 0; i < 5; i++) { const bw = 40 + rnd() * 30, bh = 80 + rnd() * 120, x = i * 55 - 10; g.fillStyle = night ? '#232a62' : '#7f9cc8'; g.fillRect(x, h - bh, bw, bh);
+        g.fillStyle = night ? '#ffd772' : '#cfe6ff'; for (let yy = h - bh + 10; yy < h - 10; yy += 22) for (let xx = x + 6; xx < x + bw - 8; xx += 14) if (rnd() < (night ? 0.4 : 0.8)) g.fillRect(xx, yy, 7, 10); }
+    }), fog: false })); sky.position.set(wx, 1.9, -3.99); G.add(sky);
+    for (const [w, h, x, y] of [[1.7, 0.1, wx, 1.1], [1.7, 0.1, wx, 2.65], [0.1, 1.65, wx - 0.8, 1.1], [0.1, 1.65, wx + 0.8, 1.1], [0.06, 1.55, wx, 1.12]]) box(G, w, h, 0.1, M('#ffffff'), x, y, -3.96);
+  }
+  // quadro de metas (barras)
+  const chart = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.0), M(canvasTex('ofchart', 300, 200, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.strokeStyle = '#1d1a33'; g.lineWidth = 8; g.strokeRect(4, 4, w - 8, h - 8);
+    g.fillStyle = '#1d1d2b'; g.font = 'bold 28px sans-serif'; g.fillText('METAS', 16, 38); const c = ['#e04848', '#ffd23f', '#3a8dde', '#2f9e74', '#ff9f1c'];
+    for (let i = 0; i < 5; i++) { const bh = 30 + i * 24; g.fillStyle = c[i]; g.fillRect(30 + i * 52, h - 20 - bh, 36, bh); } })));
+  chart.position.set(-0.2, 2.1, -3.99); G.add(chart);
+  if (o.cert) { const ct = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.62), M(canvasTex('ofcert', 360, 248, (g, w, h) => { g.fillStyle = '#fff6d8'; g.fillRect(0, 0, w, h); g.strokeStyle = '#c99a2e'; g.lineWidth = 14; g.strokeRect(7, 7, w - 14, h - 14);
+      g.fillStyle = '#7a5a1a'; g.textAlign = 'center'; g.font = 'bold 24px serif'; g.fillText('CERTIFICADO', w / 2, 56); g.font = '16px serif'; g.fillText('concedido ao', w / 2, 88);
+      g.fillStyle = '#1d1d2b'; g.font = 'bold 26px serif'; g.fillText('FUNCIONÁRIO', w / 2, 132); g.fillText('RESPONSÁVEL', w / 2, 166); g.fillStyle = '#e04848'; g.beginPath(); g.arc(w - 60, h - 52, 24, 0, 7); g.fill(); })));
+    ct.position.set(-1.75, 2.1, -3.99); G.add(ct); }
+  // mesas: [x, z, principal?]
+  const desk = (x, z, main) => {
+    box(G, 1.6, 0.06, 0.8, M('#f2f2f6'), x, 0.74, z); for (const [dx, dz] of [[-0.75, -0.35], [0.75, -0.35], [-0.75, 0.35], [0.75, 0.35]]) box(G, 0.05, 0.74, 0.05, M('#8a90a8'), x + dx, 0, z + dz);
+    box(G, 1.5, 0.5, 0.04, M('#c8ccd8'), x, 0.24, z - 0.36); // painel frontal
+    const mx = x + 0.45; box(G, 0.08, 0.18, 0.08, M('#2a2a36'), mx, 0.8, z - 0.15); box(G, 0.66, 0.44, 0.05, M('#2a2a36'), mx, 0.96, z - 0.15);
+    const s = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.38), new THREE.MeshBasicMaterial({ map: main ? officeScreen(o.screen || 'PLANILHA', !!o.live) : officeScreen('RELATÓRIO', false), fog: false }));
+    s.position.set(mx, 1.18, z - 0.12); G.add(s);
+    box(G, 0.5, 0.02, 0.16, M('#3a3a46'), x - 0.15, 0.8, z + 0.15); cyl(G, 0.05, 0.045, 0.12, M(main ? '#e04848' : '#3a8dde'), x - 0.6, 0.8, z + 0.05, 12);
+    box(G, 0.3, 0.02, 0.4, M('#ffffff'), x - 0.5, 0.8, z - 0.15);
+  };
+  desk(0.3, -1.7, true); desk(-2.3, -2.1, false);
+  // cadeiras atrás das mesas
+  for (const [x, z] of [[0.3, -2.35], [-2.3, -2.75]]) { box(G, 0.55, 0.08, 0.5, M('#3a3a4e'), x, 0.46, z); box(G, 0.55, 0.62, 0.08, M('#3a3a4e'), x, 0.5, z - 0.25); cyl(G, 0.04, 0.04, 0.46, M('#555'), x, 0, z, 8); }
+  // bebedouro + planta
+  box(G, 0.5, 1.0, 0.45, M('#e9edf2'), 4.4, 0, -3.4); cyl(G, 0.2, 0.2, 0.5, M('#9fd6ff', { transparent: true, opacity: 0.85 }), 4.4, 1.0, -3.4, 16);
+  cyl(G, 0.22, 0.17, 0.45, M('#c8553d'), 3.0, 0, -3.6, 14); for (let i = 0; i < 6; i++) { const lf = cone(G, 0.09, 0.9, M('#4a9a4a'), 3.0 + (i - 2.5) * 0.05, 0.42, -3.6, 6); lf.rotation.z = (i - 2.5) * 0.28; }
+  // cabine do banheiro (canto esquerdo)
+  const tile = M(canvasTex('ofwc', 256, 256, P.checker('#cdeef2', '#b4e0e8', 8), 2, 2));
+  box(G, 2.0, 3.4, 0.1, tile, -4.6, 0, -4.0);
+  box(G, 0.06, 2.0, 1.4, M('#7fb8d8'), -5.5, 0.12, -3.3); box(G, 0.06, 2.0, 1.4, M('#7fb8d8'), -3.7, 0.12, -3.3);
+  box(G, 1.86, 0.06, 0.06, M('#5f98b8'), -4.6, 2.1, -2.6);
+  const door = new THREE.Group(); box(door, 0.85, 1.9, 0.05, M('#7fb8d8'), 0.42, 0.15, 0); door.position.set(-3.75, 0, -2.6); door.rotation.y = o.stall === 'closed' ? 0 : -1.9; G.add(door);
+  const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 0.28), M(signTex('BANHEIRO', '#1f3a6a', '#ffffff', 512, 140, 'bold 80px sans-serif'))); sg.position.set(-4.6, 2.45, -2.58); G.add(sg);
+  box(G, 0.42, 0.42, 0.55, M('#ffffff'), -4.6, 0, -3.7); box(G, 0.42, 0.5, 0.18, M('#ffffff'), -4.6, 0.42, -3.95);
+  box(G, 0.16, 0.2, 0.1, M('#e9edf2'), -5.35, 0.9, -3.3);
+  const pl = new THREE.PointLight('#fff4e0', night ? 5 : 5.5, 11, 1.3); pl.position.set(0, 2.2, -0.4); pl.castShadow = false; G.add(pl);
+  const pl2 = new THREE.PointLight('#f0fbff', 3, 5, 1.4); pl2.position.set(-4.6, 2.2, -1.6); pl2.castShadow = false; G.add(pl2);
+  return G;
+};

@@ -23,11 +23,36 @@ MOODS = {
     'day':     dict(ch=[[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]], bpm=96, bright=1.0),
     'tension': dict(ch=[[50, 53, 57], [50, 53, 58], [48, 52, 55], [49, 52, 57]], bpm=100, bright=0.7),
     'tender':  dict(ch=[[53, 57, 60], [48, 52, 55], [50, 53, 57], [46, 50, 53]], bpm=72, bright=0.8),
+    # humor/cotidiano: pizzicato + baixo saltitante, staccato, tom maior
+    'comedy':  dict(ch=[[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]], bpm=112, bright=1.0, style='comedy'),
 }
 SEGMOOD = {'c0': 'night', 'c1': 'night', 'c2': 'day', 'c3': 'tension', 'i1': 'day', 'c4': 'day', 'c5': 'night', 'i2': 'tension', 'c6': 'tender', 'c7': 'tender', 'c8': 'night'}
 
+def comedy_block(M, dur):
+    beat = 60 / M['bpm']; bar = beat * 4
+    out = np.zeros(int(SR * (dur + 2))); nb = int(dur / bar) + 1
+    def pizz(f, d=0.22, a=0.16):
+        y = tt(d); return (np.sin(2 * np.pi * f * y) + 0.45 * np.sin(4 * np.pi * f * y) + 0.2 * np.sin(6 * np.pi * f * y)) * np.exp(-y * 22) * a
+    for b in range(nb):
+        t0 = b * bar; ch = M['ch'][b % 4]
+        # baixo saltitante: raiz / quinta / raiz-oitava / quinta
+        for k, n in enumerate([ch[0] - 24, ch[2] - 24, ch[0] - 12, ch[2] - 24]):
+            y = tt(0.24); add(out, (np.sin(2 * np.pi * mid(n) * y) + 0.3 * np.sin(4 * np.pi * mid(n) * y)) * np.exp(-y * 9) * 0.32, t0 + k * beat)
+        # pizzicato staccato nos contratempos + melodia simples
+        mel = [ch[2], ch[1] + 12, ch[2], ch[0] + 12, ch[1], ch[2], ch[1] + 12, ch[2] + 12] if b % 2 == 0 else [ch[0] + 12, ch[2], ch[1], ch[2], ch[0] + 12, ch[1] + 12, ch[2], ch[0]]
+        for k, n in enumerate(mel):
+            if (b + k) % 5 == 3: continue
+            add(out, pizz(mid(n + 12)), t0 + k * beat / 2)
+        for k in (1, 3):
+            y = tt(0.12); add(out, bp(rng.standard_normal(len(y)), 1500, 6000) * np.exp(-y * 40) * 0.09, t0 + k * beat)  # estalo de palma leve
+        for k in range(8):
+            add(out, hp(rng.standard_normal(int(SR * 0.03)), 7000) * np.exp(-tt(0.03) * 120) * 0.03, t0 + k * beat / 2 + beat / 4)
+        y = tt(0.2); add(out, np.sin(2 * np.pi * (60 + 70 * np.exp(-y * 35)) * y) * np.exp(-y * 16) * 0.22, t0)
+    return out[:int(SR * dur)]
+
 def music_block(mood, dur):
     M = MOODS[mood]; beat = 60 / M['bpm']; bar = beat * 4
+    if M.get('style') == 'comedy': return comedy_block(M, dur)
     out = np.zeros(int(SR * (dur + 2)))
     nb = int(dur / bar) + 1
     for b in range(nb):
@@ -54,6 +79,20 @@ def sfx_lib():
     x = tt(0.5); L['thud'] = np.sin(2 * np.pi * (55 + 60 * np.exp(-x * 25)) * x) * np.exp(-x * 9) + lp(rng.standard_normal(len(x)), 800) * np.exp(-x * 16) * 0.5
     x = tt(2.5); L['thunder'] = lp(rng.standard_normal(len(x)), 300) * np.exp(-x * 1.4) * (1 + 0.5 * np.sin(2 * np.pi * 7 * x)) + np.sin(2 * np.pi * (40 + 30 * np.exp(-x * 3)) * x) * np.exp(-x * 2)
     x = tt(1.6); L['chime'] = sum(np.sin(2 * np.pi * mid(n) * x) * np.exp(-x * 2.2) for n in (72, 76, 79, 84)) * 0.5
+    x = tt(0.45); L['boing'] = np.sin(2 * np.pi * np.cumsum(180 + 220 * np.sin(2 * np.pi * 9 * x) * np.exp(-x * 4)) / SR) * np.exp(-x * 6)
+    x = tt(0.35); L['notif'] = np.concatenate([np.sin(2 * np.pi * 988 * tt(0.12)) * np.exp(-tt(0.12) * 20), np.sin(2 * np.pi * 1319 * tt(0.23)) * np.exp(-tt(0.23) * 12)])
+    x = tt(0.04); L['click'] = hp(rng.standard_normal(len(x)), 2000) * np.exp(-x * 150)
+    L['typing'] = np.zeros(int(SR * 0.9))
+    for k in range(9): add(L['typing'], L['click'] * (0.6 + 0.4 * rng.random()), k * 0.09 + rng.random() * 0.03)
+    x = tt(0.08); L['tick'] = np.sin(2 * np.pi * 2200 * x) * np.exp(-x * 80)
+    x = tt(0.6); L['cash'] = (np.sin(2 * np.pi * 2093 * x) + np.sin(2 * np.pi * 2637 * x)) * np.exp(-x * 7) * 0.5
+    x = tt(0.4); L['buzz'] = np.sign(np.sin(2 * np.pi * 110 * x)) * np.minimum(1, (0.4 - x) / 0.05) * 0.5
+    x = tt(0.35); L['glitch'] = np.sign(np.sin(2 * np.pi * np.cumsum(400 + 900 * rng.random(len(x))) / SR)) * (np.floor(x * 40) % 2) * 0.35
+    x = tt(0.5); L['slam'] = lp(rng.standard_normal(len(x)), 900) * np.exp(-x * 14) + np.sin(2 * np.pi * 70 * x) * np.exp(-x * 10)
+    x = tt(0.28); L['cough'] = bp(rng.standard_normal(len(x)), 300, 1800) * (np.exp(-x * 18) + 0.6 * np.exp(-np.maximum(0, x - 0.12) * 22) * (x > 0.12))
+    x = tt(1.2); L['riser'] = bp(rng.standard_normal(len(x)), 500, 5000) * (x / 1.2) ** 2 + np.sin(2 * np.pi * np.cumsum(200 + 600 * x / 1.2) / SR) * (x / 1.2) * 0.3
+    x = tt(0.5); L['sparkle'] = sum(np.sin(2 * np.pi * f * x) * np.exp(-np.maximum(0, x - d) * 12) * (x > d) for f, d in ((2349, 0), (2794, 0.06), (3136, 0.12))) * 0.5
+    x = tt(0.25); L['wrong'] = np.sin(2 * np.pi * 220 * x) * np.sign(np.sin(2 * np.pi * 5 * x + 0.3)) * np.exp(-x * 4) * 0.6
     return L
 
 def ambience(kind, dur):
@@ -96,6 +135,14 @@ def build(proj):
         prev = sc
     for sg in P['segs'][1:]:
         add(sfx, L['chime'], sg['start'] - longform.GAP + 0.1, 0.8)
+    # efeitos ligados a palavras da fala: SFX = [('palavra' ou 'palavra#n', 'efeito'[, ganho]), ...]
+    seen = {}
+    for item in getattr(S, 'SFX', []):
+        w, ef = item[0], item[1]; g = item[2] if len(item) > 2 else 0.8
+        base, n = (w.split('#') + ['1'])[:2]; n = int(n)
+        hits = [x[1] for x in P['words'] if longform.norm(x[0]).startswith(longform.norm(base))]
+        if len(hits) >= n and ef in L: add(sfx, L[ef], hits[n - 1] - 0.08, g)
+        else: print('SFX sem âncora:', w, ef)
     sting = getattr(S, 'STING', None)
     if sting:
         ts = next((w[1] for w in P['words'] if longform.norm(w[0]).startswith(longform.norm(sting))), None)

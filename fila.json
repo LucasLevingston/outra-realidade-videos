@@ -74,6 +74,20 @@
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4136130610500646952",
       "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-bunker NÃO apagada (git push --delete recusado); pode ser apagada à mão",
       "obs": " | 15/11 13:25: refeito com voz ElevenLabs Gustavo Narrador PRO (mesmo horário)"
+    },
+    {
+      "slug": "gta6-trabalho",
+      "tipo": "short",
+      "titulo": "Não falte no trabalho no dia do GTA 6! 🎮🤒",
+      "texto": "Manual do funcionário responsável no dia do lançamento do GTA 6: nada de mensagem às 5 da manhã, ensaio de tosse ou perfil offline… né? 🤒🎮\nE nunca, jamais, 40 minutos de gameplay escondido no banheiro do trabalho. 🚽\nComenta aí: você ia trabalhar ou ia jogar? 👇\n\n#OutraRealidade #ESe #GTA6 #Trabalho #Humor #Gamer #ViceCity #Animação #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-gta6-trabalho/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-gta6-trabalho/thumb.jpg",
+      "branch": "upload-2026-11-15-gta6-trabalho",
+      "criado_em": "2026-11-15T15:14:00-03:00",
+      "status": "agendado",
+      "agendado_para": "2026-11-16T12:00:00-03:00",
+      "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8742521452450826804",
+      "ultimo_erro": "agendado ok (mídia e capa copiadas para static.metricool.com); branch temporária NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
     }
   ]
 }
