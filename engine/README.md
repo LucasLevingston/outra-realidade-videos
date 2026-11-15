@@ -24,7 +24,7 @@ PROJ/
 ## Passo a passo
 ```bash
 E=REPO/engine/py
-python3 $E/voz.py PROJ short              # narração (VoxCPM2, semente fixa), por trechos de até 14 palavras + pausas de respiração, ritmo 1,15 → ~2,6 palavras/s
+python3 $E/voz.py PROJ short              # narração: UMA voz (clone da referência fixa do narrador), trechos de até 22 palavras conferidos pelo whisper, respiros, ritmo 0,90 → ~2,8 palavras/s
 python3 $E/words.py PROJ short            # tempos das palavras (whisper local)
 python3 $E/longform.py PROJ plan          # alinha roteiro↔áudio e monta a linha do tempo
 python3 $E/longform.py PROJ plates        # renderiza as placas 3D (≈3 s cada, retomável)
@@ -40,11 +40,13 @@ python3 $E/hyperframes.py PROJ render OUT.mp4        # render HyperFrames (~2 mi
 No Short, o motor desenha só o mundo 3D, os personagens e a câmera; o HyperFrames compõe por cima tudo o que é texto. Conferir sempre a folha (`sheet`) e alguns quadros do MP4 final.
 Tempo: Short ≈ 5–8 min no total; longo de 28 min ≈ 1 h de render com 2 processos.
 
-## Vozes (uma por personagem, timbre fixo)
-- `engine/vozes/<voz>.wav` são as referências fixas (narrador, homem, mulher, mulher2, senhora, idoso, crianca). Criadas uma vez com `voz.py vozes`; **nunca regerar**.
-- Todo trecho clona a referência da sua voz → o timbre não muda entre trechos nem entre vídeos.
-- No roteiro, fala de personagem = `{nome} "texto"` (ex.: `{bia} "Amor, amanhã a gente sai às dez, né?"`). O nome segue `ELENCO` no `voz.py` (personagem → voz). Sem marcação = narrador.
-- No `scenes.py`, o plano de quem fala leva `'speaker': 'nome'` e `'at': 'palavra'` (o plano começa nessa palavra), para o personagem estar na tela durante a própria fala.
+## Voz (uma só, sempre a mesma)
+- O canal tem **uma voz só**: o narrador. `engine/vozes/narrador.wav` (+ `.txt`) é a referência fixa (~11 s), criada uma vez com `voz.py referencia`; **nunca regerar** (é o que trava o timbre entre vídeos).
+- Todo trecho clona essa referência (continuação + reference_wav) → o timbre não muda entre trechos nem entre vídeos.
+- Falas de personagem `{nome} "texto"` continuam marcando quem mexe a boca, mas são **lidas pelo narrador**. Nunca existe outra voz.
+- Cada trecho é transcrito pelo whisper: palavra faltando/sobrando, idioma fora do português ou duração estranha → gera de novo (até 4×). Som a mais antes da 1ª palavra ou depois da última é cortado. O log avisa `ATENÇÃO, conferir:` se algum trecho continuar errado.
+- Reticências viram vírgula no texto falado (o modelo lia "..." como "ponto"). Ritmo: `VOZ_RITMO` (padrão 0,90); trechos: `VOZ_MAX_PALAVRAS` (padrão 22).
+- No `scenes.py`, o plano de quem fala leva `'speaker': 'nome'` e `'at': 'palavra'` (o plano começa nessa palavra), para o personagem estar na tela durante a fala.
 
 ## scenes.py
 ```python
