@@ -1,0 +1,13 @@
+audio/*.wav
+plates/
+chunks/
+frames/
+hf/
+render_bg.mp4
+hf_out.mp4
+video.mp4
+*.log
+plan.json
+mix/
+plates.json
+__pycache__/

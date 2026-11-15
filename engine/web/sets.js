@@ -694,3 +694,69 @@ SETS.tower = (o, L) => {
   if (night) moonMesh(G, L, o.moonAz ?? 200, o.moonEl ?? 40);
   return G;
 };
+
+// Bunker (concreto, porta-cofre redonda, prateleiras de latas, bicicleta-gerador, calendário). opts: cans ('full'|'many'|'few'|'one'), day (n), dim, hatch ('open'|'closed')
+SETS.bunker = (o, L) => {
+  const G = new THREE.Group(); const dim = !!o.dim;
+  const conc = M(canvasTex('bkwall', 256, 256, P.plaster('#9aa0ad', '#7e8492'), 2, 2));
+  plane(G, 7, 7, M(canvasTex('bkfl', 512, 512, P.stone('#8a8794', '#5e5b68'), 3, 3)), 0, 0, 0);
+  box(G, 6.2, 3, 0.2, conc, 0, 0, -3.5); box(G, 0.2, 3, 7, conc, -3, 0, 0); box(G, 0.2, 3, 7, conc, 3, 0, 0);
+  const roof = mesh(new THREE.BoxGeometry(6.4, 0.3, 7.4), M('#6e7480'), 0, 3.15, 0, 0, false); G.add(roof);
+  // faixas de alerta amarelas e pretas no rodapé
+  const hz = M(canvasTex('hazard', 256, 32, (g, w, h) => { g.fillStyle = '#ffd23f'; g.fillRect(0, 0, w, h); g.fillStyle = '#1d1d2b'; for (let i = -2; i < 12; i++) { g.beginPath(); g.moveTo(i * 28, h); g.lineTo(i * 28 + 14, h); g.lineTo(i * 28 + 30, 0); g.lineTo(i * 28 + 16, 0); g.fill(); } }, 6, 1));
+  box(G, 6.0, 0.18, 0.04, hz, 0, 0.05, -3.38);
+  // porta-cofre redonda
+  const dx = -1.6;
+  const ring = mesh(new THREE.TorusGeometry(0.98, 0.1, 10, 40), M('#5a5f6e'), dx, 1.15, -3.36); G.add(ring);
+  if (o.hatch === 'open') {
+    const hole = new THREE.Mesh(new THREE.CircleGeometry(0.9, 36), new THREE.MeshBasicMaterial({ color: '#fff6d8' })); hole.position.set(dx, 1.15, -3.39); hole.userData.noInk = true; G.add(hole);
+    glow(G, 'rgba(255,246,210,0.9)', dx, 1.15, -3.0, 3.0);
+  } else {
+    const door = mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.16, 36), M('#8a90a0'), dx, 1.15, -3.3); door.rotation.x = Math.PI / 2; G.add(door);
+    const wh = mesh(new THREE.TorusGeometry(0.34, 0.045, 8, 24), M('#d9483b'), dx, 1.15, -3.16); G.add(wh);
+    for (let i = 0; i < 3; i++) { const s = mesh(new THREE.BoxGeometry(0.7, 0.05, 0.05), M('#d9483b'), dx, 1.15, -3.16); s.rotation.z = i * Math.PI / 3; G.add(s); }
+    for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2; sph(G, 0.04, M('#4a4e5c'), dx + Math.cos(a) * 0.78, 1.15 + Math.sin(a) * 0.78, -3.2, 8); }
+  }
+  // placa acima da porta
+  const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 0.26), M(signTex('ABRE NO DIA 100', '#ffd23f', '#1d1d2b', 1024, 240, 'bold 104px sans-serif'))); sg.position.set(dx, 2.5, -3.38); G.add(sg);
+  // calendário de riscos
+  const day = o.day ?? 1;
+  const cal = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.86), M(canvasTex('bkcal' + day, 256, 320, (g, w, h) => {
+    g.fillStyle = '#fffdf2'; g.fillRect(0, 0, w, h); g.fillStyle = '#d9483b'; g.fillRect(0, 0, w, 70);
+    g.fillStyle = '#fff'; g.font = 'bold 46px sans-serif'; g.textAlign = 'center'; g.fillText('DIA', w / 2, 52);
+    g.fillStyle = '#1d1d2b'; g.font = 'bold 120px sans-serif'; g.fillText(String(day), w / 2, 190);
+    g.strokeStyle = '#3a3a4e'; g.lineWidth = 5; const n = Math.min(day, 40);
+    for (let i = 0; i < n; i++) { const gx = 26 + (i % 20) * 10.5 + Math.floor((i % 20) / 5) * 4, gy = 228 + Math.floor(i / 20) * 44; g.beginPath(); g.moveTo(gx, gy); g.lineTo(gx, gy + 34); g.stroke(); }
+  }))); cal.position.set(-0.05, 1.65, -3.38); G.add(cal);
+  // prateleiras com latas
+  const sx0 = 0.55, sx1 = 2.85; const levels = [0.35, 0.95, 1.55, 2.15];
+  for (const lx of [sx0, sx1]) box(G, 0.06, 2.4, 0.4, M('#5a5f6e'), lx, 0, -3.2);
+  for (const ly of levels) box(G, sx1 - sx0, 0.05, 0.42, M('#6e7480'), (sx0 + sx1) / 2, ly - 0.05, -3.2);
+  const lab = M(canvasTex('canlab', 64, 64, (g, w, h) => { g.fillStyle = '#c8b8a0'; g.fillRect(0, 0, w, h); g.fillStyle = '#7a4a2a'; g.fillRect(0, 18, w, 28); }));
+  const pink = M(canvasTex('canpink', 64, 64, (g, w, h) => { g.fillStyle = '#c8c8d2'; g.fillRect(0, 0, w, h); g.fillStyle = '#ff7ab0'; g.fillRect(0, 16, w, 32); }));
+  const lvl = { full: 4, many: 3, few: 1, one: 0 }[o.cans || 'full'];
+  for (let r = 0; r < 4; r++) for (let i = 0; i < 9; i++) {
+    if (r >= lvl) continue; if (lvl === 1 && i > 2) continue;
+    cyl(G, 0.085, 0.085, 0.22, lab, sx0 + 0.18 + i * 0.24, levels[r], -3.2 + ((i % 2) ? 0.08 : -0.06), 12);
+  }
+  if (o.cans === 'one') cyl(G, 0.1, 0.1, 0.26, pink, 1.7, levels[1], -3.12, 14); else cyl(G, 0.085, 0.085, 0.22, pink, sx0 + 0.18 + 4 * 0.24, levels[1], -3.08, 12);
+  // bicicleta-gerador (lado esquerdo) + lâmpada
+  const bx = -2.1, bz = -0.9; const fr = M('#3a8dde');
+  for (const wz of [bz - 0.55, bz + 0.55]) { const w = mesh(new THREE.TorusGeometry(0.32, 0.05, 8, 24), M('#2a2a3a'), bx, 0.37, wz, Math.PI / 2); G.add(w); }
+  box(G, 0.08, 0.08, 1.1, fr, bx, 0.55, bz); box(G, 0.08, 0.6, 0.08, fr, bx, 0.3, bz + 0.2); box(G, 0.22, 0.07, 0.32, M('#1d1d2b'), bx, 0.92, bz + 0.2);
+  box(G, 0.08, 0.55, 0.08, fr, bx, 0.4, bz - 0.5); box(G, 0.5, 0.05, 0.05, M('#2a2a3a'), bx, 0.95, bz - 0.5);
+  box(G, 0.3, 0.3, 0.3, M('#ffd23f'), bx + 0.45, 0, bz + 0.5); // dínamo
+  cyl(G, 0.012, 0.012, 2.3, M('#1d1d2b'), bx + 0.45, 0.3, bz + 0.5, 6);
+  const bulbOn = !o.bulbOff;
+  sph(G, 0.12, M(bulbOn ? '#fff3b0' : '#8a8a7a', bulbOn ? { emissive: '#ffe08a', emissiveIntensity: dim ? 0.6 : 1.0 } : {}), bx + 0.45, 2.55, bz + 0.5, 14);
+  if (bulbOn) glow(G, dim ? 'rgba(255,210,120,0.45)' : 'rgba(255,225,150,0.7)', bx + 0.45, 2.55, bz + 0.5, dim ? 1.2 : 1.8);
+  // catre na parede direita + mesa com rádio
+  box(G, 0.8, 0.4, 1.9, M('#6a6f7e'), 2.55, 0, 0.6); box(G, 0.82, 0.12, 1.92, M('#3a8d5a'), 2.55, 0.4, 0.6); box(G, 0.6, 0.12, 0.35, M('#f4f1e6'), 2.55, 0.52, 1.3);
+  box(G, 0.6, 0.06, 0.9, M(canvasTex('bkmesa', 256, 256, P.planks('#b07a48', '#7a4f2c'))), 2.5, 0.74, -1.25);
+  for (const [lx, lz] of [[2.25, -1.65], [2.75, -1.65], [2.25, -0.85], [2.75, -0.85]]) box(G, 0.05, 0.74, 0.05, M('#7a4f2c'), lx, 0, lz);
+  box(G, 0.16, 0.24, 0.42, M('#d9483b'), 2.55, 0.8, -1.25); box(G, 0.01, 0.4, 0.01, M('#333'), 2.55, 1.04, -1.1);
+  sph(G, 0.04, M('#ffd23f'), 2.46, 0.92, -1.35, 8);
+  const pl = new THREE.PointLight('#ffd9a0', dim ? 3 : 6.5, 9, 1.4); pl.position.set(bx + 0.45, 2.4, bz + 0.5); G.add(pl);
+  const pl2 = new THREE.PointLight('#e8ecff', dim ? 1 : 3, 9, 1.6); pl2.position.set(1.2, 2.7, 0.5); G.add(pl2);
+  return G;
+};

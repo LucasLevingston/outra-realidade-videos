@@ -137,6 +137,9 @@ def draw(d, C, arms, face, look, extra):
     if 'phone' in extra: d.rr(300, 560, 336, 624, 8, hx('#22222e'), w=5)
     if 'lantern' in extra: d.rr(512, 470, 560, 500, 8, hx('#ffd23f'), w=5)
     if 'mug' in extra: d.rr(372, 700, 410, 750, 8, hx('#ffffff'), w=6)
+    if 'can' in extra:
+        d.rr(258, 596, 342, 694, 12, hx('#c8c8d2'), w=6); d.rr(258, 620, 342, 670, 0, hx('#ff7ab0'), w=0)
+        d.ell(284, 644, 6, 6, OL, w=0); d.ell(316, 644, 6, 6, OL, w=0); d.arc(300, 652, 10, 8, 20, 160, OL, 4)
     if 'tablet' in extra: d.rr(256, 600, 344, 680, 10, hx('#22222e'), w=6)
     if 'paper' in extra: d.rr(270, 600, 340, 690, 4, hx('#fffdf2'), w=5)
     if 'icecream' in extra: d.poly([(512, 480), (548, 480), (530, 540)], hx('#e8b060'), w=5); d.ell(530, 466, 22, 20, hx('#ff9ac0'), w=5)

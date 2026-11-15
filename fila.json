@@ -58,6 +58,20 @@
       "agendado_para": "2026-11-15T12:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=2777812305997155855",
       "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-cortina-vizinho NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
+    },
+    {
+      "slug": "bunker",
+      "tipo": "short",
+      "titulo": "E se você ficasse 100 dias trancado num bunker? 🥫🚪",
+      "texto": "O Beto ficou trancado num bunker com 400 latas de feijão, um rádio e uma bicicleta que gera luz… e a porta só abre no dia 100.\nDia 30 ele já tinha dado nome pras latas. A favorita? A Rosinha. 🥫\nComenta aí: você aguentava os 100 dias? 👇\n\n#OutraRealidade #ESe #Bunker #Sobrevivencia #100Dias #Desafio #Humor #Curiosidades #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-bunker/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-bunker/thumb.jpg",
+      "branch": "upload-2026-11-15-bunker",
+      "criado_em": "2026-11-15T03:40:00-03:00",
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": null
     }
   ]
 }
