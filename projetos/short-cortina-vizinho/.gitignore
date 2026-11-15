@@ -1,0 +1,9 @@
+audio/
+chunks/
+hf/
+mix/
+plates/
+plan.json
+plates.json
+*.mp4
+thumb.jpg
