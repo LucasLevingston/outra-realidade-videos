@@ -27,12 +27,12 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 100 | E se o GTA 6 lançar e você for casado? A ou B (ref: https://www.youtube.com/shorts/56c8c2nRsF4, `projetos/short-gta6-casado-ref`) | Cotidiano/humor | agendado | 2026-11-13 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=4571765839384297955) |
 | ✅ | 28 | E se você recebesse R$ 1 milhão todo mês? (`projetos/short-milhao-mes`) | Dinheiro | agendado | 2026-11-14 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=5672164890864600142) |
 | ✅ | 29 | E se você fosse o único humano dentro de um videogame? (`projetos/short-videogame`) | Universos fictícios | agendado | 2026-11-14 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=3112750305140163313) |
+| ✅ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | agendado | 2026-11-15 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=2777812305997155855) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
 | ✓ | # | Tema | Categoria | Status |
 |---|---|---|---|---|
-| ⬜ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | pronto |
 | ⬜ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, `projetos/short-gta6-trabalho`) | Cotidiano/humor | ideia |
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
