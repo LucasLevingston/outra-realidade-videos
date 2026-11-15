@@ -52,12 +52,13 @@
       "texto": "No banho, o vizinho curioso não para de espiar pela janela… e cada solução cria um problema novo: pano pregado, argolinhas, vento, silhueta, até o forro grosso.\nComenta aí: qual invenção a gente explica agora? 👇\n\n#OutraRealidade #ESe #Invencoes #CortinaBlecaute #Vizinho #Humor #Curiosidades #ComoFoiInventado #Shorts",
       "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-cortina-vizinho/video.mp4",
       "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-cortina-vizinho/thumb.jpg",
-      "branch": "upload-2026-11-15-cortina-vizinho",
+      "branch": "upload-2026-11-15-cortina-v2",
       "criado_em": "2026-11-15T00:10:00-03:00",
       "status": "agendado",
-      "agendado_para": "2026-11-15T12:00:00-03:00",
+      "agendado_para": "2026-11-15T18:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=2777812305997155855",
-      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-cortina-vizinho NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
+      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-cortina-vizinho NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão",
+      "obs": " | 15/11 13:35: 12:00 não saiu (rascunho); refeito com voz ElevenLabs Gustavo Narrador PRO e reagendado 15/11 18:00"
     },
     {
       "slug": "bunker",
@@ -66,12 +67,13 @@
       "texto": "O Beto ficou trancado num bunker com 400 latas de feijão, um rádio e uma bicicleta que gera luz… e a porta só abre no dia 100.\nDia 30 ele já tinha dado nome pras latas. A favorita? A Rosinha. 🥫\nComenta aí: você aguentava os 100 dias? 👇\n\n#OutraRealidade #ESe #Bunker #Sobrevivencia #100Dias #Desafio #Humor #Curiosidades #Shorts",
       "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-bunker/video.mp4",
       "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-bunker/thumb.jpg",
-      "branch": "upload-2026-11-15-bunker",
+      "branch": "upload-2026-11-15-bunker-v2",
       "criado_em": "2026-11-15T03:40:00-03:00",
       "status": "agendado",
       "agendado_para": "2026-11-15T15:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4136130610500646952",
-      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-bunker NÃO apagada (git push --delete recusado); pode ser apagada à mão"
+      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-bunker NÃO apagada (git push --delete recusado); pode ser apagada à mão",
+      "obs": " | 15/11 13:25: refeito com voz ElevenLabs Gustavo Narrador PRO (mesmo horário)"
     }
   ]
 }
