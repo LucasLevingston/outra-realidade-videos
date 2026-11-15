@@ -68,10 +68,10 @@
       "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-15-bunker/thumb.jpg",
       "branch": "upload-2026-11-15-bunker",
       "criado_em": "2026-11-15T03:40:00-03:00",
-      "status": "pronto",
-      "agendado_para": null,
-      "plannerUrl": null,
-      "ultimo_erro": null
+      "status": "agendado",
+      "agendado_para": "2026-11-15T15:00:00-03:00",
+      "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4136130610500646952",
+      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-15-bunker NÃO apagada (git push --delete recusado); pode ser apagada à mão"
     }
   ]
 }
