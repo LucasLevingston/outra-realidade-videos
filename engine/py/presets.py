@@ -68,7 +68,7 @@ PRE = {
  'bk_close': ('bunker', [0.4, 1.3, 1.2], [0.1, 1.0, -1.2], 36, {'a': (0.1, -0.9)}),
  'tw_win':  ('tower', [1.2, 12, 16], [0.4, 12.5, 4], 34, {}),
 }
-LT = {'N': 'night', 'D': 'day', 'G': 'golden', 'O': 'overcast', 'S': 'storm', 'I': 'interior', 'ID': 'interior_day', 'W': 'dawn', 'X': 'space'}
+LT = {'N': 'night', 'D': 'day', 'G': 'golden', 'O': 'overcast', 'S': 'storm', 'I': 'interior', 'ID': 'interior_day', 'W': 'dawn', 'X': 'space', 'XD': 'spacedark'}
 
 MOON = {'moon': True}
 LOW = {'receded': True}

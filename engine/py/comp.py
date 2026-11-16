@@ -10,7 +10,7 @@ import ui2d as UI
 
 OUT_W, OUT_H = 1920, 1080
 TINT = {'night': (0.74, 0.78, 1.0), 'interior': (1.0, 0.95, 0.86), 'interior_day': (1.0, 0.98, 0.94), 'day': (1, 1, 1), 'golden': (1.06, 0.9, 0.74),
-        'overcast': (0.9, 0.92, 0.97), 'storm': (0.72, 0.76, 0.88), 'space': (1, 1, 1), 'dawn': (1.0, 0.9, 0.84)}
+        'overcast': (0.9, 0.92, 0.97), 'storm': (0.72, 0.76, 0.88), 'space': (1, 1, 1), 'spacedark': (0.6, 0.66, 0.9), 'dawn': (1.0, 0.9, 0.84)}
 
 def sstep(x):
     x = min(1, max(0, x)); return x * x * x * (x * (x * 6 - 15) + 10)

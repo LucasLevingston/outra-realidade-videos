@@ -25,6 +25,8 @@ MOODS = {
     'tender':  dict(ch=[[53, 57, 60], [48, 52, 55], [50, 53, 57], [46, 50, 53]], bpm=72, bright=0.8),
     # humor/cotidiano: pizzicato + baixo saltitante, staccato, tom maior
     'comedy':  dict(ch=[[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]], bpm=112, bright=1.0, style='comedy'),
+    # mistério/espaço/sumiço: pads longos, notas graves, sino distante, tom menor
+    'mystery': dict(ch=[[57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]], bpm=70, bright=0.6, style='mystery'),
 }
 SEGMOOD = {'c0': 'night', 'c1': 'night', 'c2': 'day', 'c3': 'tension', 'i1': 'day', 'c4': 'day', 'c5': 'night', 'i2': 'tension', 'c6': 'tender', 'c7': 'tender', 'c8': 'night'}
 
@@ -50,9 +52,34 @@ def comedy_block(M, dur):
         y = tt(0.2); add(out, np.sin(2 * np.pi * (60 + 70 * np.exp(-y * 35)) * y) * np.exp(-y * 16) * 0.22, t0)
     return out[:int(SR * dur)]
 
+def mystery_block(M, dur):
+    beat = 60 / M['bpm']; bar = beat * 4
+    out = np.zeros(int(SR * (dur + 4))); nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = M['ch'][b % 4]; x = tt(bar + 1.2)
+        # pad longo com leve vibrato, entrando e saindo devagar
+        pad = sum(np.sin(2 * np.pi * mid(n - 12) * x * (1 + 0.002 * np.sin(2 * np.pi * 0.3 * x))) + 0.3 * np.sin(2 * np.pi * mid(n) * 1.004 * x) for n in ch)
+        env = np.minimum(1, x / 1.2) * np.minimum(1, (bar + 1.2 - x) / 1.2)
+        add(out, lp(pad * env, 1500) * 0.085, t0)
+        # nota grave sustentada
+        add(out, np.sin(2 * np.pi * mid(ch[0] - 24) * x) * env * 0.26, t0)
+        # sino distante (1 por compasso, no tempo 3) + eco
+        y = tt(2.4); f = mid(ch[2] + 24)
+        bell = (np.sin(2 * np.pi * f * y) + 0.4 * np.sin(2 * np.pi * f * 2.76 * y) + 0.2 * np.sin(2 * np.pi * f * 5.4 * y)) * np.exp(-y * 2.2) * 0.07
+        add(out, bell, t0 + 2 * beat); add(out, bell * 0.4, t0 + 2 * beat + 0.42)
+        # pulso grave suave
+        for k in (0, 2):
+            y = tt(0.5); add(out, np.sin(2 * np.pi * (42 + 30 * np.exp(-y * 20)) * y) * np.exp(-y * 7) * 0.16, t0 + k * beat)
+        # brilho agudo (estrelas) bem baixo
+        for k in range(4):
+            y = tt(0.5); f2 = mid(ch[(k + b) % 3] + 36)
+            add(out, np.sin(2 * np.pi * f2 * y) * np.exp(-y * 5) * 0.025, t0 + k * beat + beat / 2)
+    return out[:int(SR * dur)]
+
 def music_block(mood, dur):
     M = MOODS[mood]; beat = 60 / M['bpm']; bar = beat * 4
     if M.get('style') == 'comedy': return comedy_block(M, dur)
+    if M.get('style') == 'mystery': return mystery_block(M, dur)
     out = np.zeros(int(SR * (dur + 2)))
     nb = int(dur / bar) + 1
     for b in range(nb):

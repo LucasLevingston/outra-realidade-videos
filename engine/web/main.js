@@ -25,6 +25,7 @@ export const LIGHTS = {
   overcast: { top: '#7d889c', bot: '#c9ced8', key: '#e4e8f0', ki: 1.4, az: 160, el: 60, hs: '#d8deea', hg: '#7a7a86', hi: 1.6, fog: '#c4c9d4', stars: 0, exp: 1.0 },
   storm:    { top: '#262c3e', bot: '#59607a', key: '#aab4d0', ki: 1.2, az: 200, el: 45, hs: '#7a84a0', hg: '#2c2c38', hi: 1.3, fog: '#4a5068', stars: 0, exp: 1.0 },
   space:    { top: '#05061a', bot: '#120d30', key: '#fff4e0', ki: 3.2, az: 60, el: 20, hs: '#3a3a80', hg: '#101030', hi: 0.5, fog: '#000000', stars: 2, exp: 1.0 },
+  spacedark: { top: '#020210', bot: '#080618', key: '#8a9ad8', ki: 0.55, az: 60, el: 20, hs: '#2a2a60', hg: '#080818', hi: 0.45, fog: '#000000', stars: 2, exp: 1.0 },
   interior: { top: '#0d1240', bot: '#3a2c6e', key: '#ffd8a0', ki: 1.6, az: 120, el: 55, hs: '#ffe2c0', hg: '#6a5060', hi: 1.3, fog: '#3a2c50', stars: 1, exp: 1.0 },
   interior_day: { top: '#3d8fe8', bot: '#bfe3ff', key: '#fff1d8', ki: 2.0, az: 120, el: 55, hs: '#fff4e0', hg: '#8a7a70', hi: 1.5, fog: '#d0d8e8', stars: 0, exp: 1.0 },
 };

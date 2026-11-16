@@ -88,6 +88,20 @@
       "agendado_para": "2026-11-16T12:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8742521452450826804",
       "ultimo_erro": "agendado ok (mídia e capa copiadas para static.metricool.com); branch temporária NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
+    },
+    {
+      "slug": "sol-apagou",
+      "tipo": "short",
+      "titulo": "E se o Sol se apagasse de uma vez? ☀️🥶",
+      "texto": "E se o Sol se apagasse agora, de uma vez? ☀️\nSantos escura às 3 da tarde, boneco de neve na areia, o Seu Dito vendendo lenha… e a Terra virando uma bola de gelo a −50 °C. 🥶\nComenta aí: você ia aguentar o frio? 👇\n\n#OutraRealidade #ESe #Sol #Espaco #Universo #Frio #Santos #Curiosidades #Animação #Shorts",
+      "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-16-sol-apagou/video.mp4",
+      "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-16-sol-apagou/thumb.jpg",
+      "branch": "upload-2026-11-16-sol-apagou",
+      "criado_em": "2026-11-16T00:05:00-03:00",
+      "status": "pronto",
+      "agendado_para": null,
+      "plannerUrl": null,
+      "ultimo_erro": null
     }
   ]
 }

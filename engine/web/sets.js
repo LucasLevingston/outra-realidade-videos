@@ -278,14 +278,15 @@ SETS.street = (o, L) => {
 // Espaço: Terra, órbita, Lua opcional
 SETS.space = (o, L) => {
   const G = new THREE.Group();
-  const et = canvasTex('earth', 1024, 512, (g, w, h) => { g.fillStyle = '#2f78c4'; g.fillRect(0, 0, w, h); srand(42);
-    for (let k = 0; k < 9; k++) { const cx = rnd() * w, cy = h * 0.2 + rnd() * h * 0.6, s = 50 + rnd() * 90; g.fillStyle = '#5cbf6a'; g.beginPath();
-      for (let i = 0; i < 16; i++) { const a = i / 16 * 6.283, r = s * (0.6 + rnd() * 0.6); g.lineTo(cx + Math.cos(a) * r * 1.4, cy + Math.sin(a) * r); } g.closePath(); g.fill(); g.strokeStyle = '#2a6a3a'; g.lineWidth = 4; g.stroke();
-      g.fillStyle = '#e8cf8a'; g.beginPath(); g.arc(cx + s * 0.3, cy, s * 0.3, 0, 7); g.fill(); }
+  const fz = !!o.frozen;
+  const et = canvasTex(fz ? 'earthIce' : 'earth', 1024, 512, (g, w, h) => { g.fillStyle = fz ? '#9ab8d8' : '#2f78c4'; g.fillRect(0, 0, w, h); srand(42);
+    for (let k = 0; k < 9; k++) { const cx = rnd() * w, cy = h * 0.2 + rnd() * h * 0.6, s = 50 + rnd() * 90; g.fillStyle = fz ? '#e8f0fa' : '#5cbf6a'; g.beginPath();
+      for (let i = 0; i < 16; i++) { const a = i / 16 * 6.283, r = s * (0.6 + rnd() * 0.6); g.lineTo(cx + Math.cos(a) * r * 1.4, cy + Math.sin(a) * r); } g.closePath(); g.fill(); g.strokeStyle = fz ? '#7a98b8' : '#2a6a3a'; g.lineWidth = 4; g.stroke();
+      g.fillStyle = fz ? '#cfe0f2' : '#e8cf8a'; g.beginPath(); g.arc(cx + s * 0.3, cy, s * 0.3, 0, 7); g.fill(); }
     g.fillStyle = '#f4f8ff'; g.fillRect(0, 0, w, 40); g.fillRect(0, h - 40, w, 40); });
   const earth = new THREE.Mesh(new THREE.SphereGeometry(10, 64, 32), M(et)); earth.rotation.z = THREE.MathUtils.degToRad(-(o.tilt ?? 23.4)); earth.rotation.y = o.spin ?? 0; earth.castShadow = earth.receiveShadow = true; G.add(earth);
   const clouds = new THREE.Mesh(new THREE.SphereGeometry(10.25, 48, 24), new THREE.MeshToonMaterial({ color: '#ffffff', transparent: true, opacity: 0.25, gradientMap: GRAD })); G.add(clouds); clouds.userData.noInk = true;
-  glow(G, 'rgba(110,170,255,0.55)', 0, 0, 0, 30);
+  glow(G, fz ? 'rgba(90,110,170,0.25)' : 'rgba(110,170,255,0.55)', 0, 0, 0, 30);
   // eixo
   const ax = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 30, 8), new THREE.MeshBasicMaterial({ color: o.axisGlow ? '#ffd23f' : '#ffffff' })); ax.rotation.z = THREE.MathUtils.degToRad(-(o.tilt ?? 23.4)); G.add(ax);
   // órbita
