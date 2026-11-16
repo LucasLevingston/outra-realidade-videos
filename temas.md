@@ -30,6 +30,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 99 | Como você inventaria a cortina blecaute por causa do vizinho curioso (roteiro do usuário, `projetos/short-cortina-vizinho`) | Cotidiano/humor | agendado | 2026-11-15 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=2777812305997155855) |
 | ✅ | 101 | Não falte no trabalho no lançamento do GTA 6 (ironia; roteiro do usuário, ref: https://www.instagram.com/p/DfkU3yVsDmC/, `projetos/short-gta6-trabalho`) | Cotidiano/humor | agendado | 2026-11-16 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8742521452450826804) |
 | ✅ | 30 | E se você tivesse que sobreviver 100 dias num bunker? (`projetos/short-bunker`) | Sobrevivência | agendado | 2026-11-15 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4136130610500646952) |
+| ✅ | 15 | E se o Sol se apagasse? (`projetos/short-sol-apagou`) | Universo | agendado | 2026-11-16 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2024794568448981158) |
 
 ## Ideias (backlog, em ordem de prioridade)
 
@@ -37,7 +38,6 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 |---|---|---|---|---|
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
-| ⬜ | 15 | E se o Sol se apagasse? (`projetos/short-sol-apagou`) | Universo | pronto |
 | ⬜ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? | Esporte | ideia |
 | ⬜ | 32 | E se você pudesse voltar aos 18 anos com tudo que sabe hoje? | Realidade alternativa | ideia |
 | ⬜ | 33 | E se você ouvisse os pensamentos do seu chefe? | Cotidiano/humor | ideia |
