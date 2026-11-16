@@ -101,7 +101,7 @@
       "status": "agendado",
       "agendado_para": "2026-11-16T15:00:00-03:00",
       "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2024794568448981158",
-      "ultimo_erro": null
+      "ultimo_erro": "agendado ok; branch temporária upload-2026-11-16-sol-apagou NÃO apagada (git push --delete recusado: \"remote end hung up\"); pode ser apagada à mão"
     }
   ]
 }
