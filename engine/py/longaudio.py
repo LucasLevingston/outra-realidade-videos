@@ -27,6 +27,8 @@ MOODS = {
     'comedy':  dict(ch=[[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]], bpm=112, bright=1.0, style='comedy'),
     # mistério/espaço/sumiço: pads longos, notas graves, sino distante, tom menor
     'mystery': dict(ch=[[57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]], bpm=70, bright=0.6, style='mystery'),
+    # futebol/esporte/torcida: bateria de estádio (surdo + caixa), palmas, metais curtos, ~125 bpm, tom maior
+    'sport':   dict(ch=[[60, 64, 67], [65, 69, 72], [67, 71, 74], [60, 64, 67]], bpm=125, bright=1.0, style='sport'),
 }
 SEGMOOD = {'c0': 'night', 'c1': 'night', 'c2': 'day', 'c3': 'tension', 'i1': 'day', 'c4': 'day', 'c5': 'night', 'i2': 'tension', 'c6': 'tender', 'c7': 'tender', 'c8': 'night'}
 
@@ -76,10 +78,37 @@ def mystery_block(M, dur):
             add(out, np.sin(2 * np.pi * f2 * y) * np.exp(-y * 5) * 0.025, t0 + k * beat + beat / 2)
     return out[:int(SR * dur)]
 
+def sport_block(M, dur):
+    beat = 60 / M['bpm']; bar = beat * 4
+    out = np.zeros(int(SR * (dur + 2))); nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = M['ch'][b % 4]
+        # surdo (tempos 1 e 3 fortes, 2 e 4 abafados)
+        for k in range(4):
+            y = tt(0.35); add(out, np.sin(2 * np.pi * (58 + 40 * np.exp(-y * 25)) * y) * np.exp(-y * (8 if k % 2 == 0 else 16)) * (0.34 if k % 2 == 0 else 0.18), t0 + k * beat)
+        # caixa/repique em semicolcheias com acento
+        for k in range(16):
+            if k % 4 == 3 and b % 2: continue
+            y = tt(0.06); add(out, bp(rng.standard_normal(len(y)), 1800, 7000) * np.exp(-y * 70) * (0.11 if k % 4 == 2 else 0.045), t0 + k * beat / 4)
+        # palmas nos tempos 2 e 4
+        for k in (1, 3):
+            y = tt(0.12); cl = bp(rng.standard_normal(len(y)), 1000, 4500) * np.exp(-y * 35) * 0.12
+            add(out, cl, t0 + k * beat); add(out, cl * 0.6, t0 + k * beat + 0.012)
+        # metais curtos (acorde staccato) no 1 e no "e" do 2
+        for off in (0, beat * 1.5):
+            y = tt(0.22)
+            br = sum(np.sign(np.sin(2 * np.pi * mid(n) * y)) * 0.3 + np.sin(2 * np.pi * mid(n) * y) for n in ch)
+            add(out, lp(br, 2600) * np.exp(-y * 9) * 0.05, t0 + off)
+        # baixo
+        y = tt(beat * 2); add(out, np.sin(2 * np.pi * mid(ch[0] - 24) * y) * np.exp(-y * 2.5) * 0.25, t0)
+        y = tt(beat * 2); add(out, np.sin(2 * np.pi * mid(ch[2] - 24) * y) * np.exp(-y * 2.5) * 0.22, t0 + 2 * beat)
+    return out[:int(SR * dur)]
+
 def music_block(mood, dur):
     M = MOODS[mood]; beat = 60 / M['bpm']; bar = beat * 4
     if M.get('style') == 'comedy': return comedy_block(M, dur)
     if M.get('style') == 'mystery': return mystery_block(M, dur)
+    if M.get('style') == 'sport': return sport_block(M, dur)
     out = np.zeros(int(SR * (dur + 2)))
     nb = int(dur / bar) + 1
     for b in range(nb):
@@ -120,6 +149,9 @@ def sfx_lib():
     x = tt(1.2); L['riser'] = bp(rng.standard_normal(len(x)), 500, 5000) * (x / 1.2) ** 2 + np.sin(2 * np.pi * np.cumsum(200 + 600 * x / 1.2) / SR) * (x / 1.2) * 0.3
     x = tt(0.5); L['sparkle'] = sum(np.sin(2 * np.pi * f * x) * np.exp(-np.maximum(0, x - d) * 12) * (x > d) for f, d in ((2349, 0), (2794, 0.06), (3136, 0.12))) * 0.5
     x = tt(0.25); L['wrong'] = np.sin(2 * np.pi * 220 * x) * np.sign(np.sin(2 * np.pi * 5 * x + 0.3)) * np.exp(-x * 4) * 0.6
+    x = tt(1.8); L['crowd'] = bp(rng.standard_normal(len(x)), 300, 3000) * np.sin(np.pi * x / 1.8) ** 1.5 * (1 + 0.25 * np.sin(2 * np.pi * 3 * x)) * 0.7
+    x = tt(2.2); L['cheer'] = (bp(rng.standard_normal(len(x)), 400, 4000) * np.minimum(1, x / 0.15) * np.exp(-x * 1.1) * (1 + 0.3 * np.sin(2 * np.pi * 5 * x))
+                               + sum(np.sin(2 * np.pi * np.cumsum(f + 40 * np.sin(2 * np.pi * (3 + i) * x)) / SR) for i, f in enumerate((520, 640, 760))) * np.exp(-x * 1.6) * 0.06)
     return L
 
 def ambience(kind, dur):
@@ -128,6 +160,7 @@ def ambience(kind, dur):
     elif kind == 'rain': a = hp(n, 2500) * 0.6 + lp(n, 400) * 0.4
     elif kind == 'room': a = lp(n, 200) * 0.25
     elif kind == 'street': a = bp(n, 200, 1200) * 0.4
+    elif kind == 'stadium': a = bp(n, 250, 2500) * 0.5 * (0.8 + 0.2 * np.sin(2 * np.pi * 0.4 * x))
     else: a = lp(n, 120) * 0.2
     fade = np.minimum(1, np.minimum(x / 0.3, (dur - x) / 0.3))
     return a * fade
@@ -157,7 +190,7 @@ def build(proj):
         for (t, a) in sc.get('shake', []): add(sfx, L['thud'], t, 1.0)
         for t in sc.get('flash_abs', []): add(sfx, L['thunder'], t, 1.0)
         dur = sc['t1'] - sc['t0']
-        kind = 'rain' if 'rain' in sc['fx'] else ('waves' if set_ in ('beach', 'harbor') else ('street' if set_ == 'street' else ('room' if set_ not in ('space',) else 'space')))
+        kind = 'rain' if 'rain' in sc['fx'] else ('waves' if set_ in ('beach', 'harbor') else ('street' if set_ == 'street' else ('stadium' if set_ == 'stadium' else ('room' if set_ not in ('space',) else 'space'))))
         add(amb, ambience(kind, dur + 0.3), sc['t0'], 1.0 if kind != 'rain' else 1.6)
         prev = sc
     for sg in P['segs'][1:]:

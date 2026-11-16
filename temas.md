@@ -38,7 +38,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 |---|---|---|---|---|
 | ⬜ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`) | Cotidiano/humor | ideia |
 | ⬜ | 103 | 4 coisas pra nunca fazer no Enem (roteiro do usuário, `projetos/short-enem`) | Cotidiano/humor | ideia |
-| ⬜ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? | Esporte | ideia |
+| ⬜ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? (`projetos/short-brasil-todas-copas`) | Esporte | pronto |
 | ⬜ | 32 | E se você pudesse voltar aos 18 anos com tudo que sabe hoje? | Realidade alternativa | ideia |
 | ⬜ | 33 | E se você ouvisse os pensamentos do seu chefe? | Cotidiano/humor | ideia |
 | ⬜ | 34 | E se você fosse o único imune a um vírus zumbi? | Sobrevivência | ideia |
