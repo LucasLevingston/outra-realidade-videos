@@ -14,6 +14,7 @@ Registro dos vídeos longos do canal. A skill `criação-de-videos` (seção 15B
 |---|---|---|---|---|---|---|
 | ✅ | L1 | E se a Lua desaparecesse para sempre? (28:03, estilo 3D+2D) | #3 | agendado | 2026-11-12 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6756396973424096304) |
 | ✅ | L19 | E se você voltasse pra 2004 com uma IA no celular? (11:10, estilo 3D+2D, cenário novo `pc2004`) | — | agendado | 2026-11-15 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-3091445263693560452) |
+| ✅ | L26 | E se a sua sorte dobrasse a cada dia? (11:37, estilo 3D+2D, pedido do usuário; voz ElevenLabs) | — | agendado | 2026-11-21 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4552990441938927029) |
 
 ## Ideias (backlog, em ordem de prioridade)
 

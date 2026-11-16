@@ -177,7 +177,7 @@ def build(proj):
     # trilha por segmento com crossfade nos cartões
     for k, sg in enumerate(P['segs']):
         st = sg['start'] - (longform.GAP if k else 0); en = sg['start'] + sg['dur'] + (longform.GAP if k + 1 < len(P['segs']) else longform.TAIL)
-        blk = music_block(getattr(S, 'MOOD', None) or SEGMOOD.get(sg['seg'], 'night'), en - st + 1.5)
+        blk = music_block(getattr(S, 'MOOD', None) or getattr(S, 'SEGMOOD', {}).get(sg['seg']) or SEGMOOD.get(sg['seg'], 'night'), en - st + 1.5)
         x = np.arange(len(blk)) / SR; fade = np.minimum(1, np.minimum(x / 1.2, (len(blk) / SR - x) / 1.5))
         add(mus, blk * fade, st)
     L = sfx_lib()
