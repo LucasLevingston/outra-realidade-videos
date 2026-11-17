@@ -156,6 +156,16 @@ def bg_room(kind='bedroom', light='day'):
                  f'<rect x="0" y="1150" width="{W}" height="70" rx="12" fill="#2a2840" stroke="{OL}" stroke-width="7"/>'
                  + ''.join(f'<line x1="{x}" y1="1156" x2="{x - 20}" y2="1214" stroke="#4a4870" stroke-width="6"/>' for x in range(40, 1080, 70))
                  + f'<rect x="760" y="1060" width="200" height="110" rx="16" fill="#3a3a5a" stroke="{OL}" stroke-width="7"/><rect x="790" y="1080" width="140" height="50" rx="8" fill="#e8483a" opacity=".85"/>']
+    elif kind == 'office':
+        # escritório: janela larga com prédios, quadro branco, mesa de reunião
+        body += [_window_frame(560, 260, 440, 460, s1, s2, sun),
+                 ''.join(f'<rect x="{x}" y="{y}" width="70" height="{720 - y}" fill="#9fb8e6" opacity=".55"/>' for x, y in ((600, 520), (690, 470), (790, 560), (880, 500))),
+                 f'<rect x="70" y="300" width="420" height="300" rx="10" fill="#fff" stroke="{OL}" stroke-width="8"/>'
+                 f'<polyline points="110,540 180,500 250,520 320,440 390,460 450,360" fill="none" stroke="#2fa86a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>'
+                 f'<rect x="100" y="600" width="360" height="18" rx="6" fill="#c9c9d6" stroke="{OL}" stroke-width="5"/>',
+                 f'<rect x="40" y="1300" width="1000" height="70" rx="20" fill="#a26b45" stroke="{OL}" stroke-width="8"/>'
+                 f'<rect x="120" y="1370" width="30" height="200" fill="{OL}"/><rect x="930" y="1370" width="30" height="200" fill="{OL}"/>'
+                 + ''.join(f'<rect x="{x}" y="1262" width="110" height="44" rx="8" fill="#f4f0e8" stroke="{OL}" stroke-width="5"/>' for x in (180, 470, 760))]
     elif kind == 'restaurant':
         body += [''.join(f'<line x1="{x}" y1="0" x2="{x}" y2="300" stroke="{OL}" stroke-width="5"/><path d="M{x - 70} 360 Q{x} 250 {x + 70} 360Z" fill="#ffcf5a" stroke="{OL}" stroke-width="6"/>' for x in (200, 540, 880)),
                  f'<rect x="0" y="560" width="{W}" height="20" fill="#c06a4a"/>'
@@ -367,6 +377,62 @@ def card_svg(scale=1.0, declined=True):
             f'<rect x="40" y="160" width="220" height="22" rx="8" fill="#fff" opacity=".7"/>'
             + (f'<circle cx="300" cy="70" r="46" fill="#e8483a" stroke="{OL}" stroke-width="6"/><path d="M280,50 L320,90 M320,50 L280,90" stroke="#fff" stroke-width="11" stroke-linecap="round"/>' if declined else '')
             + '</svg>')
+
+def tree_svg(scale=1.0, shade=True):
+    w = 620 * scale; h = 820 * scale
+    sh = f'<ellipse cx="310" cy="790" rx="300" ry="42" fill="#1d1a26" opacity=".28"/>' if shade else ''
+    return (f'<svg viewBox="0 0 620 820" width="{w:.0f}" height="{h:.0f}">{sh}'
+            f'<path d="M270,800 L285,430 L335,430 L350,800Z" fill="#8a5a3c" stroke="{OL}" stroke-width="8"/>'
+            + ''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{c}" stroke="{OL}" stroke-width="8"/>' for x, y, r, c in
+                      ((170, 330, 150, '#2fa86a'), (450, 330, 150, '#2fa86a'), (310, 200, 170, '#3fbf7a'), (310, 380, 150, '#2fa86a')))
+            + ''.join(f'<circle cx="{x}" cy="{y}" r="20" fill="#ff6f6f" stroke="{OL}" stroke-width="5"/>' for x, y in ((220, 260), (400, 230), (330, 380), (180, 380)))
+            + '</svg>')
+
+def fan_svg(scale=1.0, fid='fan'):
+    w = 300 * scale; h = 560 * scale
+    blades = ''.join(f'<ellipse cx="150" cy="80" rx="34" ry="70" fill="#7fd6ff" stroke="{OL}" stroke-width="6" transform="rotate({a} 150 150)"/>' for a in (0, 120, 240))
+    return (f'<svg viewBox="0 0 300 560" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="138" y="240" width="24" height="280" fill="#c9c9d6" stroke="{OL}" stroke-width="6"/><ellipse cx="150" cy="530" rx="90" ry="24" fill="#c9c9d6" stroke="{OL}" stroke-width="6"/>'
+            f'<circle cx="150" cy="150" r="140" fill="#fff" fill-opacity=".35" stroke="{OL}" stroke-width="8"/>'
+            f'<g id="{fid}" style="transform-box:fill-box;transform-origin:50% 50%">{blades}<circle cx="150" cy="150" r="26" fill="#e8483a" stroke="{OL}" stroke-width="6"/></g>'
+            f'<rect x="70" y="330" width="160" height="70" rx="12" fill="#ffd23f" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="150" y="378" font-family="Pop" font-size="36" text-anchor="middle" fill="{OL}">ASSINE</text></svg>')
+
+def alarm_svg(scale=1.0, text='R$ 2,00'):
+    w = 460 * scale; h = 380 * scale
+    return (f'<svg viewBox="0 0 460 380" width="{w:.0f}" height="{h:.0f}">'
+            f'<circle cx="90" cy="70" r="55" fill="#ffd23f" stroke="{OL}" stroke-width="8"/><circle cx="370" cy="70" r="55" fill="#ffd23f" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="30" y="90" width="400" height="250" rx="60" fill="#e8483a" stroke="{OL}" stroke-width="9"/>'
+            f'<rect x="70" y="135" width="320" height="160" rx="22" fill="#22213a" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="230" y="185" font-family="Pop" font-size="34" text-anchor="middle" fill="#7fe0c0">SONECA</text>'
+            f'<text x="230" y="262" font-family="Pop" font-size="72" text-anchor="middle" fill="#ffd23f">{esc(text)}</text>'
+            f'<rect x="80" y="335" width="40" height="40" rx="8" fill="{OL}"/><rect x="340" y="335" width="40" height="40" rx="8" fill="{OL}"/></svg>')
+
+def tollgate_svg(scale=1.0, bid='bar'):
+    w = 760 * scale; h = 520 * scale
+    stripes = ''.join(f'<rect x="{150 + k * 70}" y="0" width="35" height="40" fill="#e8483a"/>' for k in range(9))
+    return (f'<svg viewBox="0 0 760 520" width="{w:.0f}" height="{h:.0f}" style="overflow:visible">'
+            f'<rect x="20" y="180" width="170" height="320" rx="14" fill="#ffd23f" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="45" y="215" width="120" height="90" rx="10" fill="#7fd6ff" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="105" y="400" font-family="Pop" font-size="40" text-anchor="middle" fill="{OL}">R$</text>'
+            f'<g id="{bid}" style="transform-box:view-box;transform-origin:150px 250px">'
+            f'<g transform="translate(0,230)"><rect x="150" y="0" width="600" height="40" rx="14" fill="#fff" stroke="{OL}" stroke-width="7"/>{stripes}'
+            f'<rect x="150" y="0" width="600" height="40" rx="14" fill="none" stroke="{OL}" stroke-width="7"/></g></g>'
+            f'<circle cx="150" cy="250" r="26" fill="{OL}"/></svg>')
+
+def bakery_svg(scale=1.0):
+    w = 1080 * scale; h = 900 * scale
+    aw = ''.join(f'<path d="M{x},120 L{x + 90},120 L{x + 90},210 Q{x + 45},250 {x},210Z" fill="{c}" stroke="{OL}" stroke-width="6"/>'
+                 for x, c in zip(range(40, 1040, 90), ['#e8483a', '#fff'] * 6))
+    breads = ''.join(f'<ellipse cx="{x}" cy="560" rx="70" ry="38" fill="#e0a050" stroke="{OL}" stroke-width="6"/><path d="M{x - 30},548 L{x - 10},570 M{x},545 L{x + 20},568 M{x + 30},548 L{x + 46},566" stroke="{OL}" stroke-width="5"/>'
+                     for x in (200, 360, 520))
+    return (f'<svg viewBox="0 0 1080 900" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="20" y="40" width="1040" height="860" fill="#f6e3b8" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="180" y="50" width="720" height="70" rx="12" fill="#8a5a3c" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="540" y="104" font-family="Pop" font-size="52" text-anchor="middle" fill="#fff">PADARIA</text>{aw}'
+            f'<rect x="90" y="330" width="560" height="320" rx="14" fill="#c6eefc" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="110" y="600" width="520" height="22" fill="#a26b45"/>{breads}'
+            f'<rect x="720" y="320" width="270" height="580" rx="12" fill="#a26b45" stroke="{OL}" stroke-width="8"/><circle cx="950" cy="620" r="14" fill="#ffd23f" stroke="{OL}" stroke-width="5"/></svg>')
 
 ICONS = {
     'phone': f'<svg viewBox="0 0 100 100" width="110" height="110"><rect x="28" y="8" width="44" height="84" rx="10" fill="#2a2840" stroke="{OL}" stroke-width="5"/><rect x="34" y="18" width="32" height="58" rx="4" fill="#7fe0c0"/><path d="M8,30 Q2,50 8,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/><path d="M92,30 Q98,50 92,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/></svg>',
