@@ -28,6 +28,8 @@ MOODS = {
     # mistério/espaço/sumiço: pads longos, notas graves, sino distante, tom menor
     'mystery': dict(ch=[[57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]], bpm=70, bright=0.6, style='mystery'),
     # futebol/esporte/torcida: bateria de estádio (surdo + caixa), palmas, metais curtos, ~125 bpm, tom maior
+    # aventura/conquista/dinheiro: percussão cheia, metais, crescendo, ~120 bpm, tom maior
+    'epic':    dict(ch=[[60, 64, 67], [55, 59, 62], [57, 60, 64], [53, 57, 60]], bpm=120, bright=1.0, style='epic'),
     'sport':   dict(ch=[[60, 64, 67], [65, 69, 72], [67, 71, 74], [60, 64, 67]], bpm=125, bright=1.0, style='sport'),
 }
 SEGMOOD = {'c0': 'night', 'c1': 'night', 'c2': 'day', 'c3': 'tension', 'i1': 'day', 'c4': 'day', 'c5': 'night', 'i2': 'tension', 'c6': 'tender', 'c7': 'tender', 'c8': 'night'}
@@ -104,11 +106,43 @@ def sport_block(M, dur):
         y = tt(beat * 2); add(out, np.sin(2 * np.pi * mid(ch[2] - 24) * y) * np.exp(-y * 2.5) * 0.22, t0 + 2 * beat)
     return out[:int(SR * dur)]
 
+def epic_block(M, dur):
+    beat = 60 / M['bpm']; bar = beat * 4
+    out = np.zeros(int(SR * (dur + 2))); nb = int(dur / bar) + 1
+    def brass(f, d, a):
+        y = tt(d); s = sum(np.sin(2 * np.pi * f * h * y) / h ** 1.2 for h in range(1, 7))
+        env = np.minimum(1, y / 0.04) * np.exp(-y * 1.6) * np.minimum(1, (d - y) / 0.05)
+        return lp(s * env, 3200) * a
+    for b in range(nb):
+        t0 = b * bar; ch = M['ch'][b % 4]; grow = 0.65 + 0.35 * min(1, b / max(1, nb - 1))   # crescendo ao longo do vídeo
+        x = tt(bar + 0.3)
+        pad = sum(np.sin(2 * np.pi * mid(n - 12) * x) + 0.3 * np.sin(2 * np.pi * mid(n) * 2.002 * x) for n in ch)
+        add(out, lp(pad * np.minimum(1, x / 0.3) * np.minimum(1, (bar + 0.3 - x) / 0.3), 2600) * 0.07 * grow, t0)
+        # metais: acorde em semínima pontuada + resposta
+        for k, (d, a) in enumerate(((beat * 1.5, 0.10), (beat * 0.5, 0.07), (beat * 2, 0.09))):
+            st = (0, beat * 1.5, beat * 2)[k]
+            for n in ch: add(out, brass(mid(n), d, a * grow), t0 + st)
+        # baixo
+        for k in range(4):
+            y = tt(beat * 0.9); add(out, np.sin(2 * np.pi * mid(ch[0] - 24) * y) * np.exp(-y * 3) * 0.30, t0 + k * beat)
+        # percussão cheia: bumbo, caixa, tons
+        for k in range(4):
+            y = tt(0.3); add(out, np.sin(2 * np.pi * (50 + 90 * np.exp(-y * 30)) * y) * np.exp(-y * 12) * 0.34 * grow, t0 + k * beat)
+        for k in (1, 3):
+            y = tt(0.2); add(out, (bp(rng.standard_normal(len(y)), 900, 5000) * 0.7 + np.sin(2 * np.pi * 190 * y)) * np.exp(-y * 22) * 0.16 * grow, t0 + k * beat)
+        for k in range(8):
+            add(out, hp(rng.standard_normal(int(SR * 0.04)), 7000) * np.exp(-tt(0.04) * 90) * 0.04, t0 + k * beat / 2)
+        if b % 2 == 1:
+            for k, f in enumerate((140, 120, 100, 85)):
+                y = tt(0.22); add(out, np.sin(2 * np.pi * f * y) * np.exp(-y * 12) * 0.16 * grow, t0 + 3 * beat + k * beat / 4)
+    return out[:int(SR * dur)]
+
 def music_block(mood, dur):
     M = MOODS[mood]; beat = 60 / M['bpm']; bar = beat * 4
     if M.get('style') == 'comedy': return comedy_block(M, dur)
     if M.get('style') == 'mystery': return mystery_block(M, dur)
     if M.get('style') == 'sport': return sport_block(M, dur)
+    if M.get('style') == 'epic': return epic_block(M, dur)
     out = np.zeros(int(SR * (dur + 2)))
     nb = int(dur / bar) + 1
     for b in range(nb):

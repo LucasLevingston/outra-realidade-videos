@@ -116,6 +116,20 @@
    "agendado_para": "2026-11-16T18:00:00-03:00",
    "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6863118652085323576",
    "ultimo_erro": "agendado ok (mídia e capa copiadas para static.metricool.com); branch temporária upload-2026-11-16-brasil-todas-copas NÃO apagada (git push --delete recusado); pode ser apagada à mão"
+  },
+  {
+   "slug": "pix-milhao",
+   "tipo": "short",
+   "titulo": "E se caísse um Pix de 1 MILHÃO na sua conta? 💸📱",
+   "texto": "E se caísse um Pix de R$ 1 milhão na sua conta hoje? 💸\nO banco ligando 3 vezes, o gerente mandando bom dia, um cartão preto… e à noite, 47 parentes novos no grupo da família. 📱\nComenta aí: você contava pra alguém ou ficava quieto? 👇\n\n#OutraRealidade #ESe #Pix #Milhao #Dinheiro #Familia #Humor #Animação #Shorts",
+   "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-16-pix-milhao/video.mp4",
+   "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-16-pix-milhao/thumb.jpg",
+   "branch": "upload-2026-11-16-pix-milhao",
+   "criado_em": "2026-11-16T22:37:00-03:00",
+   "status": "agendado",
+   "agendado_para": "2026-11-17T12:00:00-03:00",
+   "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=1495546708025821407",
+   "ultimo_erro": "agendado ok (mídia e capa copiadas para static.metricool.com); branch temporária upload-2026-11-16-pix-milhao NÃO apagada (git push --delete recusado); pode ser apagada à mão"
   }
  ]
 }

@@ -32,6 +32,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 30 | E se você tivesse que sobreviver 100 dias num bunker? (`projetos/short-bunker`) | Sobrevivência | agendado | 2026-11-15 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-4136130610500646952) |
 | ✅ | 15 | E se o Sol se apagasse? (`projetos/short-sol-apagou`) | Universo | agendado | 2026-11-16 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-2024794568448981158) |
 | ✅ | 31 | E se o Brasil tivesse vencido todas as Copas do Mundo? (`projetos/short-brasil-todas-copas`) | Esporte | agendado | 2026-11-16 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=6863118652085323576) |
+| ✅ | 104 | E se caísse um Pix de R$ 1 milhão na sua conta hoje? (`projetos/short-pix-milhao`, a pedido do usuário; 1º Short com voz Gabriel e visual 2D flat) | Dinheiro | agendado | 2026-11-17 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=1495546708025821407) |
 
 ## Ideias (backlog, em ordem de prioridade)
 

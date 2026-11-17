@@ -83,3 +83,13 @@ Elementos ancorados em palavras da narração (`'palavra'`, `'palavra#2'`, `'>pa
 - Personagens sempre vivos (respiração, piscada, balanço) e com sombra de contato; tingidos pela luz da cena.
 - Rótulos em pílula no topo; legenda: Short = karaokê (1 palavra, 45% da altura); longo = frase inteira embaixo.
 - Nunca editar a narração; a imagem segue o áudio.
+
+## Modo 2D flat (padrão "Rafa", desde 16/11/2026) — `py/flat2d.py`
+O estilo oficial do canal agora é **2D flat** (sem 3D): cenários vetoriais em SVG (`bg_sunburst`, `bg_navy`, `bg_city('day'|'night'|'sunset')`, `bg_room('bedroom'|'kitchen'|'living'|'restaurant', luz)`),
+personagens cabeça-de-feijão em SVG (`char(id, quem, x, y, escala, pose, rosto, props=...)`, elenco em `CAST`), câmera 2D por cena (push/pull/panL/panR/drama + tremor),
+rótulos, cards, celulares, balões e legenda karaokê, tudo numa composição HyperFrames renderizada direto em MP4.
+```bash
+python3 PROJ/flat_scenes.py all              # monta PROJ/hf/index.html + mix (música −6 dB, efeitos ≤ −6 dB, −14 LUFS)
+python3 PROJ/flat_scenes.py render OUT.mp4   # HyperFrames (~10 min para 36 s com 2 processos) + troca o áudio pelo mix
+```
+Modelo completo: `projetos/short-pix-milhao/flat_scenes.py` (cenas ancoradas nas palavras de `audio/words.json`). Trilha `epic` acrescentada em `longaudio.py`.
