@@ -31,6 +31,8 @@ MOODS = {
     # aventura/conquista/dinheiro: percussão cheia, metais, crescendo, ~120 bpm, tom maior
     'epic':    dict(ch=[[60, 64, 67], [55, 59, 62], [57, 60, 64], [53, 57, 60]], bpm=120, bright=1.0, style='epic'),
     'sport':   dict(ch=[[60, 64, 67], [65, 69, 72], [67, 71, 74], [60, 64, 67]], bpm=125, bright=1.0, style='sport'),
+    # nostalgia/passado/flashback: lo-fi chiptune 8-bit (onda quadrada + triangular), batida abafada, ~90 bpm, tom maior com sétimas
+    'retro':   dict(ch=[[60, 64, 67, 71], [57, 60, 64, 67], [62, 65, 69, 72], [55, 59, 62, 65]], bpm=90, bright=0.9, style='retro'),
 }
 SEGMOOD = {'c0': 'night', 'c1': 'night', 'c2': 'day', 'c3': 'tension', 'i1': 'day', 'c4': 'day', 'c5': 'night', 'i2': 'tension', 'c6': 'tender', 'c7': 'tender', 'c8': 'night'}
 
@@ -137,12 +139,42 @@ def epic_block(M, dur):
                 y = tt(0.22); add(out, np.sin(2 * np.pi * f * y) * np.exp(-y * 12) * 0.16 * grow, t0 + 3 * beat + k * beat / 4)
     return out[:int(SR * dur)]
 
+def retro_block(M, dur):
+    beat = 60 / M['bpm']; bar = beat * 4
+    out = np.zeros(int(SR * (dur + 2))); nb = int(dur / bar) + 1
+    sq = lambda f, y, duty=0.25: np.where((f * y) % 1.0 < duty, 1.0, -1.0)
+    tri = lambda f, y: 2 * np.abs(2 * ((f * y) % 1.0) - 1) - 1
+    for b in range(nb):
+        t0 = b * bar; ch = M['ch'][b % 4]
+        # baixo triangular (8-bit) em colcheias: raiz, raiz, quinta, oitava
+        for k, n in enumerate([ch[0] - 24, ch[0] - 24, ch[2] - 24, ch[0] - 12] * 2):
+            y = tt(beat / 2 * 0.9); add(out, tri(mid(n), y) * np.exp(-y * 3) * 0.20, t0 + k * beat / 2)
+        # arpejo de onda quadrada filtrado (lo-fi), semicolcheias
+        arp = [ch[0], ch[1], ch[2], ch[3], ch[2], ch[1]] * 3
+        for k, n in enumerate(arp[:16]):
+            y = tt(beat / 4 * 0.85); add(out, lp(sq(mid(n + 12), y), 3500) * np.exp(-y * 10) * 0.05 * M['bright'], t0 + k * beat / 4)
+        # melodia simples a cada 2 compassos
+        if b % 2 == 0:
+            for k, n in enumerate([ch[2] + 12, ch[3] + 12, ch[2] + 12, ch[1] + 12]):
+                y = tt(beat * 0.9); add(out, lp(sq(mid(n), y, 0.5), 2800) * np.minimum(1, y / 0.02) * np.exp(-y * 2.5) * 0.06, t0 + k * beat)
+        # batida abafada lo-fi: bumbo 1 e 3, caixa 2 e 4, chimbal
+        for k in (0, 2):
+            y = tt(0.25); add(out, np.sin(2 * np.pi * (50 + 70 * np.exp(-y * 30)) * y) * np.exp(-y * 13) * 0.30, t0 + k * beat)
+        for k in (1, 3):
+            y = tt(0.16); add(out, lp(rng.standard_normal(len(y)), 2500) * np.exp(-y * 28) * 0.12, t0 + k * beat)
+        for k in range(8):
+            add(out, hp(rng.standard_normal(int(SR * 0.03)), 6000) * np.exp(-tt(0.03) * 110) * 0.025, t0 + k * beat / 2 + beat / 4)
+    # chiado de vinil leve
+    out[:] += hp(rng.standard_normal(len(out)), 4000) * 0.004
+    return out[:int(SR * dur)]
+
 def music_block(mood, dur):
     M = MOODS[mood]; beat = 60 / M['bpm']; bar = beat * 4
     if M.get('style') == 'comedy': return comedy_block(M, dur)
     if M.get('style') == 'mystery': return mystery_block(M, dur)
     if M.get('style') == 'sport': return sport_block(M, dur)
     if M.get('style') == 'epic': return epic_block(M, dur)
+    if M.get('style') == 'retro': return retro_block(M, dur)
     out = np.zeros(int(SR * (dur + 2)))
     nb = int(dur / bar) + 1
     for b in range(nb):
@@ -175,6 +207,7 @@ def sfx_lib():
     L['typing'] = np.zeros(int(SR * 0.9))
     for k in range(9): add(L['typing'], L['click'] * (0.6 + 0.4 * rng.random()), k * 0.09 + rng.random() * 0.03)
     x = tt(0.08); L['tick'] = np.sin(2 * np.pi * 2200 * x) * np.exp(-x * 80)
+    x = tt(0.3); L['coin'] = np.concatenate([np.sign(np.sin(2 * np.pi * 988 * tt(0.07))) * 0.4, np.sign(np.sin(2 * np.pi * 1319 * tt(0.23))) * np.exp(-tt(0.23) * 9) * 0.4])
     x = tt(0.6); L['cash'] = (np.sin(2 * np.pi * 2093 * x) + np.sin(2 * np.pi * 2637 * x)) * np.exp(-x * 7) * 0.5
     x = tt(0.4); L['buzz'] = np.sign(np.sin(2 * np.pi * 110 * x)) * np.minimum(1, (0.4 - x) / 0.05) * 0.5
     x = tt(0.35); L['glitch'] = np.sign(np.sin(2 * np.pi * np.cumsum(400 + 900 * rng.random(len(x))) / SR)) * (np.floor(x * 40) % 2) * 0.35

@@ -130,6 +130,20 @@
    "agendado_para": "2026-11-17T12:00:00-03:00",
    "plannerUrl": "https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=1495546708025821407",
    "ultimo_erro": "agendado ok (mídia e capa copiadas para static.metricool.com); branch temporária upload-2026-11-16-pix-milhao NÃO apagada (git push --delete recusado); pode ser apagada à mão"
+  },
+  {
+   "slug": "voltar-18",
+   "tipo": "short",
+   "titulo": "E se você voltasse aos 18 com tudo que sabe hoje? 🔁🎒",
+   "texto": "E se você voltasse aos 18 anos com tudo que sabe hoje? 🔁\nO Beto tirou 10 na prova sem estudar, pediu desculpa por uma briga que nem tinha acontecido e colocou a mesada inteira numa moeda de 10 centavos… e a família riu dele no jantar. 🎒\nComenta aí: o que você ia mudar primeiro? 👇\n\n🎙️ Voz: Lucas por iluucasz (CC BY 4.0)\n\n#OutraRealidade #ESe #Voltar18 #VoltarNoTempo #Nostalgia #Adolescencia #Curiosidades #Animação #Shorts",
+   "video_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-17-voltar-18/video.mp4",
+   "thumb_url": "https://raw.githubusercontent.com/LucasLevingston/outra-realidade-videos/upload-2026-11-17-voltar-18/thumb.jpg",
+   "branch": "upload-2026-11-17-voltar-18",
+   "criado_em": "2026-11-17T03:20:00-03:00",
+   "status": "pronto",
+   "agendado_para": null,
+   "plannerUrl": null,
+   "ultimo_erro": null
   }
  ]
 }

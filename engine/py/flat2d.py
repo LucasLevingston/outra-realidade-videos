@@ -132,6 +132,13 @@ def bg_room(kind='bedroom', light='day'):
                  f'<rect x="90" y="360" width="300" height="220" rx="8" fill="#ffffff" stroke="{OL}" stroke-width="6"/><path d="M110 560 L190 450 L250 520 L300 470 L370 560Z" fill="#7ec8a0"/>',
                  f'<rect x="60" y="1110" width="960" height="300" rx="50" fill="#c0586a" stroke="{OL}" stroke-width="7"/>'
                  f'<rect x="100" y="1030" width="880" height="160" rx="40" fill="#d06878" stroke="{OL}" stroke-width="7"/>']
+    elif kind == 'classroom':
+        body += [f'<rect x="70" y="250" width="940" height="470" rx="14" fill="#2f6b4f" stroke="{OL}" stroke-width="10"/>'
+                 f'<rect x="60" y="720" width="960" height="26" rx="8" fill="#a26b45" stroke="{OL}" stroke-width="6"/>'
+                 f'<text x="140" y="420" font-family="Pop" font-size="86" fill="#f4f0e8" opacity=".9">2x + 3 = 11</text>'
+                 f'<text x="140" y="560" font-family="Pop" font-size="86" fill="#f4f0e8" opacity=".9">x = ?</text>'
+                 f'<circle cx="880" cy="140" r="70" fill="#fff" stroke="{OL}" stroke-width="7"/><line x1="880" y1="140" x2="880" y2="95" stroke="{OL}" stroke-width="7"/><line x1="880" y1="140" x2="915" y2="150" stroke="{OL}" stroke-width="7"/>',
+                 ''.join(f'<rect x="{x}" y="1430" width="300" height="40" rx="10" fill="#c98f5e" stroke="{OL}" stroke-width="6"/><rect x="{x + 30}" y="1470" width="24" height="180" fill="{OL}"/><rect x="{x + 246}" y="1470" width="24" height="180" fill="{OL}"/>' for x in (60, 720))]
     elif kind == 'restaurant':
         body += [''.join(f'<line x1="{x}" y1="0" x2="{x}" y2="300" stroke="{OL}" stroke-width="5"/><path d="M{x - 70} 360 Q{x} 250 {x + 70} 360Z" fill="#ffcf5a" stroke="{OL}" stroke-width="6"/>' for x in (200, 540, 880)),
                  f'<rect x="0" y="560" width="{W}" height="20" fill="#c06a4a"/>'
@@ -146,6 +153,11 @@ CAST = {
     'caio': dict(skin='a', hair='curly', hc='#1d1a26', shirt='#4a9be8', pants='#2f3a66', shoe='#1d1a26'),
     'mae':  dict(skin='b', hair='bun', hc='#b9b4c4', shirt='#8f6cc9', pants='#5a4688', shoe='#3a2a4a', glasses=True),
     'tia':  dict(skin='c', hair='bigcurly', hc='#8a3a2e', shirt='#ef6fa2', pants='#6a3a5a', shoe='#3a2a4a', glasses=True, earrings=True),
+    'beto': dict(skin='b', hair='short', hc='#3a2616', shirt='#2fbf71', pants='#2f3a66', shoe='#1d1a26'),
+    'irmao': dict(skin='b', hair='curly', hc='#3a2616', shirt='#ffb347', pants='#3c3c5a', shoe='#1d1a26'),
+    'pai':  dict(skin='b', hair='short', hc='#6b6878', shirt='#3a8dde', pants='#3c3c5a', shoe='#1d1a26', glasses=True),
+    'vo':   dict(skin='d', hair='bun', hc='#eceaf2', shirt='#6fbf9f', pants='#4a6a5a', shoe='#3a2a4a', glasses=True, earrings=True),
+    'prof': dict(skin='c', hair='short', hc='#9a96a8', shirt='#a26b45', pants='#3c3c5a', shoe='#1d1a26', glasses=True),
     'p1':   dict(skin='d', hair='short', hc='#5a3a22', shirt='#ffb347', pants='#3c3c5a', shoe='#1d1a26'),
     'p2':   dict(skin='c', hair='short', hc='#1d1a26', shirt='#5fc3a8', pants='#3c3c5a', shoe='#1d1a26'),
     'p3':   dict(skin='b', hair='bob', hc='#e0b040', shirt='#e85d4a', pants='#3c3c5a', shoe='#1d1a26'),
@@ -247,6 +259,8 @@ def char(cid, who, x, y, scale=1.0, pose='hang', face='neutral', flip=False, pro
     extras = ''
     if 'sunglasses' in props:
         extras += f'<rect x="-100" y="{cy - 22}" width="200" height="54" rx="22" fill="{OL}"/><rect x="-80" y="{cy - 14}" width="60" height="8" rx="4" fill="#fff" opacity=".5"/>'
+    if 'pimple' in props:
+        extras += f'<circle cx="38" cy="{cy - 70}" r="17" fill="#e8483a" stroke="{OL}" stroke-width="5"/><circle cx="33" cy="{cy - 75}" r="5" fill="#fff" opacity=".7"/>'
     if 'helmet' in props:
         front_hair = f'<path d="M-170,{cy + 40} Q-175,{cy - 175} 0,{cy - 172} Q175,{cy - 175} 170,{cy + 40}Z" fill="#e8483a" stroke="{OL}" stroke-width="8"/><rect x="-120" y="{cy - 35}" width="240" height="60" rx="26" fill="#3a3a5a" stroke="{OL}" stroke-width="6"/>'
         back_hair = ''
@@ -273,8 +287,31 @@ def moto_svg(x, y, scale=1.0, mid='moto'):
             f'<line x1="150" y1="-200" x2="205" y2="-300" stroke="{OL}" stroke-width="14" stroke-linecap="round"/><line x1="180" y1="-300" x2="240" y2="-300" stroke="{OL}" stroke-width="14" stroke-linecap="round"/>'
             f'<circle cx="230" cy="-215" r="22" fill="#ffe36a" stroke="{OL}" stroke-width="6"/></svg>')
 
+def flipphone(scale=1.0, screen='#7fe0c0', text=''):
+    """Celular antigo de tampinha (aberto)."""
+    w = 260 * scale; h = 520 * scale
+    return (f'<svg viewBox="0 0 260 520" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="20" y="10" width="220" height="230" rx="34" fill="#9aa3b8" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="45" y="40" width="170" height="170" rx="10" fill="{screen}" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="130" y="140" font-family="Pop" font-size="44" text-anchor="middle" fill="{OL}">{esc(text)}</text>'
+            f'<rect x="100" y="236" width="60" height="24" fill="#7a8298" stroke="{OL}" stroke-width="6"/>'
+            f'<rect x="20" y="256" width="220" height="254" rx="34" fill="#b5bccd" stroke="{OL}" stroke-width="8"/>'
+            + ''.join(f'<rect x="{50 + 60 * (k % 3)}" y="{300 + 50 * (k // 3)}" width="44" height="32" rx="8" fill="#eef0f6" stroke="{OL}" stroke-width="4"/>' for k in range(12))
+            + '</svg>')
+
+def can_svg(scale=1.0, label='MESADA'):
+    w = 300 * scale; h = 360 * scale
+    return (f'<svg viewBox="0 0 300 360" width="{w:.0f}" height="{h:.0f}">'
+            f'<ellipse cx="150" cy="320" rx="120" ry="28" fill="#000" opacity=".15"/>'
+            f'<path d="M40,60 L40,300 Q150,340 260,300 L260,60Z" fill="#c9ced9" stroke="{OL}" stroke-width="8"/>'
+            f'<ellipse cx="150" cy="60" rx="110" ry="30" fill="#e6e9f0" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="100" y="52" width="100" height="14" rx="6" fill="{OL}"/>'
+            f'<rect x="40" y="140" width="220" height="90" fill="#ffd23f" stroke="{OL}" stroke-width="6"/>'
+            f'<text x="150" y="203" font-family="Pop" font-size="44" text-anchor="middle" fill="{OL}">{esc(label)}</text></svg>')
+
 ICONS = {
     'phone': f'<svg viewBox="0 0 100 100" width="110" height="110"><rect x="28" y="8" width="44" height="84" rx="10" fill="#2a2840" stroke="{OL}" stroke-width="5"/><rect x="34" y="18" width="32" height="58" rx="4" fill="#7fe0c0"/><path d="M8,30 Q2,50 8,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/><path d="M92,30 Q98,50 92,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/></svg>',
+    'x': f'<svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="44" fill="#e8483a" stroke="{OL}" stroke-width="6"/><path d="M33,33 L67,67 M67,33 L33,67" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/></svg>',
     'check': f'<svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="44" fill="#2fbf71" stroke="{OL}" stroke-width="6"/><path d="M28,52 L44,67 L73,36" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     'mic': f'<svg viewBox="0 0 100 100" width="80" height="80"><rect x="35" y="10" width="30" height="52" rx="15" fill="#fff" stroke="{OL}" stroke-width="5"/><path d="M22,48 Q22,78 50,78 Q78,78 78,48" fill="none" stroke="#fff" stroke-width="7"/><line x1="50" y1="78" x2="50" y2="92" stroke="#fff" stroke-width="7"/></svg>',
     'smile': f'<svg viewBox="0 0 100 100" width="100%" height="100%"><circle cx="50" cy="50" r="45" fill="#ffd23f" stroke="{OL}" stroke-width="5"/><circle cx="35" cy="40" r="6" fill="{OL}"/><circle cx="65" cy="40" r="6" fill="{OL}"/><path d="M28,58 Q50,82 72,58" fill="none" stroke="{OL}" stroke-width="7" stroke-linecap="round"/></svg>',
