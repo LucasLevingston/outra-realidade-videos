@@ -35,7 +35,7 @@ Registro de temas do canal. A skill `criação-de-videos` lê este arquivo para 
 | ✅ | 104 | E se caísse um Pix de R$ 1 milhão na sua conta hoje? (`projetos/short-pix-milhao`, a pedido do usuário; 1º Short com voz Gabriel e visual 2D flat) | Dinheiro | agendado | 2026-11-17 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=1495546708025821407) |
 | ✅ | 32 | E se você pudesse voltar aos 18 anos com tudo que sabe hoje? (`projetos/short-voltar-18`, voz Lucas) | Realidade alternativa | agendado | 2026-11-17 15:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=7723210366047440611) |
 | ✅ | 102 | 4 coisas pra nunca fazer no caixa do supermercado (roteiro do usuário, `projetos/short-caixa-mercado`, voz Lucas; refeito em 17/11 após a produção da madrugada se perder) | Cotidiano/humor | agendado | 2026-11-17 18:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=8365773379604467470) |
-| ✅ | 105 | E se o Brasil fosse o país mais capitalista do mundo? (tema do usuário, `projetos/short-brasil-capitalista`, voz Lucas) | Dinheiro | agendado | 2026-11-18 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6564932153129220166) |
+| ✅ | 105 | E se o Brasil fosse o país mais capitalista do mundo? (tema do usuário; v2 refeita em 17/11 com linha do tempo dia 1 → 10 anos, ref: https://www.youtube.com/watch?v=9eKPD8sUjYk, `projetos/short-brasil-capitalista`, voz Lucas; v1 em `v1/`) | Dinheiro | agendado | 2026-11-18 12:00 | [Metricool](https://app.metricool.com/planner/calendar?blogId=8036081&openWithPostUuid=-6564932153129220166) |
 
 ## Ideias (backlog, em ordem de prioridade)
 

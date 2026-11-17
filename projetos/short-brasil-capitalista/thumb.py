@@ -17,8 +17,8 @@ body{{margin:0}}#r{{position:relative;width:1080px;height:1920px;overflow:hidden
 <div class="t" style="top:290px;color:#fff">E SE O BRASIL</div>
 <div class="t" style="top:405px;color:#fff">FOSSE O MAIS</div>
 <div class="t" style="top:520px;color:#ffd23f">CAPITALISTA?</div>
-<div class="pill" style="top:700px;rotate:-4deg"><span>CHEIRINHO DO PÃO</span>+R$ 1</div>
-{caio}<div style="position:absolute;left:640px;top:1080px;rotate:8deg">{F.alarm_svg(0.8, 'R$ 2,00')}</div><div class="ft">OUTRA REALIDADE</div></div></body></html>'''
+<div class="pill" style="top:700px;rotate:-4deg"><span>DO DIA 1 AOS 10 ANOS</span>BRASIL À VENDA</div>
+{caio}<div style="position:absolute;left:560px;top:1430px;rotate:-8deg"><div class="pill" style="position:relative;left:0;translate:none;background:#fff;color:#e8483a;border-color:#e8483a;font-size:80px">VENDIDO!</div></div><div class="ft">OUTRA REALIDADE</div></div></body></html>'''
 open('/tmp/claude-0/t/thumb.html', 'w').write(html)
 async def main():
     async with async_playwright() as p:

@@ -166,6 +166,15 @@ def bg_room(kind='bedroom', light='day'):
                  f'<rect x="40" y="1300" width="1000" height="70" rx="20" fill="#a26b45" stroke="{OL}" stroke-width="8"/>'
                  f'<rect x="120" y="1370" width="30" height="200" fill="{OL}"/><rect x="930" y="1370" width="30" height="200" fill="{OL}"/>'
                  + ''.join(f'<rect x="{x}" y="1262" width="110" height="44" rx="8" fill="#f4f0e8" stroke="{OL}" stroke-width="5"/>' for x in (180, 470, 760))]
+    elif kind == 'auction':
+        # salão de leilão: cortinas vermelhas, púlpito com plaquinha, cadeiras da plateia
+        body += [''.join(f'<path d="M{x},0 Q{x + 40},500 {x - 10},1380 L{x + 130},1380 Q{x + 160},500 {x + 130},0Z" fill="#b8323a" stroke="{OL}" stroke-width="6"/>' for x in (-60, 950)),
+                 f'<rect x="0" y="0" width="{W}" height="120" fill="#8f2430" stroke="{OL}" stroke-width="6"/>'
+                 + ''.join(f'<path d="M{x},120 Q{x + 45},175 {x + 90},120" fill="#8f2430" stroke="{OL}" stroke-width="5"/>' for x in range(0, W, 90)),
+                 f'<rect x="300" y="200" width="480" height="150" rx="20" fill="#ffd23f" stroke="{OL}" stroke-width="8"/>'
+                 f'<text x="540" y="300" font-family="Pop" font-size="76" text-anchor="middle" fill="{OL}">LEILÃO</text>',
+                 f'<path d="M640,1000 L960,1000 L930,1390 L670,1390Z" fill="#8a5a3c" stroke="{OL}" stroke-width="8"/><rect x="620" y="960" width="360" height="56" rx="14" fill="#a26b45" stroke="{OL}" stroke-width="7"/>'
+                 f'<circle cx="800" cy="1180" r="62" fill="#ffd23f" stroke="{OL}" stroke-width="6"/><text x="800" y="1205" font-family="Pop" font-size="62" text-anchor="middle" fill="{OL}">$</text>']
     elif kind == 'restaurant':
         body += [''.join(f'<line x1="{x}" y1="0" x2="{x}" y2="300" stroke="{OL}" stroke-width="5"/><path d="M{x - 70} 360 Q{x} 250 {x + 70} 360Z" fill="#ffcf5a" stroke="{OL}" stroke-width="6"/>' for x in (200, 540, 880)),
                  f'<rect x="0" y="560" width="{W}" height="20" fill="#c06a4a"/>'
@@ -209,6 +218,7 @@ ARMS = {  # (esquerdo, direito) — pontos a partir dos ombros (-92,-395) e (92,
     'shrug':   ([(-160, -340), (-215, -420)], [(160, -340), (215, -420)]),
     'hug':     ([(-140, -330), (-30, -320)], [(140, -330), (30, -320)]),
     'cheer':   ([(-150, -480), (-140, -620)], [(120, -300), (125, -215)]),
+    'temple':  ([(-170, -470), (-120, -600)], [(170, -470), (120, -600)]),
 }
 
 def _hair(kind, hc, cy):
@@ -292,6 +302,14 @@ def char(cid, who, x, y, scale=1.0, pose='hang', face='neutral', flip=False, pro
     if 'helmet' in props:
         front_hair = f'<path d="M-170,{cy + 40} Q-175,{cy - 175} 0,{cy - 172} Q175,{cy - 175} 170,{cy + 40}Z" fill="#e8483a" stroke="{OL}" stroke-width="8"/><rect x="-120" y="{cy - 35}" width="240" height="60" rx="26" fill="#3a3a5a" stroke="{OL}" stroke-width="6"/>'
         back_hair = ''
+    # 6C: sombra em dois tons (lado oposto à luz) + rim light (lado da luz)
+    if not c.get('flat'):
+        rim = c.get('rim', '#fff4d6')
+        torso += (f'<path d="M40,-432 Q112,-430 112,-360 L112,-200 L52,-200 Q78,-300 40,-432Z" fill="#14101c" opacity=".16"/>'
+                  f'<path d="M-104,-215 L-104,-360 Q-104,-418 -50,-424" fill="none" stroke="{rim}" stroke-width="7" stroke-linecap="round" opacity=".75"/>')
+        legs += (f'<rect x="38" y="-206" width="24" height="192" rx="10" fill="#14101c" opacity=".16"/>')
+        head += (f'<path d="M60,{cy - 130} C130,{cy - 110} 158,{cy - 40} 154,{cy + 20} C150,{cy + 100} 95,{cy + 138} 10,{cy + 140} C90,{cy + 110} 128,{cy + 40} 60,{cy - 130}Z" fill="#14101c" opacity=".13"/>'
+                 f'<path d="M-140,{cy + 40} C-152,{cy - 40} -120,{cy - 112} -50,{cy - 132}" fill="none" stroke="{rim}" stroke-width="8" stroke-linecap="round" opacity=".8"/>')
     face_g = _face(cid, face, cy, c.get('glasses'))
     shadow = '<ellipse cx="0" cy="0" rx="135" ry="20" fill="#000" opacity=".16"/>'
     body = '' if headonly else f'{shadow}{legs}{torso}{arms}'
@@ -434,6 +452,85 @@ def bakery_svg(scale=1.0):
             f'<rect x="110" y="600" width="520" height="22" fill="#a26b45"/>{breads}'
             f'<rect x="720" y="320" width="270" height="580" rx="12" fill="#a26b45" stroke="{OL}" stroke-width="8"/><circle cx="950" cy="620" r="14" fill="#ffd23f" stroke="{OL}" stroke-width="5"/></svg>')
 
+def beams_svg(x=760, y=0, n=3, col='#fff6c8', ang=-24, op=0.33, spread=90, length=2100, width=150):
+    """Feixes de luz (degradê semitransparente, mesclagem clara) atravessando o ambiente."""
+    g = gid('beam'); out = f'<defs><linearGradient id="{g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{col}" stop-opacity="{op}"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></linearGradient></defs>'
+    for k in range(n):
+        cx = x + (k - (n - 1) / 2) * spread; w = width * (0.7 + 0.3 * ((k * 37) % 3))
+        out += (f'<polygon points="{cx - w * .25},{y} {cx + w * .25},{y} {cx + w},{y + length} {cx - w},{y + length}" fill="url(#{g})" '
+                f'transform="rotate({ang} {cx} {y})"/>')
+    return f'<svg class="bg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" style="mix-blend-mode:screen">{out}</svg>'
+
+def haze_svg(col='#ffffff', op=0.18, y0=900):
+    """Névoa de perspectiva aérea sobre o fundo (dá profundidade sem desfocar)."""
+    g = gid('hz')
+    return (f'<svg class="bg" viewBox="0 0 {W} {H}" width="{W}" height="{H}"><defs><linearGradient id="{g}" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" stop-color="{col}" stop-opacity="0"/><stop offset=".5" stop-color="{col}" stop-opacity="{op}"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></linearGradient></defs>'
+            f'<rect x="0" y="{y0}" width="{W}" height="700" fill="url(#{g})"/></svg>')
+
+def fg_blur(svg_inner, blur=5):
+    """Camada de primeiro plano levemente desfocada (feGaussianBlur)."""
+    f = gid('fb')
+    return (f'<svg class="bg fg" viewBox="0 0 {W} {H}" width="{W}" height="{H}"><defs><filter id="{f}" x="-10%" y="-10%" width="120%" height="120%">'
+            f'<feGaussianBlur stdDeviation="{blur}"/></filter></defs><g filter="url(#{f})">{svg_inner}</g></svg>')
+
+def fg_plants(side='left', col='#1f5a3e'):
+    x = 0 if side == 'left' else W
+    sg = 1 if side == 'left' else -1
+    leaves = ''.join(f'<ellipse cx="{x + sg * dx}" cy="{1900 - dy}" rx="70" ry="210" fill="{col}" stroke="{OL}" stroke-width="7" transform="rotate({sg * a} {x + sg * dx} {1900 - dy})"/>'
+                     for dx, dy, a in ((40, 60, 18), (120, 20, 34), (10, 160, 6), (180, 0, 50)))
+    return fg_blur(leaves)
+
+def fg_bars(col='#2a2840', step=150, x0=40, xs=None, rails=(300,)):
+    """Grade em primeiro plano (barras verticais), desfocada. xs: posições manuais (deixe o rosto do personagem entre as barras)."""
+    xs = xs if xs is not None else range(x0, W, step)
+    bars = ''.join(f'<rect x="{x}" y="0" width="34" height="{H}" fill="{col}" stroke="{OL}" stroke-width="6"/>' for x in xs)
+    return fg_blur(bars + ''.join(f'<rect x="0" y="{y}" width="{W}" height="30" fill="{col}"/>' for y in rails), 4)
+
+def vignette(strength=0.5):
+    return (f'<div class="vig" style="position:absolute;left:0;top:0;width:{W}px;height:{H}px;pointer-events:none;'
+            f'background:radial-gradient(ellipse 75% 62% at 50% 48%, rgba(0,0,0,0) 55%, rgba(10,6,20,{strength}) 100%)"></div>')
+
+def glass_towers_svg(seed=2):
+    """Prédios de vidro novos (degradê azul com reflexo) e um guindaste — sobreposto ao bg_city."""
+    rng = np.random.default_rng(seed); g = gid('gl'); out = f'<defs>{grad(g, "#9fe0ff", "#3a7bd5")}</defs>'
+    for k, (x, w, top) in enumerate(((60, 190, 380), (300, 230, 250), (580, 170, 470), (800, 220, 330))):
+        out += f'<rect x="{x}" y="{top}" width="{w}" height="{1520 - top}" fill="url(#{g})" stroke="{OL}" stroke-width="7"/>'
+        out += ''.join(f'<line x1="{x}" y1="{y}" x2="{x + w}" y2="{y}" stroke="#ffffff" stroke-opacity=".45" stroke-width="4"/>' for y in range(top + 60, 1520, 70))
+        out += f'<polygon points="{x + 20},{top + 20} {x + w * .45},{top + 20} {x + 20},{top + 260}" fill="#fff" opacity=".35"/>'
+    out += (f'<line x1="700" y1="120" x2="700" y2="470" stroke="#ffb347" stroke-width="16"/><line x1="560" y1="140" x2="1000" y2="140" stroke="#ffb347" stroke-width="14"/>'
+            f'<line x1="940" y1="140" x2="940" y2="300" stroke="{OL}" stroke-width="4"/><rect x="915" y="300" width="50" height="40" fill="#e8483a" stroke="{OL}" stroke-width="4"/>')
+    return svg(out)
+
+def busstop_svg(scale=1.0, sign='LINHA SUSPENSA'):
+    w = 700 * scale; h = 760 * scale
+    return (f'<svg viewBox="0 0 700 760" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="40" y="80" width="620" height="40" rx="12" fill="#2f6b4f" stroke="{OL}" stroke-width="7"/>'
+            f'<rect x="60" y="120" width="22" height="620" fill="#9aa3b8" stroke="{OL}" stroke-width="5"/><rect x="618" y="120" width="22" height="620" fill="#9aa3b8" stroke="{OL}" stroke-width="5"/>'
+            f'<rect x="90" y="150" width="520" height="420" rx="10" fill="#c6eefc" fill-opacity=".45" stroke="{OL}" stroke-width="5"/>'
+            f'<rect x="120" y="560" width="460" height="34" rx="10" fill="#a26b45" stroke="{OL}" stroke-width="5"/>'
+            f'<rect x="440" y="0" width="200" height="80" rx="14" fill="#ffd23f" stroke="{OL}" stroke-width="6"/><text x="540" y="56" font-family="Pop" font-size="40" text-anchor="middle" fill="{OL}">BUS</text>'
+            f'<g transform="rotate(-6 350 330)"><rect x="140" y="270" width="420" height="120" rx="16" fill="#e8483a" stroke="{OL}" stroke-width="7"/>'
+            f'<text x="350" y="347" font-family="Pop" font-size="44" text-anchor="middle" fill="#fff">{esc(sign)}</text></g></svg>')
+
+def train_svg(scale=1.0):
+    w = 1500 * scale; h = 260 * scale
+    return (f'<svg viewBox="0 0 1500 260" width="{w:.0f}" height="{h:.0f}">'
+            f'<path d="M60,60 L1200,60 Q1450,70 1490,210 L60,210Z" fill="#f4f0e8" stroke="{OL}" stroke-width="9"/>'
+            f'<rect x="60" y="150" width="1420" height="26" fill="#2fbf71"/><rect x="60" y="176" width="1420" height="14" fill="#ffd23f"/>'
+            + ''.join(f'<rect x="{x}" y="88" width="110" height="50" rx="12" fill="#3a4a8a" stroke="{OL}" stroke-width="5"/>' for x in range(110, 1150, 150))
+            + f'<path d="M1240,80 Q1400,90 1440,150 L1240,150Z" fill="#3a4a8a" stroke="{OL}" stroke-width="5"/></svg>')
+
+def wall_svg(label='CIDADE PARTICULAR'):
+    """Muro alto com arame e placa, na frente da cidade rica (sobreposto a bg_city('night'))."""
+    bricks = ''.join(f'<rect x="{x + (40 if (y // 60) % 2 else 0)}" y="{y}" width="80" height="60" fill="none" stroke="#8a7f9a" stroke-width="4"/>'
+                     for y in range(1180, 1500, 60) for x in range(-40, W, 80))
+    wire = ''.join(f'<path d="M{x},1150 l20,-30 l20,30" fill="none" stroke="#c9c9d6" stroke-width="5"/>' for x in range(0, W, 40))
+    return svg(f'<rect x="0" y="1150" width="{W}" height="380" fill="#b9b0c8" stroke="{OL}" stroke-width="8"/>{bricks}'
+               f'<line x1="0" y1="1150" x2="{W}" y2="1150" stroke="{OL}" stroke-width="10"/>{wire}'
+               + (f'<rect x="250" y="1230" width="580" height="120" rx="16" fill="#22213a" stroke="#ffd23f" stroke-width="8"/>'
+               f'<text x="540" y="1308" font-family="Pop" font-size="54" text-anchor="middle" fill="#ffd23f">{esc(label)}</text>' if label else ''))
+
 ICONS = {
     'phone': f'<svg viewBox="0 0 100 100" width="110" height="110"><rect x="28" y="8" width="44" height="84" rx="10" fill="#2a2840" stroke="{OL}" stroke-width="5"/><rect x="34" y="18" width="32" height="58" rx="4" fill="#7fe0c0"/><path d="M8,30 Q2,50 8,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/><path d="M92,30 Q98,50 92,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/></svg>',
     'x': f'<svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="44" fill="#e8483a" stroke="{OL}" stroke-width="6"/><path d="M33,33 L67,67 M67,33 L33,67" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"/></svg>',
@@ -498,21 +595,53 @@ class Comp:
         s.n += 1; return f'{p}{s.n}'
 
     # --- cena: fundo + personagens dentro da câmera
-    def scene(s, t0, t1, bg, chars=(), cam='push', amount=0.07, shake=(), rot=0.0, origin='50% 50%', x0=0, x1=0, mood=None, amb=None, whoosh=True):
-        i = s.nid('s'); dur = t1 - t0
-        s.els.append(f'<div id="{i}" class="clip scene" data-start="{t0:.3f}" data-duration="{dur:.3f}"><div id="{i}k" class="shk"><div id="{i}c" class="cam" style="transform-origin:{origin}">{bg}{"".join(chars)}</div></div></div>')
+    def scene(s, t0, t1, bg, chars=(), cam='push', amount=0.07, shake=(), rot=0.0, origin='50% 50%', x0=0, x1=0, mood=None, amb=None, whoosh=True,
+              trans='dissolve', fg='', dust=0, dust_col='#fff4c8', vig=0.5, beams=''):
+        """trans: 'dissolve' (crossfade ~12 quadros, padrão) ou 'cut' (só susto, revelação, impacto). fg: camada da frente (desfocada).
+        dust: nº de partículas de poeira iluminada. beams: feixes de luz (beams_svg). vig: vinheta."""
+        i = s.nid('s'); XF = 0.4
+        st = t0 - XF / 2 if (trans == 'dissolve' and t0 > 0.05) else t0
+        st = max(0.0, st); dur = t1 - st
+        if s.scenes and trans == 'dissolve' and t0 > 0.05:
+            pi = s.scenes[-1][2]
+            s.els = [re.sub(r'(id="' + pi + r'" class="clip scene" data-start="([\d.]+)" data-duration=")([\d.]+)"',
+                            lambda m: f'{m.group(1)}{max(float(m.group(3)), t0 + XF / 2 - float(m.group(2))):.3f}"', e, count=1) for e in s.els]
+        dd = ''
+        for k in range(dust):
+            dx = (k * 197 + 61) % W; dy = 300 + (k * 331) % 1300; r = 3 + (k % 3) * 2
+            dd += f'<div id="{i}d{k}" style="position:absolute;left:{dx}px;top:{dy}px;width:{r * 2}px;height:{r * 2}px;border-radius:50%;background:{dust_col};opacity:.75;box-shadow:0 0 10px {dust_col}"></div>'
+            s.tl.append(f'tl.fromTo("#{i}d{k}",{{x:0,y:0,opacity:.25}},{{x:{(k % 5 - 2) * 30},y:{-60 - (k % 4) * 30},opacity:.85,duration:{dur:.3f},ease:"sine.inOut"}},{st:.3f});')
+        s.els.append(f'<div id="{i}" class="clip scene" data-start="{st:.3f}" data-duration="{dur:.3f}"><div id="{i}k" class="shk"><div id="{i}c" class="cam" style="transform-origin:{origin}">{bg}{beams}{"".join(chars)}{dd}{fg}</div></div>{vignette(vig) if vig else ""}</div>')
+        if st < t0:
+            s.tl.append(f'tl.fromTo("#{i}",{{opacity:0}},{{opacity:1,duration:{XF:.2f},ease:"sine.inOut"}},{st:.3f});')
         a, b = {'push': (1.0, 1.0 + amount), 'pull': (1.0 + amount, 1.0), 'hold': (1.0, 1.0 + amount * 0.4), 'drama': (1.0, 1.0 + amount * 1.8)}.get(cam, (1.03, 1.03 + amount * 0.3))
         r1 = rot if cam == 'drama' else 0
         if cam in ('panR', 'panL'):
             x0, x1 = (30, -30) if cam == 'panR' else (-30, 30)
-        s.tl.append(f'tl.fromTo("#{i}c",{{scale:{a},x:{x0},rotation:0}},{{scale:{b},x:{x1},rotation:{r1},duration:{dur:.3f},ease:"sine.inOut"}},{t0:.3f});')
+        s.tl.append(f'tl.fromTo("#{i}c",{{scale:{a},x:{x0},rotation:0}},{{scale:{b},x:{x1},rotation:{r1},duration:{dur:.3f},ease:"sine.inOut"}},{st:.3f});')
         for ts in shake:
             s.tl.append(f'tl.fromTo("#{i}k",{{x:0,y:0}},{{keyframes:[{{x:-22,y:10,duration:.035}},{{x:18,y:-12,duration:.035}},{{x:-12,y:6,duration:.035}},{{x:8,y:-4,duration:.035}},{{x:0,y:0,duration:.08}}]}},{ts:.3f});')
             s.sfx(ts, 'thud', 0.9)
-        if whoosh and t0 > 0.05: s.sfx(t0 - 0.08, 'whoosh', 0.6)
+        if whoosh and t0 > 0.05: s.sfx(t0 - 0.08, 'whoosh', 0.6 if trans == 'dissolve' else 0.75)
+        if trans == 'cut' and t0 > 0.05: s.sfx(t0, 'thud', 0.6)
         if amb: s.amb.append((t0, t1, amb))
         s.scenes.append((t0, t1, i))
         return i
+
+    def mouth(s, cid, words):
+        """14A: boca abre em cada palavra (tempos do words.py) e fecha entre palavras e nas pausas; palavras longas abrem-fecham por sílaba."""
+        for w, a, b in words:
+            n = max(1, round(len(re.sub(r'[^a-zà-ú]', '', w.lower())) / 3))
+            step = (b - a) / n
+            for k in range(n):
+                ta = a + k * step; tb = ta + step * 0.72
+                s.tl.append(f'tl.set("#{cid}-mo",{{opacity:1}},{ta:.3f});tl.set("#{cid}-mc",{{opacity:0}},{ta:.3f});'
+                            f'tl.set("#{cid}-mo",{{opacity:0}},{tb:.3f});tl.set("#{cid}-mc",{{opacity:1}},{tb:.3f});')
+            s.tl.append(f'tl.fromTo("#{cid}-h",{{y:0}},{{y:6,duration:{min(0.12, (b - a) / 2):.3f},yoyo:true,repeat:1}},{a:.3f});')
+
+    def silence(s, t, dur=0.7):
+        """14A: música e ambiente caem a quase zero por `dur` s antes de `t` (a voz nunca é cortada)."""
+        s.silences = getattr(s, 'silences', []) + [(t - dur, t)]
 
     def life(s, cid, t0, t1, talk=(), blink=True, bob=6):
         """Respiração (balanço), piscadas a cada ~2,6 s e boca mexendo nas falas."""
@@ -623,6 +752,11 @@ class Comp:
         fx *= min(V * 0.5 / grms(fx, sg), 0.7 * np.max(np.abs(narr)) / np.max(np.abs(fx)))
         db = lambda a, b: 20 * np.log10(a / b)
         print(f'música vs voz: {db(grms(mus, gate), V):+.2f} dB | efeitos vs voz: {db(grms(fx, sg), V):+.2f} dB | pico efeitos/voz: {np.max(np.abs(fx)) / np.max(np.abs(narr)):.2f}')
+        for a, b in getattr(s, 'silences', []):
+            env = np.ones(N); ia, ib = int(a * SR), int(b * SR); r = int(0.12 * SR)
+            env[ia:ib] = 0.06; env[max(0, ia - r):ia] = np.linspace(1, 0.06, ia - max(0, ia - r)); env[ib:ib + r] = np.linspace(0.06, 1, len(env[ib:ib + r]))
+            mus *= env; fx *= np.where(env < 1, np.maximum(env, 0.06), 1)
+            print(f'silêncio {a:.2f}–{b:.2f}s')
         mx = narr + mus + fx; d = os.path.join(s.proj, 'mix'); os.makedirs(d, exist_ok=True)
         for nm, x in (('narr', narr), ('music', mus), ('sfx', fx)): wf.write(os.path.join(d, nm + '.wav'), SR, x.astype(np.float32))
         pre = os.path.join(d, 'pre.wav'); wf.write(pre, SR, mx.astype(np.float32))
@@ -643,7 +777,7 @@ class Comp:
         raw = out_mp4 + '.video.mp4'
         cmd = ['npx', '--prefix', HF_DIR, 'hyperframes', 'render', os.path.abspath(hf), '-o', os.path.abspath(raw), '-q', 'delivery', '-w', str(workers), '--no-browser-gpu']
         print(' '.join(cmd), flush=True); subprocess.run(cmd, check=True, env=env, cwd=HF_DIR)
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-i', os.path.join(s.proj, 'mix', 'mix.wav'), '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-i', os.path.join(s.proj, 'mix', 'mix.wav'), '-map', '0:v', '-map', '1:a', '-vf', 'noise=alls=5:allf=t', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '17', '-pix_fmt', 'yuv420p',
                         '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', '-shortest', out_mp4], check=True)
         print(out_mp4, round(os.path.getsize(out_mp4) / 1e6, 1), 'MB')
 
