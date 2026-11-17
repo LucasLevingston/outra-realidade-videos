@@ -139,6 +139,23 @@ def bg_room(kind='bedroom', light='day'):
                  f'<text x="140" y="560" font-family="Pop" font-size="86" fill="#f4f0e8" opacity=".9">x = ?</text>'
                  f'<circle cx="880" cy="140" r="70" fill="#fff" stroke="{OL}" stroke-width="7"/><line x1="880" y1="140" x2="880" y2="95" stroke="{OL}" stroke-width="7"/><line x1="880" y1="140" x2="915" y2="150" stroke="{OL}" stroke-width="7"/>',
                  ''.join(f'<rect x="{x}" y="1430" width="300" height="40" rx="10" fill="#c98f5e" stroke="{OL}" stroke-width="6"/><rect x="{x + 30}" y="1470" width="24" height="180" fill="{OL}"/><rect x="{x + 246}" y="1470" width="24" height="180" fill="{OL}"/>' for x in (60, 720))]
+    elif kind == 'market':
+        # supermercado: prateleiras coloridas ao fundo, placa "CAIXA 3" e o balcão com esteira
+        prods = ['#e8483a', '#ffd23f', '#4a9be8', '#2fbf71', '#ef6fa2', '#ffb347']
+        shelf = ''
+        for row, y in enumerate((230, 450, 670)):
+            shelf += f'<rect x="20" y="{y + 150}" width="1040" height="26" fill="#a26b45" stroke="{OL}" stroke-width="6"/>'
+            for k in range(13):
+                c = prods[(k + row * 2) % len(prods)]; x = 40 + k * 78; h = 90 + (k * 37 + row * 11) % 50
+                shelf += f'<rect x="{x}" y="{y + 150 - h}" width="62" height="{h}" rx="8" fill="{c}" stroke="{OL}" stroke-width="5"/><rect x="{x + 10}" y="{y + 150 - h + 22}" width="42" height="18" rx="4" fill="#fff" opacity=".8"/>'
+        body += [f'<rect x="0" y="180" width="{W}" height="700" fill="#e9e2d4"/>' + shelf,
+                 f'<rect x="300" y="40" width="480" height="120" rx="20" fill="#e8483a" stroke="{OL}" stroke-width="8"/>'
+                 f'<text x="540" y="128" font-family="Pop" font-size="72" text-anchor="middle" fill="#fff">CAIXA 3</text>'
+                 f'<line x1="400" y1="0" x2="400" y2="40" stroke="{OL}" stroke-width="6"/><line x1="680" y1="0" x2="680" y2="40" stroke="{OL}" stroke-width="6"/>',
+                 f'<rect x="0" y="1180" width="{W}" height="260" fill="#9aa3b8" stroke="{OL}" stroke-width="8"/>'
+                 f'<rect x="0" y="1150" width="{W}" height="70" rx="12" fill="#2a2840" stroke="{OL}" stroke-width="7"/>'
+                 + ''.join(f'<line x1="{x}" y1="1156" x2="{x - 20}" y2="1214" stroke="#4a4870" stroke-width="6"/>' for x in range(40, 1080, 70))
+                 + f'<rect x="760" y="1060" width="200" height="110" rx="16" fill="#3a3a5a" stroke="{OL}" stroke-width="7"/><rect x="790" y="1080" width="140" height="50" rx="8" fill="#e8483a" opacity=".85"/>']
     elif kind == 'restaurant':
         body += [''.join(f'<line x1="{x}" y1="0" x2="{x}" y2="300" stroke="{OL}" stroke-width="5"/><path d="M{x - 70} 360 Q{x} 250 {x + 70} 360Z" fill="#ffcf5a" stroke="{OL}" stroke-width="6"/>' for x in (200, 540, 880)),
                  f'<rect x="0" y="560" width="{W}" height="20" fill="#c06a4a"/>'
@@ -158,6 +175,7 @@ CAST = {
     'pai':  dict(skin='b', hair='short', hc='#6b6878', shirt='#3a8dde', pants='#3c3c5a', shoe='#1d1a26', glasses=True),
     'vo':   dict(skin='d', hair='bun', hc='#eceaf2', shirt='#6fbf9f', pants='#4a6a5a', shoe='#3a2a4a', glasses=True, earrings=True),
     'prof': dict(skin='c', hair='short', hc='#9a96a8', shirt='#a26b45', pants='#3c3c5a', shoe='#1d1a26', glasses=True),
+    'caixa': dict(skin='c', hair='bob', hc='#1d1a26', shirt='#e8483a', pants='#2f3a66', shoe='#1d1a26'),
     'p1':   dict(skin='d', hair='short', hc='#5a3a22', shirt='#ffb347', pants='#3c3c5a', shoe='#1d1a26'),
     'p2':   dict(skin='c', hair='short', hc='#1d1a26', shirt='#5fc3a8', pants='#3c3c5a', shoe='#1d1a26'),
     'p3':   dict(skin='b', hair='bob', hc='#e0b040', shirt='#e85d4a', pants='#3c3c5a', shoe='#1d1a26'),
@@ -308,6 +326,47 @@ def can_svg(scale=1.0, label='MESADA'):
             f'<rect x="100" y="52" width="100" height="14" rx="6" fill="{OL}"/>'
             f'<rect x="40" y="140" width="220" height="90" fill="#ffd23f" stroke="{OL}" stroke-width="6"/>'
             f'<text x="150" y="203" font-family="Pop" font-size="44" text-anchor="middle" fill="{OL}">{esc(label)}</text></svg>')
+
+
+def gavel_svg(scale=1.0):
+    w = 360 * scale; h = 260 * scale
+    return (f'<svg viewBox="0 0 360 260" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="150" y="90" width="190" height="34" rx="14" fill="#a26b45" stroke="{OL}" stroke-width="7" transform="rotate(-20 245 107)"/>'
+            f'<rect x="40" y="40" width="150" height="110" rx="22" fill="#8a5a3c" stroke="{OL}" stroke-width="8" transform="rotate(-20 115 95)"/>'
+            f'<rect x="20" y="210" width="200" height="40" rx="12" fill="#8a5a3c" stroke="{OL}" stroke-width="7"/></svg>')
+
+def fish_svg(scale=1.0, flip=False):
+    """Tucunaré cartoon: corpo amarelo-esverdeado, faixas escuras, mancha-olho no rabo."""
+    w = 620 * scale; h = 300 * scale
+    tf = ' transform="scale(-1,1) translate(-620,0)"' if flip else ''
+    return (f'<svg viewBox="0 0 620 300" width="{w:.0f}" height="{h:.0f}"><g{tf}>'
+            f'<path d="M470,150 L600,60 L585,150 L600,240Z" fill="#e8a23a" stroke="{OL}" stroke-width="8" stroke-linejoin="round"/>'
+            f'<circle cx="560" cy="150" r="20" fill="{OL}"/><circle cx="560" cy="150" r="9" fill="#ffb347"/>'
+            f'<path d="M180,70 Q300,0 420,60 L380,90Z" fill="#7aa83a" stroke="{OL}" stroke-width="7"/>'
+            f'<ellipse cx="290" cy="150" rx="250" ry="105" fill="#d6c23a" stroke="{OL}" stroke-width="9"/>'
+            f'<path d="M60,165 Q290,280 520,160 Q300,230 60,165Z" fill="#f2e9a0"/>'
+            + ''.join(f'<path d="M{x},62 Q{x + 14},150 {x},238" fill="none" stroke="#3a4a2a" stroke-width="22" stroke-linecap="round" opacity=".75"/>' for x in (210, 300, 390))
+            + f'<circle cx="110" cy="125" r="30" fill="#fff" stroke="{OL}" stroke-width="7"/><circle cx="104" cy="125" r="15" fill="{OL}"/>'
+            f'<path d="M78,92 L140,104" stroke="{OL}" stroke-width="10" stroke-linecap="round"/>'
+            f'<path d="M45,170 Q75,190 105,172" fill="#7a2a3a" stroke="{OL}" stroke-width="7"/>'
+            f'<path d="M250,190 L210,250 L290,210Z" fill="#e8a23a" stroke="{OL}" stroke-width="6"/></g></svg>')
+
+def worm_svg(scale=1.0):
+    w = 420 * scale; h = 260 * scale
+    return (f'<svg viewBox="0 0 420 260" width="{w:.0f}" height="{h:.0f}">'
+            f'<path d="M30,200 Q90,120 150,190 T270,180 T370,110" fill="none" stroke="{OL}" stroke-width="64" stroke-linecap="round"/>'
+            f'<path d="M30,200 Q90,120 150,190 T270,180 T370,110" fill="none" stroke="#f08aa0" stroke-width="48" stroke-linecap="round"/>'
+            + ''.join(f'<circle cx="{x}" cy="{y}" r="4" fill="{OL}" opacity=".5"/>' for x, y in ((90, 160), (150, 186), (210, 200), (270, 180), (320, 150)))
+            + f'<circle cx="358" cy="100" r="9" fill="{OL}"/><circle cx="384" cy="112" r="9" fill="{OL}"/><path d="M356,132 Q372,146 390,134" fill="none" stroke="{OL}" stroke-width="6" stroke-linecap="round"/></svg>')
+
+def card_svg(scale=1.0, declined=True):
+    w = 380 * scale; h = 240 * scale
+    return (f'<svg viewBox="0 0 380 240" width="{w:.0f}" height="{h:.0f}">'
+            f'<rect x="10" y="10" width="360" height="220" rx="26" fill="#4a5ad6" stroke="{OL}" stroke-width="8"/>'
+            f'<rect x="40" y="70" width="70" height="52" rx="10" fill="#ffd23f" stroke="{OL}" stroke-width="5"/>'
+            f'<rect x="40" y="160" width="220" height="22" rx="8" fill="#fff" opacity=".7"/>'
+            + (f'<circle cx="300" cy="70" r="46" fill="#e8483a" stroke="{OL}" stroke-width="6"/><path d="M280,50 L320,90 M320,50 L280,90" stroke="#fff" stroke-width="11" stroke-linecap="round"/>' if declined else '')
+            + '</svg>')
 
 ICONS = {
     'phone': f'<svg viewBox="0 0 100 100" width="110" height="110"><rect x="28" y="8" width="44" height="84" rx="10" fill="#2a2840" stroke="{OL}" stroke-width="5"/><rect x="34" y="18" width="32" height="58" rx="4" fill="#7fe0c0"/><path d="M8,30 Q2,50 8,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/><path d="M92,30 Q98,50 92,70" fill="none" stroke="#e8483a" stroke-width="6" stroke-linecap="round"/></svg>',
