@@ -1,4 +1,4 @@
-# Pronúncia — palavras que a voz do canal (ElevenLabs, Gabriel - Shorts & Reels) já errou
+# Pronúncia — palavras que a voz do canal (Lucas, VoiceStudio) já errou
 
 A skill `criação-de-videos` troca estas palavras por sinônimos antes de mandar o roteiro ao ElevenLabs.
 
@@ -7,3 +7,4 @@ A skill `criação-de-videos` troca estas palavras por sinônimos antes de manda
 
 ## Ritmo medido da voz Gabriel
 - 2026-11-16, Short "Pix de 1 milhão": speed 1.0 → 136 palavras em 35,8 s = **3,8 palavras/s** (bem acima da meta de 2,6–2,9). Nenhuma palavra errada.
+- 2026-11-16: voz fixa trocada para **Lucas (VoiceStudio/OmniVoice, `engine/py/voicestudio.py`)**. Mesmo roteiro do Pix: 134 palavras em 51,1 s = **2,6 palavras/s**, pausas de ~0,9 s depois de algumas frases.
